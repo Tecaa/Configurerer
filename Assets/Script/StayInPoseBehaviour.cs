@@ -168,7 +168,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     private float startAnimationTime;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
-
+        animator.speed = 0;
         if (_behaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
             Debug.Log("onrep end");

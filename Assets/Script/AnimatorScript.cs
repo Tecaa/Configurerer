@@ -95,8 +95,8 @@ public class AnimatorScript : MonoBehaviour
     public void pruebaRun()
     {
         //PrepareExerciseWeb("{\"Movement\":100000,\"Laterality\":0,\"Limb\":0}");
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":280000,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
-
+        //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":280000,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
+        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":3,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
         //Invoke("pruebaRun2", 20);
         //Invoke("pruebaRun", 10);
         //RunExerciseWebWithoutParams("{\"Movement\":280000,\"Laterality\":0,\"Limb\":0}");
@@ -106,7 +106,7 @@ public class AnimatorScript : MonoBehaviour
     }
     void pruebaRun2()
     {
-        string s = "{\"Angle\":45,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.8,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":2}";
+        string s = "{\"Angle\":45,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
         RunExerciseWeb(s);
         //RunExerciseWebWithoutParams();
     }
@@ -247,7 +247,7 @@ public class AnimatorScript : MonoBehaviour
             + GameObject.Find("backward").GetComponent<UnityEngine.UI.Text>().text + ", \"PauseBetweenRepetitions\": 0, \"RepetitionMax\": 0}" + " " + this.GetInstanceID());
         //RunExercise();
         */
-        string s = "{\"Angle\":45,\"ForwardSpeed\":1.0,\"BackwardSpeed\":1.0,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":3}";
+        string s = "{\"Angle\":45,\"ForwardSpeed\":1.0,\"BackwardSpeed\":1.0,\"SecondsInPose\":5,\"SecondsBetweenRepetitions\":21}";
         RunExerciseWeb(s);
     }
     public void testWeb2()
