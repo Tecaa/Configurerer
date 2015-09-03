@@ -1,2 +1,3 @@
 truncar con blender animaciones pendientes
 hacer diccionar de articulaciones y planos
+dar vuelta animación 041-E-45G_INCIAL

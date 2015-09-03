@@ -1,0 +1,309 @@
+fileFormatVersion: 2
+guid: a89656f227634bd4da88a9f07d055467
+timeCreated: 1441301883
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Body
+    100004: Bottoms
+    100006: Eyelashes
+    100008: Eyes
+    100010: Head
+    100012: HeadTop_End
+    100014: Hips
+    100016: LeftArm
+    100018: LeftEye
+    100020: LeftFoot
+    100022: LeftForeArm
+    100024: LeftHand
+    100026: LeftHandIndex1
+    100028: LeftHandIndex2
+    100030: LeftHandIndex3
+    100032: LeftHandIndex4
+    100034: LeftHandThumb1
+    100036: LeftHandThumb2
+    100038: LeftHandThumb3
+    100040: LeftHandThumb4
+    100042: LeftLeg
+    100044: LeftShoulder
+    100046: LeftToe_End
+    100048: LeftToeBase
+    100050: LeftUpLeg
+    100052: Neck
+    100054: prefix_RightArm
+    100056: prefix_RightForeArm
+    100058: prefix_RightHand
+    100060: prefix_RightHandIndex1
+    100062: prefix_RightHandIndex2
+    100064: prefix_RightHandIndex3
+    100066: prefix_RightHandIndex4
+    100068: prefix_RightHandThumb1
+    100070: prefix_RightHandThumb2
+    100072: prefix_RightHandThumb3
+    100074: prefix_RightHandThumb4
+    100076: RightEye
+    100078: RightFoot
+    100080: RightLeg
+    100082: RightShoulder
+    100084: RightToe_End
+    100086: RightToeBase
+    100088: RightUpLeg
+    100090: Shoes
+    100092: Spine
+    100094: Spine1
+    100096: Spine2
+    100098: Tops
+    400000: //RootNode
+    400002: Body
+    400004: Bottoms
+    400006: Eyelashes
+    400008: Eyes
+    400010: Head
+    400012: HeadTop_End
+    400014: Hips
+    400016: LeftArm
+    400018: LeftEye
+    400020: LeftFoot
+    400022: LeftForeArm
+    400024: LeftHand
+    400026: LeftHandIndex1
+    400028: LeftHandIndex2
+    400030: LeftHandIndex3
+    400032: LeftHandIndex4
+    400034: LeftHandThumb1
+    400036: LeftHandThumb2
+    400038: LeftHandThumb3
+    400040: LeftHandThumb4
+    400042: LeftLeg
+    400044: LeftShoulder
+    400046: LeftToe_End
+    400048: LeftToeBase
+    400050: LeftUpLeg
+    400052: Neck
+    400054: prefix_RightArm
+    400056: prefix_RightForeArm
+    400058: prefix_RightHand
+    400060: prefix_RightHandIndex1
+    400062: prefix_RightHandIndex2
+    400064: prefix_RightHandIndex3
+    400066: prefix_RightHandIndex4
+    400068: prefix_RightHandThumb1
+    400070: prefix_RightHandThumb2
+    400072: prefix_RightHandThumb3
+    400074: prefix_RightHandThumb4
+    400076: RightEye
+    400078: RightFoot
+    400080: RightLeg
+    400082: RightShoulder
+    400084: RightToe_End
+    400086: RightToeBase
+    400088: RightUpLeg
+    400090: Shoes
+    400092: Spine
+    400094: Spine1
+    400096: Spine2
+    400098: Tops
+    4300000: Body
+    4300002: Eyes
+    4300004: Eyelashes
+    4300006: Bottoms
+    4300008: Shoes
+    4300010: Tops
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Body
+    13700002: Bottoms
+    13700004: Eyelashes
+    13700006: Eyes
+    13700008: Shoes
+    13700010: Tops
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 124
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Body
+        weight: 1
+      - path: Bottoms
+        weight: 1
+      - path: Eyelashes
+        weight: 1
+      - path: Eyes
+        weight: 1
+      - path: Hips
+        weight: 1
+      - path: Hips/LeftUpLeg
+        weight: 1
+      - path: Hips/LeftUpLeg/LeftLeg
+        weight: 1
+      - path: Hips/LeftUpLeg/LeftLeg/LeftFoot
+        weight: 1
+      - path: Hips/LeftUpLeg/LeftLeg/LeftFoot/LeftToeBase
+        weight: 1
+      - path: Hips/LeftUpLeg/LeftLeg/LeftFoot/LeftToeBase/LeftToe_End
+        weight: 1
+      - path: Hips/RightUpLeg
+        weight: 1
+      - path: Hips/RightUpLeg/RightLeg
+        weight: 1
+      - path: Hips/RightUpLeg/RightLeg/RightFoot
+        weight: 1
+      - path: Hips/RightUpLeg/RightLeg/RightFoot/RightToeBase
+        weight: 1
+      - path: Hips/RightUpLeg/RightLeg/RightFoot/RightToeBase/RightToe_End
+        weight: 1
+      - path: Hips/Spine
+        weight: 1
+      - path: Hips/Spine/Spine1
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandIndex1
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandIndex1/LeftHandIndex2
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandIndex1/LeftHandIndex2/LeftHandIndex3
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandIndex1/LeftHandIndex2/LeftHandIndex3/LeftHandIndex4
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandThumb1
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandThumb1/LeftHandThumb2
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandThumb1/LeftHandThumb2/LeftHandThumb3
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftHandThumb1/LeftHandThumb2/LeftHandThumb3/LeftHandThumb4
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/Neck
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/Neck/Head
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/Neck/Head/HeadTop_End
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/Neck/Head/LeftEye
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/Neck/Head/RightEye
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm/prefix_RightHand
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm/prefix_RightHand/prefix_RightHandIndex1
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm/prefix_RightHand/prefix_RightHandIndex1/prefix_RightHandIndex2
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm/prefix_RightHand/prefix_RightHandIndex1/prefix_RightHandIndex2/prefix_RightHandIndex3
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm/prefix_RightHand/prefix_RightHandIndex1/prefix_RightHandIndex2/prefix_RightHandIndex3/prefix_RightHandIndex4
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm/prefix_RightHand/prefix_RightHandThumb1
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm/prefix_RightHand/prefix_RightHandThumb1/prefix_RightHandThumb2
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm/prefix_RightHand/prefix_RightHandThumb1/prefix_RightHandThumb2/prefix_RightHandThumb3
+        weight: 1
+      - path: Hips/Spine/Spine1/Spine2/RightShoulder/prefix_RightArm/prefix_RightForeArm/prefix_RightHand/prefix_RightHandThumb1/prefix_RightHandThumb2/prefix_RightHandThumb3/prefix_RightHandThumb4
+        weight: 1
+      - path: Shoes
+        weight: 1
+      - path: Tops
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
