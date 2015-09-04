@@ -11,6 +11,7 @@ public static class MovementJointMatch
     {
         //AnimatorScript.OnRepetitionEnd+=AnimatorScript_OnRepetitionEnd;
         movementJointMatch = new Dictionary<MovementLimbKey, JointTypePlanoResult>();
+        /*
         movementJointMatch.Add(new MovementLimbKey(Movement.Stride, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.Stride, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.RodillaDerecha, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.Stride, Laterality.Single, Limb.Interleaved), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
@@ -45,5 +46,6 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.DesplazamientoLateralConPaso050, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.DesplazamientoLateralConPaso075, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.DesplazamientoLateralConPaso100, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoSagital));
+         * */
     }
 }
