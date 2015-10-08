@@ -63,9 +63,10 @@ public class AnimatorScript : MonoBehaviour
 
         /////////   INICIO CODIGO DE TESTEO //////////
         //Invoke("pruebaRun", 2);
-        /*Invoke("pruebaRun2", 18);
-        Invoke("pruebaRun3", 25);
-        */
+        Invoke("pruebaRun3", 3);
+
+        Invoke("pruebaRun2", 18);
+        
 //        AnimatorScript.OnPrepareExerciseEnd += testing;
         /////////   FIN CODIGO DE TESTEO    //////////
     }
@@ -106,13 +107,13 @@ public class AnimatorScript : MonoBehaviour
     }
     void pruebaRun2()
     {
-        string s = "{\"Angle\":45,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
+        string s = "{\"Angle\":30,\"ForwardSpeed\":1,\"BackwardSpeed\":1,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":1}";
         RunExerciseWeb(s);
         //RunExerciseWebWithoutParams();
     }
     void pruebaRun3()
     {
-        PrepareExerciseWeb("{\"Movement\":100000,\"Laterality\":0,\"Limb\":0}");
+        PrepareExerciseWeb("{\"Movement\":10000,\"Laterality\":0,\"Limb\":0}");
     }
 
     void Awake()
@@ -186,7 +187,7 @@ public class AnimatorScript : MonoBehaviour
         Exercise e = (pwp.Exercise) as Exercise;
         this.prepareCaller = (Caller)(pwp.Caller);
         //Exercise e = JsonConvert.DeserializeObject<Exercise>(s);
-        Application.ExternalCall("Write", "Prepare 1  " + CurrentExercise.Movement + e.Movement + " " + this.GetInstanceID());
+        //Application.ExternalCall("Write", "Prepare 1  " + CurrentExercise.Movement + e.Movement + " " + this.GetInstanceID());
         behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         if(behaviour == null)
         {

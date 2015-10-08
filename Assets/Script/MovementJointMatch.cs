@@ -262,7 +262,7 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.SentadillaMonopodal, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.SentadillaMonopodal, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.RodillaDerecha, Plano.planos.planoSagital));
 
-        movementJointMatch.Add(new MovementLimbKey(Movement.PlantiflexiónDeTobilloSedenteEnCamilla, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType., Plano.planos.planoSagital));
+        movementJointMatch.Add(new MovementLimbKey(Movement.PlantiflexiónDeTobilloSedenteEnCamilla, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.PlantiflexiónDeTobilloSedenteEnCamilla, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.PiernaDerecha, Plano.planos.planoSagital));
 
     }
