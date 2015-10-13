@@ -77,7 +77,7 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónEnPuntaDePies, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
 
-        movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónEnPuntaDePies, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
+        //movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónEnPuntaDePies, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
 
         //TODO: Falta articulación hombro
         /*

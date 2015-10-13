@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public abstract class AnimationBehaviour : StateMachineBehaviour {
 
-    //protected ExerciseDataGenerator exerciseDataGenerator;
+    #if !DEBUG
+    protected ExerciseDataGenerator exerciseDataGenerator; 
+    #endif
     public event EventHandler RepetitionEnd;
     public Movement movement;
     public Limb limb;
@@ -83,7 +86,15 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     abstract public void Run();
     abstract public void RunWeb();
     abstract public void RunWeb(BehaviourParams lerpParams);
-
+    
+    public void InitialPose()
+    {
+        //animator.Play(0, 0, 0);
+        //animator.speed = 1;
+        this._behaviourState = AnimationBehaviourState.INITIAL_POSE;
+        //animator.speed = 0;
+    }
+   
     public static AnimationBehaviour GetBehaviour(Movement m, Limb l)
     {
         Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
@@ -109,6 +120,32 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         return null;
     }
 
+    public static List<AnimationBehaviour> DEBUG_GetBehaviours(Movement m, Limb l)
+    {
+        Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
+        AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
+        Limb l2 = l;
+        List<AnimationBehaviour> lista = new List<AnimationBehaviour>();
+        if (l == Limb.Interleaved)
+        {
+            l2 = Limb.Left;
+        }
+        foreach (AnimationBehaviour lb in behaviours)
+        {
+            if (lb.movement == m && lb.limb == l2)
+            {
+                if (lb.animator == null)
+                {
+                    lb.animator = a;
+                    if (l == Limb.Interleaved)
+                        lb.IsInterleaved = true;
+                }
+                lista.Add(lb);
+            }
+        }
+        return lista;
+    }
+
     protected AnimationBehaviourState _behaviourState;
 
     abstract public void Stop();
@@ -129,5 +166,6 @@ public enum AnimationBehaviourState
     PREPARING_WITH_PARAMS,
     PREPARING_WEB,
     RUNNING_DEFAULT,
-    RUNNING_WITH_PARAMS
+    RUNNING_WITH_PARAMS,
+    INITIAL_POSE
 }

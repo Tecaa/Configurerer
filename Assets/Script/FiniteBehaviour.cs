@@ -35,10 +35,10 @@ public class FiniteBehaviour : AnimationBehaviour
     }
     private AnimationBehaviourState _BehaviourState
     {
-        get { return _behaviourState; }
+        get { return this._behaviourState; }
         set
         {
-            _behaviourState = value;
+            this._behaviourState = value;
             switch (value)
             {
                 case AnimationBehaviourState.RUNNING_DEFAULT:
@@ -107,13 +107,14 @@ public class FiniteBehaviour : AnimationBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Application.ExternalCall("Write", "Estado: " + "  debug: OnStateEnter 1" + this._behaviourState.ToString() + "  " + movement + " " + this.GetInstanceID());
-        if(this._behaviourState == AnimationBehaviourState.PREPARING_WEB)
+        Application.ExternalCall("Write", "Estado: " + "  debug: OnStateEnter 1" + this._BehaviourState.ToString() + "  " + movement);
+        if(this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
             OnRepetitionEnd();
             Stop();
         }
-        else if(this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+        else if(this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS
+            || this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
             animator.speed = this._RealLerpParams.ForwardSpeed;
@@ -124,6 +125,13 @@ public class FiniteBehaviour : AnimationBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
+        if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        {
+            animator.speed = 0;
+            return;
+        }
+
         if ((_BehaviourState != AnimationBehaviourState.STOPPED && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
     && (endRepTime == null || new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
@@ -187,10 +195,11 @@ public class FiniteBehaviour : AnimationBehaviour
             _Opposite.Stop();
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;*/
-
         Application.ExternalCall("Write", "stop  " + movement + " " + this.GetInstanceID());
+        //this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
         animator.speed = 1;
+        
     }
 
     void OnDestroy()

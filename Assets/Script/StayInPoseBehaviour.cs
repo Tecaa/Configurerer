@@ -168,7 +168,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     private float startAnimationTime;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
-        animator.speed = 0;
+
         if (_behaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
             Debug.Log("onrep end");
@@ -235,6 +235,14 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         /*if (Time.time - startAnimationTime >= defaultAnimationLength)
             animator.speed = 0;*/
 //        Debug.Log(_behaviourState + GetInstanceID());
+
+
+        if (this._behaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
+        {
+            animator.speed = 0;
+            return;
+        }
+
         float DELTA = 0.05f;
         Debug.Log(_behaviourState);
         if (_behaviourState != AnimationBehaviourState.STOPPED)

@@ -208,6 +208,8 @@ public class LerpBehaviour : AnimationBehaviour {
     private float defaultAnimationLength;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
+        if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+            return;
         animator.speed = 0;
         defaultAnimationLength = stateInfo.length;
        
@@ -314,11 +316,13 @@ public class LerpBehaviour : AnimationBehaviour {
         const float INTERVAL = 0.1f;
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
         {
-            /*timeSinceCapture = 0;
+            timeSinceCapture = 0;
+            #if !DEBUG
             if (exerciseDataGenerator == null)
                 exerciseDataGenerator = GameObject.FindObjectOfType<ExerciseDataGenerator>();
             //TODO: rescatar de base de datos o diccionario
-            this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.Dynamic);*/
+            this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.Dynamic);
+            #endif
         }
 
         
@@ -344,7 +348,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleSagital);
                 break;
         }
-        Debug.LogError(tempAnimationInfo.angle);
+//        Debug.LogError(tempAnimationInfo.angle);
         if( Math.Abs((int)tempAnimationInfo.angle - 45)  <= 1.5)
         {
                         
