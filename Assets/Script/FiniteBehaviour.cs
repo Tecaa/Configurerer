@@ -166,7 +166,17 @@ public class FiniteBehaviour : AnimationBehaviour
             else
             {
                 if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
-                    animator.speed = this._RealLerpParams.ForwardSpeed;
+                    if(stateInfo.normalizedTime <= 0.5f)
+                    {
+
+                        animator.speed = this._RealLerpParams.ForwardSpeed;
+                        Debug.Log("Time: " + stateInfo.normalizedTime +  "     Velpalante: " + this._RealLerpParams.ForwardSpeed);
+                    }
+                    else
+                    {
+                        animator.speed = this._RealLerpParams.BackwardSpeed;
+                        Debug.Log("Time: " + stateInfo.normalizedTime + "     Velpatras: " + this._RealLerpParams.BackwardSpeed);
+                    }
             }
         }
         else if (this._BehaviourState == AnimationBehaviourState.STOPPED &&

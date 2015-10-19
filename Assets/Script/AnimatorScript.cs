@@ -63,9 +63,9 @@ public class AnimatorScript : MonoBehaviour
 
         /////////   INICIO CODIGO DE TESTEO //////////
         //Invoke("pruebaRun", 2);
-        //Invoke("pruebaRun3", 3);
+        Invoke("pruebaRun3", 3);
 
-        //Invoke("pruebaRun2", 15);
+        Invoke("pruebaRun2", 6);
         
 //        AnimatorScript.OnPrepareExerciseEnd += testing;
         /////////   FIN CODIGO DE TESTEO    //////////
@@ -107,7 +107,7 @@ public class AnimatorScript : MonoBehaviour
     }
     void pruebaRun2()
     {
-        string s = "{\"Angle\":75,\"ForwardSpeed\":2.0,\"BackwardSpeed\":2.0,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":0}";
+        string s = "{\"Angle\":75,\"ForwardSpeed\":2.0,\"BackwardSpeed\":0.1,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":0}";
         RunExerciseWeb(s);
         //RunExerciseWebWithoutParams();
     }
@@ -115,7 +115,7 @@ public class AnimatorScript : MonoBehaviour
     {
         //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":30000,\"Laterality\":1,\"Limb\":3}, \"Caller\": 1}");
         //PrepareExerciseWeb("{\"Exercise\":{\"Movement\": 160002,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\": 190000,\"Laterality\":0,\"Limb\":2}, \"Caller\": 1}");
+        PrepareExerciseWeb("{\"Exercise\":{\"Movement\": 60000,\"Laterality\":1,\"Limb\":3  }, \"Caller\": 1}");
 
     }
 
