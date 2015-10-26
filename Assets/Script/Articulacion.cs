@@ -117,7 +117,9 @@ namespace Assets
          [Description("Pie I")]
         PiernaIzquierda,
          [Description("Pie D")]
-        PiernaDerecha 
+        PiernaDerecha,
+        HombroIzquierdo,
+        HombroDerecho
     };
 
     public static class ReflectionHelpers

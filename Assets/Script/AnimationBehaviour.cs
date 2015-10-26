@@ -11,7 +11,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     public event EventHandler RepetitionEnd;
     public Movement movement;
     public Limb limb;
-    [HideInInspector]
     public Laterality execution;
     [HideInInspector]
     public Animator animator;

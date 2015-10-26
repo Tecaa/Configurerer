@@ -199,7 +199,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleSagital);
                 break;
         }
-//        Debug.Log("agregando angulo" + tempAnimationInfo.angle);
+        Debug.Log("agregando angulo" + tempAnimationInfo.angle);
         _timeAndAngles.Add(tempAnimationInfo);
     }
 
@@ -530,8 +530,10 @@ public class LerpBehaviour : AnimationBehaviour {
     override public void Stop()
     {
         _BehaviourState = AnimationBehaviourState.STOPPED;
-        if ((_Opposite as LerpBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
-            _Opposite.Stop();
+
+        if(this.IsInterleaved)
+            if ((_Opposite as LerpBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
+                _Opposite.Stop();
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         if (animator.speed < 0)

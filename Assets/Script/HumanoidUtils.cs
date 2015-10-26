@@ -77,6 +77,10 @@ namespace Assets
             segmentoCorporal.Add(new Visagra(leftArm, leftForeArm, leftHand, ArticulacionType.CodoIzquierdo));
             segmentoCorporal.Add(new Visagra(rightArm, rightForeArm, rightHand, ArticulacionType.CodoDerecho));
 
+            //TODO: Prueba
+            //segmentoCorporal.Add(new Visagra(rightArm, leftArm, leftForeArm, ArticulacionType.HombroIzquierdo));
+            //segmentoCorporal.Add(new Visagra(leftArm, rightArm, rightForeArm, ArticulacionType.HombroDerecho));
+
 
             segmentoCorporal.Add(new SegmentoPrimario(rightArm, rightForeArm, planosMovimiento, ArticulacionType.BrazoDerecho));
             segmentoCorporal.Add(new SegmentoSecundario(rightForeArm, rightHand, planosMovimiento, ArticulacionType.AnteBrazoDerecho));
