@@ -17,19 +17,35 @@ public class AnimatorScript : MonoBehaviour
     /// Referencia al Animator
     /// </summary>
     [HideInInspector]
-    public Animator anim;
-    public static HumanoidUtils utils;
-    private Exercise _currentExercise = new Exercise();
+    public Animator anim  {
+        get
+        {
+            return AnimatorScript.instance.GetComponent<Animator>();
+        }
+    }
+    public HumanoidUtils utils
+    {
+        get
+        {
 
-    public static AnimatorScript instance;
+            return AnimatorScript.instance.GetComponent<HumanoidUtils>();
+        }
+    }
+    private Exercise _currentExercise = new Exercise();
+    private const float DELAY = 2f;
+    public static AnimatorScript instance{
+        get{
+            return FindObjectOfType<AnimatorScript>();
+        }
+    }
 
     private IEnumerator prepareCR;
 
-    public static event EventHandler OnRepetitionStart;
-    public static event EventHandler OnRepetitionEnd;
+    public event EventHandler OnRepetitionStart;
+    public event EventHandler OnRepetitionEnd;
 
-    public static event EventHandler<PrepareEventArgs> OnPrepareExerciseStart;
-    public static event EventHandler<PrepareEventArgs> OnPrepareExerciseEnd;
+    public event EventHandler<PrepareEventArgs> OnPrepareExerciseStart;
+    public event EventHandler<PrepareEventArgs> OnPrepareExerciseEnd;
 
 
     Caller prepareCaller;
@@ -56,17 +72,14 @@ public class AnimatorScript : MonoBehaviour
     
     void Start()
     {
-
-        anim = GetComponent<Animator>();
-        utils = GetComponent<HumanoidUtils>();
+        
+        //anim = GetComponent<Animator>();
         CurrentExercise.PropertyChanged += currentExercise_PropertyChanged;
 
         /////////   INICIO CODIGO DE TESTEO //////////
-        //Invoke("pruebaRun", 2);
-        Invoke("pruebaRun3", 2);
+        Invoke("testPrepare", 1);
+        //Invoke("testRun", 12);
 
-        Invoke("pruebaRun2", 20);
-        
 //        AnimatorScript.OnPrepareExerciseEnd += testing;
         /////////   FIN CODIGO DE TESTEO    //////////
     }
@@ -75,29 +88,19 @@ public class AnimatorScript : MonoBehaviour
         anim.SetInteger(AnimatorParams.Limb, (int)_currentExercise.Limb);
         anim.SetInteger(AnimatorParams.Laterality, (int)((Laterality)_currentExercise.Laterality));
         anim.SetInteger(AnimatorParams.Movement, (int)_currentExercise.Movement);
-
-        //   anim.Play(anim.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+    
     }
     private void testing(object sender, EventArgs e)
     {
         BehaviourParams p = new BehaviourParams(40, 1, 1, 0, 0);
         this.RunExerciseWeb(JsonConvert.SerializeObject(p));
     }
-    /*
-    void AnimatorScript_OnPrepareExerciseEnd(object sender, EventArgs e)
-    {
-        //RunExercise();
-        Debug.Log("Preparado, comienza Run");
-        //RunExercise();
-        RunExerciseWebWithoutParams();
-        //RunExerciseWeb("{\"Angle\": 40, \"ForwardSpeed\": 1, \"BackwardSpeed\": 1, \"PauseBetweenRepetitions\": 0, \"RepetitionMax\": 0}");
-    }
-    */
-    public void pruebaRun()
+    public void testPrepare()
     {
         //PrepareExerciseWeb("{\"Movement\":100000,\"Laterality\":0,\"Limb\":0}");
         //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":280000,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":3,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
+        PrepareExercise(new Exercise(Movement.EstocadaFrontalCorta, Laterality.Single, Limb.Interleaved), new BehaviourParams(60f, 1.0f, 1.0f, 0, 0));
+        //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConPaso_25, Laterality.Double, Limb.None), new BehaviourParams(40, 1.0f, 1.0f, 0, 0));
         //Invoke("pruebaRun2", 20);
         //Invoke("pruebaRun", 10);
         //RunExerciseWebWithoutParams("{\"Movement\":280000,\"Laterality\":0,\"Limb\":0}");
@@ -105,11 +108,16 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.Stride, Execution.Single, Limb.Interleaved), new BehaviourParams(0.5f, 1f, 120, 0, 3));
         //PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(-120,0.8f, 1, 2));
     }
-    void pruebaRun2()
+    public void testRun()
     {
-        string s = "{\"Angle\":30,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.5,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":3}";
-        RunExerciseWeb(s);
+        //string s = "{\"Angle\":45,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.8,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":2}";
+        //RunExerciseWeb(s);
+        RunExercise();
         //RunExerciseWebWithoutParams();
+    }
+    public void testResume()
+    {
+        ResumeExercise();
     }
     void pruebaRun3()
     {
@@ -121,20 +129,11 @@ public class AnimatorScript : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
-
-        //anim.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
-        //anim.speed = 1;
         //TODO: No olvidar borrar, elimina el caché de los ejercicios ya preparados
         PlayerPrefs.SetString("ExerciseCache", null);
     }
     // Update is called once per frame
-    void Update()
-    {
 
-       // Debug.Log("animator state: " + anim.GetInteger(AnimatorParams.Movement) + " " + anim.GetInteger(AnimatorParams.Laterality) + " " + anim.GetInteger(AnimatorParams.Limb) + " " + anim.speed);    
-        
-    }
 
     void currentExercise_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -156,6 +155,8 @@ public class AnimatorScript : MonoBehaviour
     }
 
     AnimationBehaviour behaviour;
+
+   
     /// <summary>
     /// Nota: Si hay errores de Quaternion to Matrix comprobar que los parametros enviados son validos para el ejercicio indicado
     /// </summary>
@@ -163,13 +164,28 @@ public class AnimatorScript : MonoBehaviour
     /// <param name="param"></param>
     public void PrepareExercise(Exercise e, BehaviourParams param)
     {
-        Debug.Log("Comienza preparacion");
+
         behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
-        Debug.Log("qq" + e.Movement + e.Limb);
+        DebugLifeware.Log(e.Movement + " " + e.Limb, DebugLifeware.Developer.Marco_Rojas);
 
         behaviour.Prepare(param);
         behaviour.RepetitionEnd += behaviour_PrepareEnd;
         CurrentExercise = e;
+    }
+
+    private IEnumerator InitialPoseDelayed()
+    {
+
+        //yield return new WaitForSeconds(DELAY);
+        RewindExercise();
+        yield return new WaitForSeconds(0.1f);
+        behaviour.InitialPose();
+    }
+
+
+    public void InitialPose()
+    {
+        StartCoroutine(InitialPoseDelayed());
     }
 
     public class PrepareExerciseWebParams
@@ -190,27 +206,17 @@ public class AnimatorScript : MonoBehaviour
         Exercise e = (pwp.Exercise) as Exercise;
         this.prepareCaller = (Caller)(pwp.Caller);
         //Exercise e = JsonConvert.DeserializeObject<Exercise>(s);
-        //Application.ExternalCall("Write", "Prepare 1  " + CurrentExercise.Movement + e.Movement + " " + this.GetInstanceID());
-        
+
         behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
-
-        if(behaviour == null)
+        if (behaviour == null)
         {
-            Application.ExternalCall("Write", "Prepare 2  " + CurrentExercise.Movement + e.Movement + " " + this.GetInstanceID());
-
-            Debug.Log("Behaviour no encontrado");
+            DebugLifeware.LogAllDevelopers("Importante: Behaviour no encontrado");
             RaiseEvent(OnPrepareExerciseEnd, PrepareStatus.NotFound);
             return;
         }
         behaviour.RepetitionEnd += behaviour_PrepareEndWeb;
-        Application.ExternalCall("Write", "Prepare 3  " + CurrentExercise.Movement + e.Movement + " " + this.GetInstanceID());
-
         behaviour.PrepareWeb();
-        Application.ExternalCall("Write", "Prepare 4  " + CurrentExercise.Movement + e.Movement + " " + this.GetInstanceID());
-
         CurrentExercise = e;
-        Application.ExternalCall("Write", "Prepare 5 " + CurrentExercise.Movement + e.Movement + " " + this.GetInstanceID());
-
     }
 
     void behaviour_PrepareEndWeb(object sender, EventArgs e)
@@ -223,23 +229,27 @@ public class AnimatorScript : MonoBehaviour
 
     public void RunExercise()
     {
-        Debug.Log("Comienza el run");
+        DebugLifeware.Log("Comienza el run", DebugLifeware.Developer.Marco_Rojas);
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.Run();
         RewindExercise();
         behaviour.RepetitionEnd += behaviour_RepetitionEnd;
     }
-
+    public void ResumeExercise()
+    {
+        behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
+        behaviour.ResumeAnimation();
+    }
     void behaviour_RepetitionEnd(object sender, EventArgs e)
     {
-        Debug.Log("Rep Realizada");
+//        Debug.Log("Rep Realizada por instructor");
         //Terminó una repetición
     }
 
     void behaviour_PrepareEnd(object sender, EventArgs e)
     {
 //        GoToIddle();
-        Debug.Log("prep end");
+        //DebugLifeware.Log("Preparación terminada", DebugLifeware.Developer.Marco_Rojas);
         behaviour = sender as AnimationBehaviour;
         behaviour.RepetitionEnd -= behaviour_PrepareEnd;
         RaiseEvent(OnPrepareExerciseEnd, PrepareStatus.Prepared);
@@ -247,29 +257,15 @@ public class AnimatorScript : MonoBehaviour
 
     public void testWeb()
     {
-       /* Debug.Log("test run  web");
-        RunExerciseWeb("{\"Angle\": "+ GameObject.Find("angle").GetComponent<UnityEngine.UI.Text>().text + ", \"ForwardSpeed\": "
-            + GameObject.Find("forward").GetComponent<UnityEngine.UI.Text>().text + ", \"BackwardSpeed\": "
-            + GameObject.Find("backward").GetComponent<UnityEngine.UI.Text>().text + ", \"PauseBetweenRepetitions\": 0, \"RepetitionMax\": 0}" + " " + this.GetInstanceID());
-        //RunExercise();
-        */
-        string s = "{\"Angle\":45,\"ForwardSpeed\":1.0,\"BackwardSpeed\":1.0,\"SecondsInPose\":5,\"SecondsBetweenRepetitions\":21}";
+        string s = "{\"Angle\":45,\"ForwardSpeed\":1.0,\"BackwardSpeed\":1.0,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":3}";
         RunExerciseWeb(s);
     }
     public void testWeb2()
     {
         StopExercise();
     }
-    public void RunExerciseWeb(string s/*Exercise exercise, float maxAngle, float forwardSpeed, float backwardSpeed*/)
+    public void RunExerciseWeb(string s)
     {
-        /*exerciseRunner.StopExercise();
-        anim.Play(StatesNames.Iddle, 0, 0);
-        RunExerciseParams rep = JsonConvert.DeserializeObject<RunExerciseParams>(s);
-        if (!exerciseRunner.IsPreparedWeb(rep.exercise))
-        {
-            return;
-        }
-        exerciseRunner.RunExerciseWeb(rep.exercise, rep.maxAngle, rep.forwardSpeed, rep.backwardSpeed);*/
         BehaviourParams rep = JsonConvert.DeserializeObject<BehaviourParams>(s);
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.RunWeb(rep);
@@ -284,27 +280,16 @@ public class AnimatorScript : MonoBehaviour
     
     public void StopExercise()
     {
-
-        Application.ExternalCall("Write", "stop 1 " + CurrentExercise.Movement + " " + this.GetInstanceID());
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
 
-        Application.ExternalCall("Write", "stop 2 " + CurrentExercise.Movement + " " + this.GetInstanceID());
         if (behaviour == null)
             return;
 
-        Application.ExternalCall("Write", "stop 3 " + CurrentExercise.Movement + " " + this.GetInstanceID());
         behaviour.Stop();
 
-        Application.ExternalCall("Write", "stop 4 " + CurrentExercise.Movement + " " + this.GetInstanceID());
         behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
         behaviour.RepetitionEnd -= behaviour_PrepareEnd;
         behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
-        /*
-        StopAllCoroutines();
-        exerciseRunner.StopExercise();
-        GoToIddle();*/
-
-        Application.ExternalCall("Write", "stop 5 " + CurrentExercise.Movement + " " + this.GetInstanceID());
     }
 
 
@@ -338,13 +323,19 @@ public class AnimatorScript : MonoBehaviour
     {
 
         //StopExercise();
+        if (instance != null)
+            instance.StopAllCoroutines();
+        if (AnimatorScript.instance != null)
+            AnimatorScript.instance.OnRepetitionEnd -= AnimatorScript_OnRepetitionEnd;
         StopAllCoroutines();
-        instance.StopAllCoroutines();
         CurrentExercise.PropertyChanged -= currentExercise_PropertyChanged;
-        AnimatorScript.OnRepetitionEnd -= AnimatorScript_OnRepetitionEnd;
 
+        behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
+        behaviour.RepetitionEnd -= behaviour_PrepareEnd;
+        behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
+
+        
         Destroy(instance);
-        instance = null;
         Destroy(this);
     }
 }

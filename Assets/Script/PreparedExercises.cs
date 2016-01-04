@@ -50,11 +50,11 @@ public class PreparedExercises {
            //No sé por qué, pero debe estar comentado para que funcione.
            //if (Math.Abs(animationInfo[animationInfo.Count / 2].time - animationLength) <= TIME_ERROR)
                return true;
-
-           Debug.Log("Encontrado el exercis saved pero no cumle con el TIME_ERROR");
+               DebugLifeware.Log("Encontrado el exercis saved pero no cumle con el TIME_ERROR", DebugLifeware.Developer.Marco_Rojas);
        }
        else
-           Debug.Log("No encontrado el exercise saved");
+
+           DebugLifeware.Log("No encontrado el ejercicio saved.", DebugLifeware.Developer.Marco_Rojas);
        return false;
     }
 
@@ -66,7 +66,7 @@ public class PreparedExercises {
         if (!_preparedExercises.ContainsKey(e))
         {
             _preparedExercises.Add(e, animationInfo);
-            Debug.Log("Saving exerciseeeee");
+            DebugLifeware.Log("Saving exercise", DebugLifeware.Developer.Marco_Rojas);
             PlayerPrefs.SetString("ExerciseCache", JsonConvert.SerializeObject(_preparedExercises));
         }
         else

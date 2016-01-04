@@ -1,21 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using System.Collections.Generic;
 
 public abstract class AnimationBehaviour : StateMachineBehaviour {
 
-    #if !DEBUG
-    protected ExerciseDataGenerator exerciseDataGenerator; 
-    #endif
+    //protected ExerciseDataGenerator exerciseDataGenerator;
     public event EventHandler RepetitionEnd;
     public Movement movement;
     public Limb limb;
+    [HideInInspector]
     public Laterality execution;
     [HideInInspector]
     public Animator animator;
     private bool _isInterleaved;
     [HideInInspector]
+
     public bool IsInterleaved
     {
         get { return _isInterleaved; }
@@ -26,6 +25,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 this._Opposite.IsInterleaved = IsInterleaved;
         }
     }
+    public bool isWeb = false;
     
     private AnimationBehaviour _opposite;
     protected AnimationBehaviour _Opposite
@@ -58,6 +58,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 
             if (this.IsInterleaved)
             {
+                Debug.Log("preparing interleaved");
                 this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
                 //this._Opposite.IsInterleaved = IsInterleaved;
                 if (this._Opposite._RealLerpParams != value)
@@ -73,13 +74,37 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     protected void OnRepetitionEnd()
     {
+        //Cambios detector Diego
+//        if(this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS && Controller.KsStateMachine.CurrentState == Kinectsiology.Communication.Command.DataTypes.GameInfo.StateType.Playing)
+//            ActionDetectorTemp.Instance.Evaluate();
+        
         EventHandler eh = RepetitionEnd;
         if (eh != null)
         {
             eh(this, new EventArgs());
         }
     }
-
+    protected AnimationBehaviourState originalABS = AnimationBehaviourState.STOPPED;
+    protected bool IsWaiting = false;
+    public virtual void ResumeAnimation(){
+        //this.Run();
+        //this._behaviourState = originalABS;
+        //animator.speed = this._RealLerpParams.ForwardSpeed;
+        IsWaiting = false;
+    }
+    public virtual void PauseAnimation(){
+        /*
+        originalABS = this._behaviourState;
+        this._behaviourState = AnimationBehaviourState.STOPPED;
+        animator.speed = 0;
+        
+        if (IsInterleaved)
+        {
+            if (this.limb == Limb.Right)
+                this._Opposite.PauseAnimation();
+        }*/
+        IsWaiting = true;
+    }
     abstract public void Prepare(BehaviourParams lp);
     abstract public void PrepareWeb();
     abstract public void Run();
@@ -117,32 +142,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             }
         }
         return null;
-    }
-
-    public static List<AnimationBehaviour> DEBUG_GetBehaviours(Movement m, Limb l)
-    {
-        Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
-        AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
-        Limb l2 = l;
-        List<AnimationBehaviour> lista = new List<AnimationBehaviour>();
-        if (l == Limb.Interleaved)
-        {
-            l2 = Limb.Left;
-        }
-        foreach (AnimationBehaviour lb in behaviours)
-        {
-            if (lb.movement == m && lb.limb == l2)
-            {
-                if (lb.animator == null)
-                {
-                    lb.animator = a;
-                    if (l == Limb.Interleaved)
-                        lb.IsInterleaved = true;
-                }
-                lista.Add(lb);
-            }
-        }
-        return lista;
     }
 
     protected AnimationBehaviourState _behaviourState;

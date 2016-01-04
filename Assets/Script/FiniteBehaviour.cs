@@ -1,4 +1,4 @@
-ï»¿using Assets;
+using Assets;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -9,6 +9,12 @@ public class FiniteBehaviour : AnimationBehaviour
     private bool isLerping = false;
     private bool ReadyToLerp = false;
     private event EventHandler LerpRoundTripEnd;
+
+    /// <summary>
+    /// Se utiliza para enviar datos a ExerciseDataGenerator en intervalos de tiempo determinados.
+    /// El tiempo que ha pasado desde que se hizo la última captura de datos.
+    /// </summary>
+    private float timeSinceCapture = 0;
     protected void OnLerpRoundTripEnd()
     {
         EventHandler eh = LerpRoundTripEnd;
@@ -54,6 +60,7 @@ public class FiniteBehaviour : AnimationBehaviour
 
     override public void Prepare(BehaviourParams bp)
     {
+        DebugLifeware.Log("Preparing finite behaviour", DebugLifeware.Developer.Marco_Rojas);
         BehaviourParams lp = (BehaviourParams)bp;
         this._RealLerpParams = lp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
@@ -95,7 +102,9 @@ public class FiniteBehaviour : AnimationBehaviour
     }
     override public void RunWeb(BehaviourParams bp)
     {
-        Application.ExternalCall("Write", "Unity: RunWeb(BehaviourParams bp) " + Newtonsoft.Json.JsonConvert.SerializeObject(bp) + " " + movement + " " + this.GetInstanceID());
+
+        if (DebugLifeware.ActualDeveloper == DebugLifeware.Developer.Alfredo_Gallardo)
+            Application.ExternalCall("Write", "Unity: RunWeb(BehaviourParams bp) " + Newtonsoft.Json.JsonConvert.SerializeObject(bp) + " " + movement + " " + this.GetInstanceID());
         BehaviourParams lerpParams = (BehaviourParams)bp;
         endRepTime = null;
         isLerping = false;
@@ -107,7 +116,9 @@ public class FiniteBehaviour : AnimationBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Application.ExternalCall("Write", "Estado: " + "  debug: OnStateEnter 1" + this._BehaviourState.ToString() + "  " + movement);
+
+        if (DebugLifeware.ActualDeveloper == DebugLifeware.Developer.Alfredo_Gallardo)
+            Application.ExternalCall("Write", "Estado: " + "  debug: OnStateEnter 1" + this._BehaviourState.ToString() + "  " + movement);
         if(this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
             OnRepetitionEnd();
@@ -116,28 +127,43 @@ public class FiniteBehaviour : AnimationBehaviour
         else if(this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS
             || this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
-            //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serÃ¡n iguales.
+            //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
             animator.speed = this._RealLerpParams.ForwardSpeed;
-            Application.ExternalCall("Write", "debug: OnStateEnter 2" + this._behaviourState.ToString() + " " + movement + " " + this.GetInstanceID());
+            if (DebugLifeware.ActualDeveloper == DebugLifeware.Developer.Alfredo_Gallardo)
+                Application.ExternalCall("Write", "debug: OnStateEnter 2" + this._behaviourState.ToString() + " " + movement + " " + this.GetInstanceID());
 
         }
     }
 
+
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        timeSinceCapture += Time.deltaTime;
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             animator.speed = 0;
             return;
         }
 
+        const float INTERVAL = 0.1f;
+        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
+        {
+            timeSinceCapture = timeSinceCapture - INTERVAL;
+            //if (exerciseDataGenerator == null)
+            //    exerciseDataGenerator = GameObject.FindObjectOfType<ExerciseDataGenerator>();
+            //TODO: rescatar de base de datos o diccionario
+            //TODO: rescatar captureData
+            //DebugLifeware.Log("grabando frame ", DebugLifeware.Developer.Marco_Rojas);
+            //if (this.exerciseDataGenerator != null)
+            //    this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.BoundingBoxBased);
+        }
+
         if ((_BehaviourState != AnimationBehaviourState.STOPPED && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
     && (endRepTime == null || new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
-            if(stateInfo.normalizedTime >= 1.0f)
+            if (stateInfo.normalizedTime >= 1.0f)
             {
-                if(this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+                if (this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
                     OnLerpRoundTripEnd();
                     if (!IsInterleaved || IsInterleaved && limb == Limb.Right)
@@ -156,7 +182,7 @@ public class FiniteBehaviour : AnimationBehaviour
                         ReadyToLerp = false;
                     }*/
                 }
-                else if(this._behaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
+                else if (this._behaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                 {
                     OnRepetitionEnd();
                     Stop();
@@ -166,27 +192,26 @@ public class FiniteBehaviour : AnimationBehaviour
             else
             {
                 if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
-                    if(stateInfo.normalizedTime <= 0.5f)
+                    if (stateInfo.normalizedTime <= 0.5f)
                     {
 
                         animator.speed = this._RealLerpParams.ForwardSpeed;
-                        Debug.Log("Time: " + stateInfo.normalizedTime +  "     Velpalante: " + this._RealLerpParams.ForwardSpeed);
                     }
                     else
                     {
                         animator.speed = this._RealLerpParams.BackwardSpeed;
-                        Debug.Log("Time: " + stateInfo.normalizedTime + "     Velpatras: " + this._RealLerpParams.BackwardSpeed);
                     }
             }
         }
         else if (this._BehaviourState == AnimationBehaviourState.STOPPED &&
             (endRepTime != null && new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
-            //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serÃ¡n iguales.
+            //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
             endRepTime = null;
             this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
             animator.speed = this._RealLerpParams.ForwardSpeed;
         }
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -196,7 +221,7 @@ public class FiniteBehaviour : AnimationBehaviour
     }
 
     /// <summary>
-    /// Detiene la interpolaciÃ³n que actualmente se estÃ¡ ejecutando
+    /// Detiene la interpolación que actualmente se está ejecutando
     /// </summary>
     override public void Stop()
     {/*
@@ -205,9 +230,11 @@ public class FiniteBehaviour : AnimationBehaviour
             _Opposite.Stop();
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;*/
-        Application.ExternalCall("Write", "stop  " + movement + " " + this.GetInstanceID());
+        if (DebugLifeware.ActualDeveloper == DebugLifeware.Developer.Alfredo_Gallardo )
+            Application.ExternalCall("Write", "stop  " + movement + " " + this.GetInstanceID());
         //this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
+        _BehaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 1;
         
     }

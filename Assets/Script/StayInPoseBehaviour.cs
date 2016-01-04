@@ -251,7 +251,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 //            Debug.Log(stayInPoseState + "  " + (Time.time - startRestTime));
             if (stayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
             {
-                Debug.Log("Manteniendo");
+                DebugLifeware.Log("Manteniendo", DebugLifeware.Developer.Marco_Rojas);
              
                 animator.speed = 0;
                 startHoldTime = Time.time;
@@ -263,7 +263,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             //Si ya pasó el tiempo en el ángulo máximo
             else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _realLerpParams.SecondsInPose)
             {
-                Debug.Log("Para atrás");
+                DebugLifeware.Log("Para atrás", DebugLifeware.Developer.Marco_Rojas);
                 animator.StartRecording(0);
                 animator.speed = -1;
                 animator.StopRecording();
@@ -276,10 +276,10 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                 stayInPoseState = StayInPoseState.Resting;
                 startRestTime = Time.time;
                 if (IsInterleaved)
-                    Debug.Log("va a cambiar el limb");
+                    DebugLifeware.Log("va a cambiar el limb", DebugLifeware.Developer.Marco_Rojas);
                 if (IsInterleaved)
                 {
-                    Debug.Log("cambiando limb");
+                    DebugLifeware.Log("cambiando limb", DebugLifeware.Developer.Marco_Rojas);
                     animator.SetTrigger("ChangeLimb");
                 }
                     OnRepetitionEnd();
@@ -289,64 +289,13 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             }
             else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime >= _realLerpParams.SecondsBetweenRepetitions)
             {
-                Debug.Log("descansando");
+                DebugLifeware.Log("descansando", DebugLifeware.Developer.Marco_Rojas);
                 animator.speed = 1;
                 stayInPoseState = StayInPoseState.GoingTo;
             }
-
-            Debug.Log("termino la amada");
-        }
-        /*
-        #region Interpolate
-        //Si no estamos en estado Stopped 
-        //Y estamos preparados para hacer Lerp
-        //Y el tiempo que ha transcurrido de la ultima rep es mayor al tiempo de pause entre repeticiones. O no ha habido última rep.
-        Debug.Log("state: " +_LerpBehaviourState + GetInstanceID());
-        if (_LerpBehaviourState != LerpBehaviourState.STOPPED && ReadyToLerp
-            && (endRepTime == null || new TimeSpan(0, 0, (int)_actualLerpParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
-        {
-            //if(_LerpBehaviourState == LerpBehaviourState.STOPPED)
-                Debug.LogError("ENtRO");
-            float timeSinceStarted = Time.time - timeStartedLerping;
-            float percentageComplete = 0f;
-            switch (_currentLerpState)
-            {
-                case LerpState.Forward:
-                    percentageComplete = timeSinceStarted / timeTakenDuringForwardLerp;
-                    break;
-
-                case LerpState.Stopped:
-                    if (_lastLerpState == LerpState.Forward)
-                    {
-                        percentageComplete = timeSinceStarted / timeTakenDuringForwardLerp;
-                    }
-
-                    //De ser true, indica que termino una repeticion
-                    else if (_lastLerpState == LerpState.Backward)
-                    {
-                        percentageComplete = timeSinceStarted / timeTakenDuringBackwardLerp;
-                    }
-                    break;
-
-                case LerpState.Backward:
-                    percentageComplete = timeSinceStarted / timeTakenDuringBackwardLerp;
-                    break;
-            }
-
-            //Aplico el suavizado "Smotherstep"
-            //percentageComplete = percentageComplete * percentageComplete * (3f - 2f * percentageComplete);
-            percentageComplete = percentageComplete * percentageComplete * percentageComplete * (percentageComplete * (6f * percentageComplete - 15f) + 10f);
-            animator.speed = Mathf.Lerp(startPosition, endPosition, percentageComplete);
-            if (percentageComplete >= 1.0f)
-            {
-                InterpolationEnd();
-            }
+            DebugLifeware.Log("termino", DebugLifeware.Developer.Marco_Rojas);
         }
         
-        #endregion
-        if (_LerpBehaviourState == LerpBehaviourState.PREPARING_DEFAULT || _LerpBehaviourState == LerpBehaviourState.PREPARING_WEB)
-            this.SaveTimesAngle(stateInfo);
-         * */
     }
 
 
@@ -355,171 +304,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         animator.speed = 1.0f;
 	}
 
-	// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-	//override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
-
-	// OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-	//override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
-
-    /*
-    /// <summary>
-    /// Comienza la interpolación entre 0 y el tiempo donde está el ángulo requerido (LerpTime), aplicando las velocidades concéntras y excéntricas indicadas
-    /// </summary>
-    /// <param name="_lerpTime">Tiempo donde se encuentra el ángulo al que se quiere llegar</param>
-    /// <param name="_forwardSpeed">Velocidad concéntrica</param>
-    /// <param name="_backwardSpeed">Velocidad excéntrica</param>
-    public void StartLerp()
-    {
-        _currentLerpState = LerpState.Forward;
-
-        if (_LerpBehaviourState == LerpBehaviourState.PREPARING_DEFAULT || _LerpBehaviourState == LerpBehaviourState.PREPARING_WEB || _LerpBehaviourState == LerpBehaviourState.RUNNING_DEFAULT)
-        {
-            _actualLerpParams = new LerpParams(defaultAnimationLength, 1, 1);
-            timeTakenDuringLerp = (float)Math.Floor(defaultAnimationLength * 10) / 10;
-            //timeTakenDuringLerp = defaultAnimationLength;
-        }
-        else
-        {
-            _actualLerpParams = _RealLerpParams;
-            timeTakenDuringLerp = (float)Math.Floor(GetAnimationInfo(_actualLerpParams.Angle, _timeAndAngles).time * 10) / 10;
-            //timeTakenDuringLerp = GetAnimationInfo(_actualLerpParams.Angle, _timeAndAngles).time;
-        }
-        //Normalizo el tiempo que tardo en parar
-        timeTakenDuringForwardLerp = timeTakenDuringLerp / _actualLerpParams.ForwardSpeed;
-        timeTakenDuringBackwardLerp = timeTakenDuringLerp / _actualLerpParams.BackwardSpeed;
-        forwardSpeed = _actualLerpParams.ForwardSpeed;
-        backwardSpeed = _actualLerpParams.BackwardSpeed;
-        BeginLerp(0, forwardSpeed, true);
-    }
-     * */
-
-    /*
-    /// <summary>
-    /// Inicia una interpolación y ajusta los valores iniciales
-    /// </summary>
-    private void BeginLerp(float startPos, float endPos, bool pauseBeforeLerping = false)
-    {
-        timeStartedLerping = Time.time;
-        // En caso de que se ejecute un Lerp que requiera pausa entre lerps, se agrega el tiempo de pausa a el tiempo de inicio del Lerp.
-        if (pauseBeforeLerping && endRepTime != null)
-            timeStartedLerping += _actualLerpParams.SecondsBetweenRepetitions;
-        startPosition = startPos;
-        endPosition = endPos;
-        ReadyToLerp = true;
-    }
-    
-    /// <summary>
-    /// Cuando termina una interpolacion se comprueba el estado de la animacion para continuar con el ciclo de aceleración y desaceleracion
-    /// </summary>
-    private void InterpolationEnd()
-    {
-        Debug.LogWarning("INTERPOLATION END Y QUE WEA" + GetInstanceID());
-        switch (_currentLerpState)
-        {
-            case LerpState.Forward:
-                _currentLerpState = LerpState.Stopped;
-                _lastLerpState = LerpState.Forward;
-                BeginLerp(forwardSpeed, 0);
-                break;
-
-            case LerpState.Stopped:
-                if (_lastLerpState == LerpState.Forward)
-                {
-                    _currentLerpState = LerpState.Backward;
-                    _lastLerpState = LerpState.Stopped;
-                    BeginLerp(0, -backwardSpeed);
-                }
-
-                //De ser true, indica que termino una repeticion
-                else if (_lastLerpState == LerpState.Backward)
-                {
-                    Debug.LogWarning("Retrocedí hasta: " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-                    _currentLerpState = LerpState.Forward;
-                    _lastLerpState = LerpState.Forward;
-
-                    if (this._LerpBehaviourState == LerpBehaviourState.PREPARING_DEFAULT || this._LerpBehaviourState == LerpBehaviourState.PREPARING_WEB)
-                    {
-                        try
-                        {
-                            PreparedExercises.InsertPreparedExercise(new Exercise(movement, execution, limb), _timeAndAngles);
-                        }
-                        catch
-                        {
-                            ; // do nothing
-                        }
-
-                        if (this._LerpBehaviourState == LerpBehaviourState.PREPARING_DEFAULT)
-                        {
-                            this._LerpBehaviourState = LerpBehaviourState.PREPARING_WITH_PARAMS;
-                        }
-                        else
-                        {
-                            this._LerpBehaviourState = LerpBehaviourState.STOPPED;
-                            OnRepetitionEnd();
-                        }
-                    }
-                    else if (this._LerpBehaviourState == LerpBehaviourState.PREPARING_WITH_PARAMS)
-                    {
-                        _LerpBehaviourState = LerpBehaviourState.STOPPED;
-                        OnRepetitionEnd();
-                        //TODO: Recolectar datos y entregarlos a jorge
-                    }
-                    //Hace repeticiones hasta el infinito
-                    else if (this._LerpBehaviourState == LerpBehaviourState.RUNNING_DEFAULT || this._LerpBehaviourState == LerpBehaviourState.RUNNING_WITH_PARAMS)
-                    {
-
-                        OnLerpRoundTripEnd();
-                        if (!IsInterleaved || IsInterleaved && limb == Limb.Right)
-                            OnRepetitionEnd();
-
-
-                        if (IsInterleaved)
-                        {
-                            animator.SetTrigger("ChangeLimb");
-                        }
-                        if (this._LerpBehaviourState == LerpBehaviourState.STOPPED)
-                        {
-                            endRepTime = null;
-                            ReadyToLerp = false;
-
-                        }
-                        else
-                        //BeginLerp(0, forwardSpeed, true);
-                        {
-                           
-                            animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
-                        }
-                    }
-                }
-                break;
-
-            case LerpState.Backward:
-                _currentLerpState = LerpState.Stopped;
-                _lastLerpState = LerpState.Backward;
-                BeginLerp(-backwardSpeed, 0);
-                break;
-        }
-    }
-    
-    /// <summary>
-    /// Detiene la interpolación que actualmente se está ejecutando
-    /// </summary>
-    public void StopLerps()
-    {
-        _LerpBehaviourState = LerpBehaviourState.STOPPED;
-        if (_Opposite._LerpBehaviourState != LerpBehaviourState.STOPPED)
-            _Opposite.StopLerps();
-
-        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
-        if(animator.speed < 0)
-            animator.speed = animator.speed * -1;
-        animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
-    }
-     * */
+	
 
     /// <summary>
     /// Obtiene el intervalo de tiempo en segundos y el ángulo más cercano al entregado por parámetro

@@ -14,8 +14,8 @@ public class WebScript : MonoBehaviour {
     public bool isLoading = false;
 
 	void Start () {
-        AnimatorScript.OnPrepareExerciseStart += AnimatorScript_OnPrepareExerciseStart;
-        AnimatorScript.OnPrepareExerciseEnd += AnimatorScript_OnPrepareExerciseEnd;
+        AnimatorScript.instance.OnPrepareExerciseStart += AnimatorScript_OnPrepareExerciseStart;
+        AnimatorScript.instance.OnPrepareExerciseEnd += AnimatorScript_OnPrepareExerciseEnd;
         overlay.gameObject.SetActive(false);
         this.isLoading = false;
 	}
@@ -78,7 +78,7 @@ public class WebScript : MonoBehaviour {
     void OnDestroy()
     {
 
-        AnimatorScript.OnPrepareExerciseStart -= AnimatorScript_OnPrepareExerciseStart;
-        AnimatorScript.OnPrepareExerciseEnd -= AnimatorScript_OnPrepareExerciseEnd;
+        AnimatorScript.instance.OnPrepareExerciseStart -= AnimatorScript_OnPrepareExerciseStart;
+        AnimatorScript.instance.OnPrepareExerciseEnd -= AnimatorScript_OnPrepareExerciseEnd;
     }
 }

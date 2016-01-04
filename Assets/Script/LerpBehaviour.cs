@@ -130,17 +130,23 @@ public class LerpBehaviour : AnimationBehaviour {
     }
     override public void PrepareWeb()
     {
+        if (this.IsInterleaved)
+        {
+            this.isWeb = true;
+            this._Opposite.isWeb = true;
+        }
         this._BehaviourState = AnimationBehaviourState.PREPARING_WEB;
     }
     override public void Run()
     {
         endRepTime = null;
-
+        //animator.speed = 1;
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
         }
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
+        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
         
         //animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
@@ -184,7 +190,7 @@ public class LerpBehaviour : AnimationBehaviour {
     private void SaveTimesAngle(AnimatorStateInfo animatorState) //ref List<AnimationInfo> aInfo)
     {
         JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, execution, limb)];
-        ArticulacionClass joint = AnimatorScript.utils.getArticulacion(tempJointTypePlanoResult.jointType);
+        ArticulacionClass joint = AnimatorScript.instance.utils.getArticulacion(tempJointTypePlanoResult.jointType);
         AnimationInfo tempAnimationInfo = new AnimationInfo();
         float time = animatorState.normalizedTime * animatorState.length;
         switch (tempJointTypePlanoResult.plain)
@@ -199,7 +205,6 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleSagital);
                 break;
         }
-        Debug.Log("agregando angulo" + tempAnimationInfo.angle);
         _timeAndAngles.Add(tempAnimationInfo);
     }
 
@@ -209,8 +214,9 @@ public class LerpBehaviour : AnimationBehaviour {
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        {
             return;
-        animator.speed = 0;
+        }
         defaultAnimationLength = stateInfo.length;
        
         //Está la animación en caché
@@ -239,8 +245,7 @@ public class LerpBehaviour : AnimationBehaviour {
         //No está la animación en caché
         else
         {
-            Debug.Log("no saved exercise: " + movement + " " + execution + " " + limb + "  " + this._BehaviourState + " " + this.GetInstanceID());
-            if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
+           if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
             {
                 this._timeAndAngles = new List<AnimationInfo>();
                 this.StartLerp();
@@ -256,6 +261,7 @@ public class LerpBehaviour : AnimationBehaviour {
         endRepTime = DateTime.Now;
         if (IsInterleaved)
         {
+
             (this._Opposite as LerpBehaviour).endRepTime = endRepTime;
         }
     }
@@ -263,14 +269,23 @@ public class LerpBehaviour : AnimationBehaviour {
     private bool ReadyToLerp = false;
     private bool lastReadyToLerp = false;
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+    int debug = 0;
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        timeSinceCapture += Time.deltaTime;   
-        //Debug.Log("OnStateUpdate " + this.GetInstanceID());
+        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        {
+            animator.speed = 0;
+            return;
+        }
+
+        timeSinceCapture += Time.deltaTime;
+
+
         #region Interpolate
         //Si no estamos en estado Stopped 
         //Y estamos preparados para hacer Lerp
         //Y el tiempo que ha transcurrido de la ultima rep es mayor al tiempo de pause entre repeticiones. O no ha habido última rep.
+       
         if (_BehaviourState != AnimationBehaviourState.STOPPED && ReadyToLerp
             && (endRepTime == null || new TimeSpan(0, 0, (int)_actualLerpParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
@@ -316,13 +331,13 @@ public class LerpBehaviour : AnimationBehaviour {
         const float INTERVAL = 0.1f;
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
         {
-            timeSinceCapture = 0;
-            #if !DEBUG
-            if (exerciseDataGenerator == null)
-                exerciseDataGenerator = GameObject.FindObjectOfType<ExerciseDataGenerator>();
+            timeSinceCapture = timeSinceCapture - INTERVAL ;
+            //if (exerciseDataGenerator == null)
+            //    exerciseDataGenerator = GameObject.FindObjectOfType<ExerciseDataGenerator>();
             //TODO: rescatar de base de datos o diccionario
-            this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.Dynamic);
-            #endif
+            //TODO: rescatar captureData
+            //if (this.exerciseDataGenerator != null)
+            //    this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.BoundingBoxBased);
         }
 
         
@@ -333,7 +348,7 @@ public class LerpBehaviour : AnimationBehaviour {
 
 
         JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, execution, limb)];
-        ArticulacionClass joint = AnimatorScript.utils.getArticulacion(tempJointTypePlanoResult.jointType);
+        ArticulacionClass joint = AnimatorScript.instance.utils.getArticulacion(tempJointTypePlanoResult.jointType);
         AnimationInfo tempAnimationInfo = new AnimationInfo();
         float time = stateInfo.normalizedTime; //* stateInfo.length;
         switch (tempJointTypePlanoResult.plain)
@@ -352,16 +367,16 @@ public class LerpBehaviour : AnimationBehaviour {
         if( Math.Abs((int)tempAnimationInfo.angle - 45)  <= 1.5)
         {
                         
-            Debug.LogWarning("45  -  " + tempAnimationInfo.time.ToString());
+            //Debug.LogWarning("45  -  " + tempAnimationInfo.time.ToString());
         }
         else if (Math.Abs((int)tempAnimationInfo.angle - 60) <= 1.5)
         {
             //animator.speed = 0;
-            Debug.LogWarning("60  -  " + tempAnimationInfo.time.ToString());
+           // Debug.LogWarning("60  -  " + tempAnimationInfo.time.ToString());
         }
         else if (Math.Abs((int)tempAnimationInfo.angle - 90) <= 1.5)
         {
-            Debug.LogWarning("90  -  " + tempAnimationInfo.time.ToString());
+            //Debug.LogWarning("90  -  " + tempAnimationInfo.time.ToString());
         }
         //        Debug.Log("agregando angulo" + tempAnimationInfo.angle);
 
@@ -428,7 +443,36 @@ public class LerpBehaviour : AnimationBehaviour {
         endPosition = endPos;
         ReadyToLerp = true;
     }
+    /*
+    public override void ResumeAnimation()
+    {
+        this._BehaviourState = originalABS;
+    }*/
 
+  /*  public override void PauseAnimation()
+    {
+        DebugLifeware.Log("Puasing animation", DebugLifeware.Developer.Alfredo_Gallardo);
+        originalABS = this._behaviourState;
+
+
+
+        _BehaviourState = AnimationBehaviourState.STOPPED;
+
+        if (this.IsInterleaved)
+            if ((_Opposite as LerpBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
+                _Opposite.PauseAnimation();
+
+        if (animator.speed < 0)
+        {
+            animator.StartRecording(0);
+            animator.speed *= -1;
+            animator.StopRecording();
+        }
+
+        //animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
+        animator.speed = 1;
+       
+    }*/
     /// <summary>
     /// Cuando termina una interpolacion se comprueba el estado de la animacion para continuar con el ciclo de aceleración y desaceleracion
     /// </summary>
@@ -461,12 +505,13 @@ public class LerpBehaviour : AnimationBehaviour {
                     {
                         try
                         {
-                            Debug.Log("se itentara savear");
+                            DebugLifeware.Log("se intentara savear", DebugLifeware.Developer.Marco_Rojas);
                             PreparedExercises.InsertPreparedExercise(new Exercise(movement, execution, limb), _timeAndAngles);
                         }
                         catch
                         {
-                            Debug.Log("ya existia el ejercicio"); 
+
+                            DebugLifeware.Log("ya existia el ejercicio", DebugLifeware.Developer.Marco_Rojas);
                             ; // do nothing
                         }
                         if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT)
@@ -484,6 +529,7 @@ public class LerpBehaviour : AnimationBehaviour {
                     else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     {
                         _BehaviourState = AnimationBehaviourState.STOPPED;
+                        //Stop();
                         OnRepetitionEnd();
                         //TODO: Recolectar datos y entregarlos a jorge
                     }
@@ -493,7 +539,11 @@ public class LerpBehaviour : AnimationBehaviour {
 
                         OnLerpRoundTripEnd();
                         if (!IsInterleaved || IsInterleaved && limb == Limb.Right)
+                        {
+                         //   if (!this.isWeb) 
+                           //     this.PauseAnimation();
                             OnRepetitionEnd();
+                        }
 
 
                         if (IsInterleaved)
@@ -506,11 +556,12 @@ public class LerpBehaviour : AnimationBehaviour {
                             ReadyToLerp = false;
 
                         }
-                        else
-                        //BeginLerp(0, forwardSpeed, true);
+                        else if (!IsInterleaved)
                         {
-                           
-                            animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+
+                            StartLerp();
+                            //BeginLerp(0, forwardSpeed, true);
+                            //animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                         }
                     }
                 }
@@ -532,8 +583,8 @@ public class LerpBehaviour : AnimationBehaviour {
         _BehaviourState = AnimationBehaviourState.STOPPED;
 
         if(this.IsInterleaved)
-            if ((_Opposite as LerpBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
-                _Opposite.Stop();
+        if ((_Opposite as LerpBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
+            _Opposite.Stop();
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         if (animator.speed < 0)
@@ -542,10 +593,12 @@ public class LerpBehaviour : AnimationBehaviour {
             animator.StartRecording(0);
             animator.speed *= -1;
             animator.StopRecording();
+
         }
 
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
         animator.speed = 1;
+
     }
     /// <summary>
     /// Obtiene el intervalo de tiempo en segundos y el ángulo más cercano al entregado por parámetro
