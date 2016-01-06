@@ -72,8 +72,6 @@ public class AnimatorScript : MonoBehaviour
     
     void Start()
     {
-        
-        //anim = GetComponent<Animator>();
         CurrentExercise.PropertyChanged += currentExercise_PropertyChanged;
 
         /////////   INICIO CODIGO DE TESTEO //////////
@@ -98,9 +96,12 @@ public class AnimatorScript : MonoBehaviour
     public void testPrepare()
     {
         //PrepareExerciseWeb("{\"Movement\":100000,\"Laterality\":0,\"Limb\":0}");
-        //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":280000,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
-        PrepareExercise(new Exercise(Movement.EstocadaFrontalCorta, Laterality.Single, Limb.Interleaved), new BehaviourParams(60f, 1.0f, 1.0f, 0, 0));
-        //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConPaso_25, Laterality.Double, Limb.None), new BehaviourParams(40, 1.0f, 1.0f, 0, 0));
+        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.EstocadaLateral + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
+            + (int)Limb.Right + "}, \"Caller\": 1}");
+
+        //PrepareExercise(new Exercise(Movement.EstocadaFrontalCorta, Laterality.Single, Limb.Right), new BehaviourParams(60f, 1.0f, 1.0f, 0, 0));
+        //PrepareExercise(new Exercise(Movement.PrensaDePiernas_45, Laterality.Single, Limb.Right), new BehaviourParams(40, 1.0f, 2.0f, 0, 0));
+
         //Invoke("pruebaRun2", 20);
         //Invoke("pruebaRun", 10);
         //RunExerciseWebWithoutParams("{\"Movement\":280000,\"Laterality\":0,\"Limb\":0}");
@@ -110,9 +111,9 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testRun()
     {
-        //string s = "{\"Angle\":45,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.8,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":2}";
-        //RunExerciseWeb(s);
-        RunExercise();
+        string s = "{\"Angle\":60,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.8,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":2}";
+        RunExerciseWeb(s);
+        //RunExercise();
         //RunExerciseWebWithoutParams();
     }
     public void testResume()
@@ -257,8 +258,9 @@ public class AnimatorScript : MonoBehaviour
 
     public void testWeb()
     {
-        string s = "{\"Angle\":45,\"ForwardSpeed\":1.0,\"BackwardSpeed\":1.0,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":3}";
-        RunExerciseWeb(s);
+        //string s = "{\"Angle\":45,\"ForwardSpeed\":1.0,\"BackwardSpeed\":1.0,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":3}";
+        //RunExerciseWeb(s);
+        RunExerciseWebWithoutParams();
     }
     public void testWeb2()
     {

@@ -72,7 +72,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     {
         OnRepetitionEnd();
     }
-    override public void PrepareWeb()
+    override protected void PrepareWebInternal()
     {
 
         this._behaviourState = AnimationBehaviourState.PREPARING_WEB;

@@ -6,10 +6,8 @@ using UnityEngine;
 
 public class FiniteBehaviour : AnimationBehaviour
 {
-    private bool isLerping = false;
-    private bool ReadyToLerp = false;
+    private bool haCambiadoDeEstado = true;
     private event EventHandler LerpRoundTripEnd;
-
     /// <summary>
     /// Se utiliza para enviar datos a ExerciseDataGenerator en intervalos de tiempo determinados.
     /// El tiempo que ha pasado desde que se hizo la última captura de datos.
@@ -29,7 +27,7 @@ public class FiniteBehaviour : AnimationBehaviour
         endRepTime = DateTime.Now;
         if (IsInterleaved)
         {
-            (this._Opposite as LerpBehaviour).endRepTime = endRepTime;
+            (this._Opposite as FiniteBehaviour).endRepTime = endRepTime;
         }
     }
 
@@ -39,7 +37,7 @@ public class FiniteBehaviour : AnimationBehaviour
     {
         return this._actualLerpParams;
     }
-    private AnimationBehaviourState _BehaviourState
+    protected override  AnimationBehaviourState _BehaviourState
     {
         get { return this._behaviourState; }
         set
@@ -66,26 +64,27 @@ public class FiniteBehaviour : AnimationBehaviour
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
+
     }
 
     private void _Opposite_RepetitionEnd(object sender, EventArgs e)
     {
         OnRepetitionEnd();
     }
-    override public void PrepareWeb()
+    override protected void PrepareWebInternal()
     {
         this._BehaviourState = AnimationBehaviourState.PREPARING_WEB;
     }
     override public void Run()
     {
         endRepTime = null;
-
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
         }
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-        this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd; 
+        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
+        this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
     }
 
 
@@ -107,7 +106,6 @@ public class FiniteBehaviour : AnimationBehaviour
             Application.ExternalCall("Write", "Unity: RunWeb(BehaviourParams bp) " + Newtonsoft.Json.JsonConvert.SerializeObject(bp) + " " + movement + " " + this.GetInstanceID());
         BehaviourParams lerpParams = (BehaviourParams)bp;
         endRepTime = null;
-        isLerping = false;
         this._RealLerpParams = lerpParams;
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
@@ -116,7 +114,6 @@ public class FiniteBehaviour : AnimationBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
         if (DebugLifeware.ActualDeveloper == DebugLifeware.Developer.Alfredo_Gallardo)
             Application.ExternalCall("Write", "Estado: " + "  debug: OnStateEnter 1" + this._BehaviourState.ToString() + "  " + movement);
         if(this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
@@ -133,6 +130,7 @@ public class FiniteBehaviour : AnimationBehaviour
                 Application.ExternalCall("Write", "debug: OnStateEnter 2" + this._behaviourState.ToString() + " " + movement + " " + this.GetInstanceID());
 
         }
+        haCambiadoDeEstado = true;
     }
 
 
@@ -161,26 +159,29 @@ public class FiniteBehaviour : AnimationBehaviour
         if ((_BehaviourState != AnimationBehaviourState.STOPPED && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
     && (endRepTime == null || new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
-            if (stateInfo.normalizedTime >= 1.0f)
+            if (stateInfo.normalizedTime >= 1.0f && haCambiadoDeEstado)
             {
+                haCambiadoDeEstado = false;
                 if (this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
                     OnLerpRoundTripEnd();
                     if (!IsInterleaved || IsInterleaved && limb == Limb.Right)
                     {
                         OnRepetitionEnd();
-                        this._BehaviourState = AnimationBehaviourState.STOPPED;
-                        animator.speed = 0;
+                        //this._BehaviourState = AnimationBehaviourState.STOPPED;
+                        //animator.speed = 0;
+                        if (!this.isWeb)
+                            this.PauseAnimation();
                     }
-                    else if (IsInterleaved)
+                    if (IsInterleaved)
                     {
+                        //Aca está el error, por alguna razón se dispara 2 veces
                         animator.SetTrigger("ChangeLimb");
-                    }/*
+                    }
                     if (this._BehaviourState == AnimationBehaviourState.STOPPED)
                     {
                         endRepTime = null;
-                        ReadyToLerp = false;
-                    }*/
+                    }
                 }
                 else if (this._behaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                 {
@@ -192,6 +193,7 @@ public class FiniteBehaviour : AnimationBehaviour
             else
             {
                 if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+                {
                     if (stateInfo.normalizedTime <= 0.5f)
                     {
 
@@ -201,8 +203,11 @@ public class FiniteBehaviour : AnimationBehaviour
                     {
                         animator.speed = this._RealLerpParams.BackwardSpeed;
                     }
+                }
             }
         }
+        // Ésta lógica ya no iría al agregar la espera del detector para hacer nueva repetición
+            /*
         else if (this._BehaviourState == AnimationBehaviourState.STOPPED &&
             (endRepTime != null && new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
@@ -211,13 +216,14 @@ public class FiniteBehaviour : AnimationBehaviour
             this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
             animator.speed = this._RealLerpParams.ForwardSpeed;
         }
-
+        */
     }
+
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.speed = 1.0f;
+       // animator.speed = 1.0f;
     }
 
     /// <summary>

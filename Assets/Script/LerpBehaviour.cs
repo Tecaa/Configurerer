@@ -69,9 +69,9 @@ public class LerpBehaviour : AnimationBehaviour {
         }
     }
     #endregion
-    
-   
-    private AnimationBehaviourState _BehaviourState
+
+
+    protected override AnimationBehaviourState _BehaviourState
     {
         get { return _behaviourState; }
         set { 
@@ -128,13 +128,14 @@ public class LerpBehaviour : AnimationBehaviour {
     {
         OnRepetitionEnd();
     }
-    override public void PrepareWeb()
+    override protected void PrepareWebInternal()
     {
+        /*
         if (this.IsInterleaved)
         {
             this.isWeb = true;
             this._Opposite.isWeb = true;
-        }
+        }*/
         this._BehaviourState = AnimationBehaviourState.PREPARING_WEB;
     }
     override public void Run()
@@ -443,11 +444,7 @@ public class LerpBehaviour : AnimationBehaviour {
         endPosition = endPos;
         ReadyToLerp = true;
     }
-    /*
-    public override void ResumeAnimation()
-    {
-        this._BehaviourState = originalABS;
-    }*/
+    
 
   /*  public override void PauseAnimation()
     {
@@ -540,11 +537,10 @@ public class LerpBehaviour : AnimationBehaviour {
                         OnLerpRoundTripEnd();
                         if (!IsInterleaved || IsInterleaved && limb == Limb.Right)
                         {
-                         //   if (!this.isWeb) 
-                           //     this.PauseAnimation();
+                            if (!this.isWeb) 
+                                this.PauseAnimation();
                             OnRepetitionEnd();
                         }
-
 
                         if (IsInterleaved)
                         {

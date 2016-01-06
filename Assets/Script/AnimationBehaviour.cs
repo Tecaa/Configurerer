@@ -58,7 +58,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 
             if (this.IsInterleaved)
             {
-                Debug.Log("preparing interleaved");
                 this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
                 //this._Opposite.IsInterleaved = IsInterleaved;
                 if (this._Opposite._RealLerpParams != value)
@@ -85,31 +84,41 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
     }
     protected AnimationBehaviourState originalABS = AnimationBehaviourState.STOPPED;
-    protected bool IsWaiting = false;
-    public virtual void ResumeAnimation(){
-        //this.Run();
-        //this._behaviourState = originalABS;
-        //animator.speed = this._RealLerpParams.ForwardSpeed;
-        IsWaiting = false;
+    public void ResumeAnimation()
+    {
+        if (this.IsInterleaved && this.limb == Limb.Left)
+        {
+            animator.SetTrigger("ChangeLimb");
+            this._Opposite.SetBehaviourState(originalABS);
+        }
+
+        this._BehaviourState = originalABS;
     }
-    public virtual void PauseAnimation(){
-        /*
+    public void PauseAnimation(){
+        DebugLifeware.Log("pause animation", DebugLifeware.Developer.Alfredo_Gallardo);
         originalABS = this._behaviourState;
         this._behaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 0;
+        
         
         if (IsInterleaved)
         {
             if (this.limb == Limb.Right)
                 this._Opposite.PauseAnimation();
-        }*/
-        IsWaiting = true;
+        }
     }
     abstract public void Prepare(BehaviourParams lp);
-    abstract public void PrepareWeb();
+    abstract protected void PrepareWebInternal();
     abstract public void Run();
     abstract public void RunWeb();
     abstract public void RunWeb(BehaviourParams lerpParams);
+
+    
+    public void PrepareWeb() {
+        this.isWeb = true;
+        this._Opposite.isWeb = true;
+        PrepareWebInternal(); 
+    }
     
     public void InitialPose()
     {
@@ -145,6 +154,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
 
     protected AnimationBehaviourState _behaviourState;
+    protected virtual AnimationBehaviourState _BehaviourState {   get  { return _behaviourState; } set { _behaviourState = value; }}
 
     abstract public void Stop();
     protected void OnDestroy()
