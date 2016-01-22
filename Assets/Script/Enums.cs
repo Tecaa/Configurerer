@@ -97,6 +97,9 @@ public enum Movement
     FlexiónDeRodillaEnSupino_Unilateral = 390000,
     FlexiónDeRodillasEnProno_Bilateral = 400000,
     FlexiónDeRodillasEnSupino_Bilateral = 410000,
+    PruebaA = 420000,
+    PruebaB = 420001,
+    PruebaC = 420002,
     PrensaDePiernas_120 = 480000,
     PrensaDePiernas_90 = 480001,
     PrensaDePiernas_45 = 480002,
@@ -119,6 +122,8 @@ public enum Movement
     SentadillaConBalónSuizo = 620000,
     SentadillaMonopodal = 630000,
     PlantiflexiónDeTobilloSedenteEnCamilla = 650000,
+
+    PruebaMantenerPose = 10
 
 }
 

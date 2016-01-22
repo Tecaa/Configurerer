@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public abstract class AnimationBehaviour : StateMachineBehaviour {
 
     //protected ExerciseDataGenerator exerciseDataGenerator;
+    
     public event EventHandler RepetitionEnd;
+
+    /// <summary>
+    /// Se dispara despues del tiempo entre ejecciones
+    /// </summary>
+    public event EventHandler RepetitionReallyStart;
     public Movement movement;
     public Limb limb;
     [HideInInspector]
@@ -14,7 +21,9 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     public Animator animator;
     private bool _isInterleaved;
     [HideInInspector]
-
+    public DateTime? endRepTime = null;
+    [HideInInspector]
+    public bool beginRep = false;
     public bool IsInterleaved
     {
         get { return _isInterleaved; }
@@ -68,16 +77,21 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 
     public void SetBehaviourState(AnimationBehaviourState lbs)
     {
-        Debug.LogWarning("SetLerpBehaviour : " + lbs);
         this._behaviourState = lbs;
     }
     protected void OnRepetitionEnd()
     {
-        //Cambios detector Diego
-//        if(this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS && Controller.KsStateMachine.CurrentState == Kinectsiology.Communication.Command.DataTypes.GameInfo.StateType.Playing)
-//            ActionDetectorTemp.Instance.Evaluate();
-        
+        DebugLifeware.Log("OnRepetitionEnd", DebugLifeware.Developer.Alfredo_Gallardo);        
         EventHandler eh = RepetitionEnd;
+        if (eh != null)
+        {
+            eh(this, new EventArgs());
+        }
+    }
+    protected void OnRepetitionReallyStart()
+    {
+        DebugLifeware.Log("OnRepetitionStart after " + (DateTime.Now - endRepTime), DebugLifeware.Developer.Alfredo_Gallardo);
+        EventHandler eh = RepetitionReallyStart;
         if (eh != null)
         {
             eh(this, new EventArgs());
@@ -93,9 +107,12 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
 
         this._BehaviourState = originalABS;
+        this.endRepTime = DateTime.Now;
+        if (this.IsInterleaved)
+            this._Opposite.endRepTime = this.endRepTime;
+        
     }
     public void PauseAnimation(){
-        DebugLifeware.Log("pause animation", DebugLifeware.Developer.Alfredo_Gallardo);
         originalABS = this._behaviourState;
         this._behaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 0;
@@ -116,7 +133,8 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     
     public void PrepareWeb() {
         this.isWeb = true;
-        this._Opposite.isWeb = true;
+        if(this.execution == Laterality.Single)
+            this._Opposite.isWeb = true;
         PrepareWebInternal(); 
     }
     
@@ -153,6 +171,30 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         return null;
     }
 
+    /// <summary>
+    /// Obtiene todos los behaviours que calcen con el movement
+    /// </summary>
+    /// <param name="movement"></param>
+    public static List<AnimationBehaviour> GetBehaviours(Movement movement)
+    {
+
+        Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
+        AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
+        List<AnimationBehaviour> list = new List<AnimationBehaviour>();
+        foreach (AnimationBehaviour lb in behaviours)
+        {
+            if (lb.movement == movement)
+            {
+                if (lb.animator == null)
+                {
+                    lb.animator = a;
+                }
+                list.Add(lb);
+            }
+        }
+        return list;
+    }
+
     protected AnimationBehaviourState _behaviourState;
     protected virtual AnimationBehaviourState _BehaviourState {   get  { return _behaviourState; } set { _behaviourState = value; }}
 
@@ -166,6 +208,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 this.RepetitionEnd -= (d as EventHandler);
         }
     }
+
 }
 public enum AnimationBehaviourState
 {

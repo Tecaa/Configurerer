@@ -9,29 +9,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
     enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
     private StayInPoseState stayInPoseState;
-    /*
-    private LerpBehaviourState _lerpBehaviourState;
-    private LerpBehaviourState _LerpBehaviourState
-    {
-        get { return _lerpBehaviourState; }
-        set { 
-            _lerpBehaviourState = value;
-            Debug.LogWarning(_lerpBehaviourState + GetInstanceID());
-            switch (value) 
-            { 
-                case LerpBehaviourState.RUNNING_DEFAULT:
-                case LerpBehaviourState.RUNNING_WITH_PARAMS:
-                    animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
-                    break;
-                case LerpBehaviourState.PREPARING_WITH_PARAMS:
-                    StartLerp(); 
-                    break;
-            } 
-        }
-    }
-    */
  
-
     public void SetLerpBehaviourState(AnimationBehaviourState lbs)
     {
         Debug.LogWarning("SetLerpBehaviour : " + lbs);
@@ -53,13 +31,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     {
         return this._actualLerpParams;
     }
-    /*
-    public void SetParams(LerpParams lp, LerpBehaviourState lbs)
-    {
-        this._realLerpParams = lp;
-        this._lerpBehaviourState = lbs;
-    }
-    */
+
     override public void Prepare(BehaviourParams sp)
     {
         this._RealLerpParams = sp;
@@ -78,8 +50,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         this._behaviourState = AnimationBehaviourState.PREPARING_WEB;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
-
-        //this._LerpBehaviourState = LerpBehaviourState.PREPARING_WEB;
     }
     override public void Run()
     {
@@ -91,13 +61,8 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
 
         this._behaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-        //this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
-
-        //animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
-        //this.StartLerp();
     }
 
-   
     override public void RunWeb()
     {
         endRepTime = null;
@@ -108,9 +73,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
 
         this._behaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
-        //this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
-        //this._LerpBehaviourState = LerpBehaviourState.RUNNING_DEFAULT;
-        //this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
     }
     override public void RunWeb(BehaviourParams stayInParams)
     {
@@ -126,49 +88,19 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 	
 
         this._RealLerpParams = stayInParams;
-        /*
-        this._LerpBehaviourState = LerpBehaviourState.RUNNING_WITH_PARAMS;
-        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
-        this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
-         * */
     }
     
-
-    
-    /*
-    /// <summary>
-    /// Almacena una lista de frames con su correspondiente ángulo, considerando el ejercicio especificado, por ejemplo, para rodilla puede importar el ángulo que se genera entre los segmentos involucrados con el plano sagital
-    /// </summary>
-    /// <param name="exercise">Ejercicio al cual se le quieren extraer los ángulo de interés</param>
-    /// <param name="action">Callback especificado para guardar los frames que se van generando</param>
-    /// <returns></returns>
-    private void SaveTimesAngle(AnimatorStateInfo animatorState) //ref List<AnimationInfo> aInfo)
-    {
-        JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, execution, limb)];
-        ArticulacionClass joint = AnimatorScript.utils.getArticulacion(tempJointTypePlanoResult.jointType);
-        AnimationInfo tempAnimationInfo = new AnimationInfo();
-        float time = animatorState.normalizedTime * animatorState.length;
-        switch (tempJointTypePlanoResult.plain)
-        {   
-            case Plano.planos.planoFrontal:
-                tempAnimationInfo = new AnimationInfo(time, joint.AngleFrontal);
-                break;
-            case Plano.planos.planoHorizontal:
-                tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontal);
-                break;
-            case Plano.planos.planoSagital:
-                tempAnimationInfo = new AnimationInfo(time, joint.AngleSagital);
-                break;
-        }
-        _timeAndAngles.Add(tempAnimationInfo);
-    }
-    */
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     private float defaultAnimationLength;
     private float startAnimationTime;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
-
+        if (this._actualLerpParams == null)
+            this._actualLerpParams = new BehaviourParams();
+        if(this._realLerpParams == null)
+        {
+            this._realLerpParams = new BehaviourParams();
+        }
         if (_behaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
             Debug.Log("onrep end");
@@ -177,7 +109,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
         }
 
-        //animator.speed = 0;
         defaultAnimationLength = stateInfo.length;
         startAnimationTime = Time.time;
     
@@ -244,10 +175,13 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
 
         float DELTA = 0.05f;
-        Debug.Log(_behaviourState);
         if (_behaviourState != AnimationBehaviourState.STOPPED)
         {
-
+            if (!beginRep)
+            {
+                OnRepetitionReallyStart();
+                beginRep = true;
+            }
 //            Debug.Log(stayInPoseState + "  " + (Time.time - startRestTime));
             if (stayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
             {
@@ -282,16 +216,20 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                     DebugLifeware.Log("cambiando limb", DebugLifeware.Developer.Marco_Rojas);
                     animator.SetTrigger("ChangeLimb");
                 }
-                    OnRepetitionEnd();
+                OnRepetitionEnd();
+                if (!this.isWeb && _behaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
+                    this.PauseAnimation();
                 if (_behaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     _behaviourState = AnimationBehaviourState.STOPPED;
             
             }
+
             else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime >= _realLerpParams.SecondsBetweenRepetitions)
             {
                 DebugLifeware.Log("descansando", DebugLifeware.Developer.Marco_Rojas);
                 animator.speed = 1;
                 stayInPoseState = StayInPoseState.GoingTo;
+                beginRep = false;
             }
             DebugLifeware.Log("termino", DebugLifeware.Developer.Marco_Rojas);
         }

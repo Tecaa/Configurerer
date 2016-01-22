@@ -43,7 +43,7 @@ public class AnimatorScript : MonoBehaviour
 
     public event EventHandler OnRepetitionStart;
     public event EventHandler OnRepetitionEnd;
-
+    public event EventHandler OnRepetitionReallyStart;
     public event EventHandler<PrepareEventArgs> OnPrepareExerciseStart;
     public event EventHandler<PrepareEventArgs> OnPrepareExerciseEnd;
 
@@ -76,11 +76,13 @@ public class AnimatorScript : MonoBehaviour
 
         /////////   INICIO CODIGO DE TESTEO //////////
         Invoke("testPrepare", 1);
+
         //Invoke("testRun", 12);
 
 //        AnimatorScript.OnPrepareExerciseEnd += testing;
         /////////   FIN CODIGO DE TESTEO    //////////
     }
+
     public void RewindExercise()
     {
         anim.SetInteger(AnimatorParams.Limb, (int)_currentExercise.Limb);
@@ -95,25 +97,20 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-        //PrepareExerciseWeb("{\"Movement\":100000,\"Laterality\":0,\"Limb\":0}");
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.EstocadaLateral + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
-            + (int)Limb.Right + "}, \"Caller\": 1}");
+                
+        //PrepareExercise(new Exercise(Movement.EstocadaFrontalCortaConTorsiónDeTronco_60, Laterality.Single, Limb.Interleaved), new BehaviourParams(70, 1.5f, 0.4f, 3));
+        //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1.5f, 0.4f, 3));
+        PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Left), new BehaviourParams(4, 2));
 
-        //PrepareExercise(new Exercise(Movement.EstocadaFrontalCorta, Laterality.Single, Limb.Right), new BehaviourParams(60f, 1.0f, 1.0f, 0, 0));
-        //PrepareExercise(new Exercise(Movement.PrensaDePiernas_45, Laterality.Single, Limb.Right), new BehaviourParams(40, 1.0f, 2.0f, 0, 0));
 
-        //Invoke("pruebaRun2", 20);
-        //Invoke("pruebaRun", 10);
-        //RunExerciseWebWithoutParams("{\"Movement\":280000,\"Laterality\":0,\"Limb\":0}");
-        //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConPaso100, Laterality.Single, Limb.Left), new BehaviourParams(2, 0.5f, 0.5f));
-        //PrepareExercise(new Exercise(Movement.Stride, Execution.Single, Limb.Interleaved), new BehaviourParams(0.5f, 1f, 120, 0, 3));
-        //PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(-120,0.8f, 1, 2));
+        //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.EstocadaFrontalCortaConTorsiónDeTronco_60 + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
+        //   + (int)Limb.Right + "}, \"Caller\": 1}");
     }
     public void testRun()
     {
-        string s = "{\"Angle\":60,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.8,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":2}";
-        RunExerciseWeb(s);
-        //RunExercise();
+        //string s = "{\"Angle\":60,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":3}";
+        //RunExerciseWeb(s);
+        RunExercise();
         //RunExerciseWebWithoutParams();
     }
     public void testResume()
@@ -235,7 +232,15 @@ public class AnimatorScript : MonoBehaviour
         behaviour.Run();
         RewindExercise();
         behaviour.RepetitionEnd += behaviour_RepetitionEnd;
+        behaviour.RepetitionReallyStart += behaviour_RepetitionReallyStart;
     }
+
+    void behaviour_RepetitionReallyStart(object sender, EventArgs e)
+    {
+        RaiseEvent(OnRepetitionReallyStart);
+        DebugLifeware.Log("Repetition has really ended.", DebugLifeware.Developer.Alfredo_Gallardo);
+    }
+
     public void ResumeExercise()
     {
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
@@ -243,8 +248,9 @@ public class AnimatorScript : MonoBehaviour
     }
     void behaviour_RepetitionEnd(object sender, EventArgs e)
     {
-//        Debug.Log("Rep Realizada por instructor");
+        //Debug.Log("Rep Realizada por instructor");
         //Terminó una repetición
+        RaiseEvent(OnRepetitionEnd);
     }
 
     void behaviour_PrepareEnd(object sender, EventArgs e)
@@ -292,6 +298,7 @@ public class AnimatorScript : MonoBehaviour
         behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
         behaviour.RepetitionEnd -= behaviour_PrepareEnd;
         behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
+        behaviour.RepetitionReallyStart -= behaviour_RepetitionReallyStart;
     }
 
 
@@ -335,7 +342,7 @@ public class AnimatorScript : MonoBehaviour
         behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
         behaviour.RepetitionEnd -= behaviour_PrepareEnd;
         behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
-
+        behaviour.RepetitionReallyStart -= behaviour_RepetitionReallyStart;
         
         Destroy(instance);
         Destroy(this);

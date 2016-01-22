@@ -90,8 +90,6 @@ public class LerpBehaviour : AnimationBehaviour {
     }
 
 
-
-    public DateTime? endRepTime = null;
     //public Animator animator;
     private List<AnimationInfo> _timeAndAngles;
 
@@ -290,6 +288,14 @@ public class LerpBehaviour : AnimationBehaviour {
         if (_BehaviourState != AnimationBehaviourState.STOPPED && ReadyToLerp
             && (endRepTime == null || new TimeSpan(0, 0, (int)_actualLerpParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
+            if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) && 
+                this._BehaviourState != AnimationBehaviourState.PREPARING_WEB && 
+                this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS && 
+                this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
+            {
+                OnRepetitionReallyStart();
+                beginRep = true;
+            }
             //if(_LerpBehaviourState == LerpBehaviourState.STOPPED)
             float timeSinceStarted = Time.time - timeStartedLerping;
             float percentageComplete = 0f;
@@ -323,10 +329,14 @@ public class LerpBehaviour : AnimationBehaviour {
             animator.StartRecording(0);
             animator.speed = Mathf.Lerp(startPosition, endPosition, percentageComplete);
             animator.StopRecording();
+            
             if (percentageComplete >= 1.0f)
             {
                 InterpolationEnd();
             }
+        }else if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+        {
+            animator.speed = 0;
         }
 
         const float INTERVAL = 0.1f;
@@ -497,7 +507,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 {
                     _currentLerpState = LerpState.Forward;
                     _lastLerpState = LerpState.Forward;
-
+                    beginRep = false;
                     if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
                     {
                         try
@@ -544,6 +554,8 @@ public class LerpBehaviour : AnimationBehaviour {
 
                         if (IsInterleaved)
                         {
+                            if (this.limb == Limb.Left)
+                                this._Opposite.endRepTime = null;
                             animator.SetTrigger("ChangeLimb");
                         }
                         if (this._BehaviourState == AnimationBehaviourState.STOPPED)
@@ -645,18 +657,31 @@ public class BehaviourParams //: BehaviourParams
 {
     public float Angle, ForwardSpeed, BackwardSpeed;
     public const float DEFAULT_TIME = 1.0f;
-    public int SecondsBetweenRepetitions, SecondsInPose;
+    public int SecondsBetweenRepetitions = 1;
+    public int SecondsInPose = 1;
 
     public BehaviourParams()
     {
+
     }
-    // Construtor para el LerpBehaviour
+    
+    /// <summary>
+    /// Constructor usable en StayInPoseBehaviour?
+    /// </summary>
+    /// <param name="_secondsInPose"></param>
+    /// <param name="_secondsBetweenReps"></param>
     public BehaviourParams(int _secondsInPose, int _secondsBetweenReps)
     {
         SecondsBetweenRepetitions = _secondsBetweenReps;
         SecondsInPose = _secondsInPose;
     }
 
+    /// <summary>
+    /// Constructor para FiniteBehaviour?
+    /// </summary>
+    /// <param name="_secondsBetweenReps"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
     public BehaviourParams(int _secondsBetweenReps, float _forwardSpeed, float _backwardSpeed)
     {
         SecondsBetweenRepetitions = _secondsBetweenReps;
@@ -664,7 +689,13 @@ public class BehaviourParams //: BehaviourParams
         BackwardSpeed = _backwardSpeed;
     }
 
-    // Construtor para el LerpBehaviour
+    /// <summary>
+    /// Constructor usable en LerpBehaviour
+    /// </summary>
+    /// <param name="_angle"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    /// <param name="_secondsBetweenReps"></param>
     public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsBetweenReps)
     {
         Angle = _angle;
@@ -673,7 +704,15 @@ public class BehaviourParams //: BehaviourParams
         SecondsBetweenRepetitions = _secondsBetweenReps;
         SecondsInPose = 0;
     }
-    //Constructor general
+
+    /// <summary>
+    /// Constructor general
+    /// </summary>
+    /// <param name="_angle"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    /// <param name="_secondsInPose"></param>
+    /// <param name="_secondsBetweenReps"></param>
     public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsInPose, int _secondsBetweenReps) 
         : this(_angle, _forwardSpeed, _backwardSpeed, _secondsBetweenReps)
     {
