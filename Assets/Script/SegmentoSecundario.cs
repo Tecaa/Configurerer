@@ -33,7 +33,7 @@ namespace Assets
             Vector3 nSagital = planosMovimiento.sagital.normal;
             Vector3 nFrontal = planosMovimiento.frontal.normal;
             Vector3 nHorizontal = planosMovimiento.horizontal.normal;
-
+            Vector3 nHorizontalAcostado = planosMovimiento.horizontalAcostado.normal;
             Vector3 segmento = puntoExterno.transform.position - puntoInterno.transform.position;
 
             Vector3 proyBrazoSagital = Vector3.Dot(segmento, nFrontal) * nFrontal + Vector3.Dot(segmento, nHorizontal) * nHorizontal;

@@ -4,6 +4,7 @@ using System;
 using Assets;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine.UI;
 
 public class LerpBehaviour : AnimationBehaviour {
     #region Variables
@@ -203,6 +204,9 @@ public class LerpBehaviour : AnimationBehaviour {
             case Plano.planos.planoSagital:
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleSagital);
                 break;
+            case Plano.planos.planoHorizontalAcostado:
+                tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
+                break;
         }
         _timeAndAngles.Add(tempAnimationInfo);
     }
@@ -373,8 +377,13 @@ public class LerpBehaviour : AnimationBehaviour {
             case Plano.planos.planoSagital:
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleSagital);
                 break;
+            case Plano.planos.planoHorizontalAcostado:
+                tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
+                break;
         }
-//        Debug.LogError(tempAnimationInfo.angle);
+        //Debug.LogError(tempAnimationInfo.angle);
+        GameObject.FindGameObjectWithTag("angulotexto").GetComponent<Text>().text = "Angulo " + joint.articulacion.ToString() + " : " + tempAnimationInfo.angle.ToString();
+
         if( Math.Abs((int)tempAnimationInfo.angle - 45)  <= 1.5)
         {
                         

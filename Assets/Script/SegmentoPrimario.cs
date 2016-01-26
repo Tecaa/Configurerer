@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets
 {
@@ -33,14 +34,23 @@ namespace Assets
             Vector3 nSagital = planosMovimiento.sagital.normal;
             Vector3 nFrontal = planosMovimiento.frontal.normal;
             Vector3 nHorizontal = planosMovimiento.horizontal.normal;
-
+            Vector3 nHorizontalAcostado = planosMovimiento.horizontalAcostado.normal;
             Vector3 brazo = codo.transform.position - hombro.transform.position;        
 
             Vector3 proyBrazoSagital = Vector3.Dot(brazo, nFrontal) * nFrontal + Vector3.Dot(brazo, nHorizontal) * nHorizontal;            
             Vector3 proyBrazoFrontal = Vector3.Dot(brazo, nSagital) * nSagital + Vector3.Dot(brazo, nHorizontal) * nHorizontal;            
             Vector3 proyBrazoHorizontal = Vector3.Dot(brazo, nSagital) * nSagital + Vector3.Dot(brazo, nFrontal) * nFrontal;
-         
 
+           // Vector3 proyBrazoHorizontalAcostado = hombro - codo; 
+            
+                
+            //    Vector3.Dot(brazo, Vector3.right) * Vector3.right + Vector3.Dot(brazo, Vector3.forward) * Vector3.forward;
+         //   var cruzHorizontalAcostado = Vector3.Cross(proyBrazoHorizontalAcostado, Vector3.right);
+          
+
+         //   AngleHorizontalAcostado = Vector3.Angle(proyBrazoHorizontalAcostado, nHorizontalAcostado) * (cruzHorizontalAcostado.x / Mathf.Abs(cruzHorizontalAcostado.x));
+            AngleHorizontalAcostado = Mathf.Asin(Vector3.Dot(brazo.normalized, Vector3.up));
+            AngleHorizontalAcostado = AngleHorizontalAcostado * 180.0f / Mathf.PI;
 
             var cruzHorizontal = Vector3.Cross(proyBrazoHorizontal, nFrontal);
             AngleHorizontal = Vector3.Angle(proyBrazoHorizontal, nFrontal) * (cruzHorizontal.x/Mathf.Abs(cruzHorizontal.x)) ;
@@ -63,8 +73,21 @@ namespace Assets
             AngleSagital = Vector3.Angle(proyBrazoSagital, nHorizontal * -1) * (cruzSagital.x / Mathf.Abs(cruzSagital.x));
 
 
-            /* Debug.DrawLine(hombro.transform.position, hombro.transform.position + hombro.transform.up, Color.red);
-             Debug.DrawLine(hombro.transform.position, hombro.transform.position + hombro.transform.right, Color.yellow);
+            Debug.DrawLine(hombro.transform.position, codo.transform.position, Color.cyan);
+
+            if(articulacion == ArticulacionType.MusloDerecha)
+            {
+                GameObject.FindGameObjectWithTag("anguloFrontal").GetComponent<Text>().text = "Angulo Frontal : " + AngleFrontal;
+
+                GameObject.FindGameObjectWithTag("anguloHorizontal").GetComponent<Text>().text = "Angulo Horizontal : " + AngleHorizontal;
+
+                GameObject.FindGameObjectWithTag("anguloSagital").GetComponent<Text>().text = "Angulo Sagital : " + AngleSagital;
+
+                GameObject.FindGameObjectWithTag("anguloHorizontalAcostado").GetComponent<Text>().text = "Angulo Horizontal Acostado : " + AngleHorizontalAcostado;
+            }
+            
+
+           /*  Debug.DrawLine(hombro.transform.position, hombro.transform.position + hombro.transform.right, Color.yellow);
              Debug.DrawLine(hombro.transform.position, hombro.transform.position + hombro.transform.forward, Color.green);
 
              Debug.DrawLine(pecho.transform.position, pecho.transform.position + pecho.transform.up, Color.red);

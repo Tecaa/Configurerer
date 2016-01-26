@@ -136,6 +136,7 @@ namespace Assets
                 planosMovimiento.Draw(Color.red, Plano.planos.planoFrontal);
                 planosMovimiento.Draw(Color.green, Plano.planos.planoHorizontal);
                 planosMovimiento.Draw(Color.yellow, Plano.planos.planoSagital);
+                planosMovimiento.Draw(Color.magenta, Plano.planos.planoHorizontalAcostado);
             }
         }
     }

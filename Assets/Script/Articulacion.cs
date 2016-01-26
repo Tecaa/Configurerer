@@ -83,6 +83,16 @@ namespace Assets
             }
         }
 
+        private float angleHorizontalAcostado;
+        public virtual float AngleHorizontalAcostado
+        {
+            get { return angleHorizontalAcostado; }
+            set
+            {
+                angleHorizontalAcostado = value;
+            }
+        }
+
         internal string getDataText()
         {
            

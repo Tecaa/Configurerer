@@ -15,6 +15,7 @@ namespace Assets
         public Plane frontal;
         public Plane sagital;
         public Plane horizontal;
+        public Plane horizontalAcostado;
         public planos tipoPlano;
 
       
@@ -41,6 +42,8 @@ namespace Assets
             frontal = new Plane(centro, hombroD, hombroI);
             sagital = new Plane(centro, centro + frontal.normal, arriba);
 
+            horizontalAcostado = new Plane(Vector3.up, centro);
+
             frontal.SetNormalAndPosition(Quaternion.AngleAxis(-4.43f, sagital.normal) * frontal.normal, centro);
 
 
@@ -61,6 +64,7 @@ namespace Assets
                 case planos.planoFrontal: normal = frontal.normal; break;
                 case planos.planoHorizontal: normal = horizontal.normal; break;
                 case planos.planoSagital: normal = sagital.normal; break;
+                case planos.planoHorizontalAcostado: normal = horizontalAcostado.normal; break;
                 default : return;
             }
 
@@ -85,8 +89,9 @@ namespace Assets
             Debug.DrawLine(corner2, corner3, color);
             Debug.DrawLine(corner3, corner0, color);
             Debug.DrawRay(position, normal, color);
+
         }
-        public enum planos { planoFrontal, planoSagital, planoHorizontal };
+        public enum planos { planoFrontal, planoSagital, planoHorizontal, planoHorizontalAcostado };
 
         
 

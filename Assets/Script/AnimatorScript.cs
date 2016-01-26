@@ -100,17 +100,17 @@ public class AnimatorScript : MonoBehaviour
                 
         //PrepareExercise(new Exercise(Movement.EstocadaFrontalCortaConTorsiónDeTronco_60, Laterality.Single, Limb.Interleaved), new BehaviourParams(70, 1.5f, 0.4f, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1.5f, 0.4f, 3));
-        PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Left), new BehaviourParams(4, 2));
+        //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Left), new BehaviourParams(4, 2));
 
 
-        //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.EstocadaFrontalCortaConTorsiónDeTronco_60 + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
-        //   + (int)Limb.Right + "}, \"Caller\": 1}");
+        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.ExtensiónDeCaderaEnProno + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
+           + (int)Limb.Right + "}, \"Caller\": 1}");
     }
     public void testRun()
     {
-        //string s = "{\"Angle\":60,\"ForwardSpeed\":1.5,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":3}";
-        //RunExerciseWeb(s);
-        RunExercise();
+        string s = "{\"Angle\":15,\"ForwardSpeed\":1.2,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":0}";
+        RunExerciseWeb(s);
+        //RunExercise();
         //RunExerciseWebWithoutParams();
     }
     public void testResume()

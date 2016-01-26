@@ -53,16 +53,11 @@ namespace Assets
             AngleSagital = Vector3.Angle(proyBrazoSagital, nHorizontal * -1) * (cruzSagital.x / Mathf.Abs(cruzSagital.x));
 
 
-
+            Debug.DrawLine(cadera.transform.position, rodilla.transform.position, Color.cyan);
             base.Update();
 
-      /*      Debug.DrawLine(hombro.transform.position, hombro.transform.position + hombro.transform.up, Color.red);
-            Debug.DrawLine(hombro.transform.position, hombro.transform.position + hombro.transform.right, Color.yellow);
-            Debug.DrawLine(hombro.transform.position, hombro.transform.position + hombro.transform.forward, Color.green);
 
-            Debug.DrawLine(pecho.transform.position, pecho.transform.position + pecho.transform.up, Color.red);
-            Debug.DrawLine(pecho.transform.position, pecho.transform.position + pecho.transform.right, Color.yellow);
-            Debug.DrawLine(pecho.transform.position, pecho.transform.position + pecho.transform.forward, Color.green);*/
+
 
 
         }
