@@ -103,12 +103,12 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Left), new BehaviourParams(4, 2));
 
 
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.ExtensiónDeCaderaEnProno + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
+        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.RetracciónEscapularEnBípedoConFlexiónDeTronco_90_BIPEDO + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
            + (int)Limb.Right + "}, \"Caller\": 1}");
     }
     public void testRun()
     {
-        string s = "{\"Angle\":15,\"ForwardSpeed\":1.2,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":0}";
+        string s = "{\"Angle\":45,\"ForwardSpeed\":1.2,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":0}";
         RunExerciseWeb(s);
         //RunExercise();
         //RunExerciseWebWithoutParams();

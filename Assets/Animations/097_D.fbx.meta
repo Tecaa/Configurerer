@@ -144,7 +144,7 @@ ModelImporter:
       name: 097_D
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 106
+      lastFrame: 80
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -270,7 +270,7 @@ ModelImporter:
       name: 097_I
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 106
+      lastFrame: 80
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

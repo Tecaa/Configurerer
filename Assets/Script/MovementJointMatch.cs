@@ -48,12 +48,12 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.DesplazamientoLateralConPaso100, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoSagital));
          * */
 
-        //TODO: Falta artculacion cadera
+
         
         movementJointMatch.Add(new MovementLimbKey(Movement.AbducciónDeCaderaEnDecúbitoLateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoHorizontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.AbducciónDeCaderaEnDecúbitoLateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoHorizontal));
         
-         //TODO: Falta artculacion hombro
+
         movementJointMatch.Add(new MovementLimbKey(Movement.AducciónResistidaEnPlanoEscapular, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.AducciónResistidaEnPlanoEscapular, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.BrazoDerecho, Plano.planos.planoFrontal));
         
@@ -68,7 +68,7 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.DesplazamientoLateralConSalto_50, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.DesplazamientoLateralConSalto_25, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
 
-        //TODO: Falta artculacion hombro
+
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.BrazoDerecho, Plano.planos.planoFrontal));
         
@@ -78,7 +78,6 @@ public static class MovementJointMatch
 
         //movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónEnPuntaDePies, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
 
-        //TODO: Falta articulación hombro
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.BrazoDerecho, Plano.planos.planoFrontal));
 
@@ -112,7 +111,6 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaLateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaLateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.RodillaDerecha, Plano.planos.planoSagital));
 
-        //TODO: Falta joint cadera
         
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeCaderaEnProno, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoHorizontalAcostado));
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeCaderaEnProno, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoHorizontalAcostado));
@@ -158,7 +156,7 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeRodillasConRodillo_Bilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeRodillasEnSedente_Bilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
 
-        //TODO: Falta joint cadera
+
         
         movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeCaderaEnSupino, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeCaderaEnSupino, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoSagital));
@@ -186,7 +184,7 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeHombrosConExtensiónDeCodosEnBípedo_Bilateral_45, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.CodoIzquierdo, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeHombrosConExtensiónDeCodosEnBípedo_Bilateral_90, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.CodoIzquierdo, Plano.planos.planoSagital));
 
-        //TODO: Falta joint hombro
+
         
         movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeHombrosEnBípedoConBastón_Bilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoSagital));
         
@@ -221,30 +219,30 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnBípedo, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnBípedo, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.PiernaDerecha, Plano.planos.planoSagital));
 
-        //TODO: Falta joint de hombro
+
         
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoSagital));
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.HombroDerecho, Plano.planos.planoSagital));
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.AnteBrazoDerecho, Plano.planos.planoHorizontalAcostado));
         
 
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnSupinoConBastónT_Unilateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoSagital));
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnSupinoConBastónT_Unilateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoSagital));
-        
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombrosEnSupino_Bilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoSagital));
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnSupinoConBastónT_Unilateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombroEnSupinoConBastónT_Unilateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.AnteBrazoDerecho, Plano.planos.planoHorizontalAcostado));
+
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónExternaDeHombrosEnSupino_Bilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
         //
 
         movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnBípedo, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnBípedo, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.HombroDerecho, Plano.planos.planoSagital));
 
-        //TODO: Falta joint hombro
-        
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoSagital));
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.HombroDerecho, Plano.planos.planoSagital));
 
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnSupinoConBastónT_Unilateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoSagital));
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnSupinoConBastónT_Unilateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.HombroDerecho, Plano.planos.planoSagital));
         
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombrosEnSupino_Bilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoSagital));
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.AnteBrazoDerecho, Plano.planos.planoHorizontalAcostado));
+
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnSupinoConBastónT_Unilateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombroEnSupinoConBastónT_Unilateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.AnteBrazoDerecho, Plano.planos.planoHorizontalAcostado));
+        
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónInternaDeHombrosEnSupino_Bilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
         //
 
         movementJointMatch.Add(new MovementLimbKey(Movement.SaltoBipodal_EXT_ROD, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoSagital));

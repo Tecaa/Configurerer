@@ -41,6 +41,8 @@ namespace Assets
             Vector3 proyBrazoHorizontal = Vector3.Dot(segmento, nSagital) * nSagital + Vector3.Dot(segmento, nFrontal) * nFrontal;
 
 
+            AngleHorizontalAcostado = Mathf.Asin(Vector3.Dot(segmento.normalized, Vector3.up));
+            AngleHorizontalAcostado = AngleHorizontalAcostado * 180.0f / Mathf.PI;
 
             var cruzHorizontal = Vector3.Cross(proyBrazoHorizontal, nFrontal);
             AngleHorizontal = Vector3.Angle(proyBrazoHorizontal, nFrontal) * (cruzHorizontal.x / Mathf.Abs(cruzHorizontal.x));

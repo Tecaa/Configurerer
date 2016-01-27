@@ -139,8 +139,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 206_D
       takeName: Take 001
-      firstFrame: 0
-      lastFrame: 516
+      firstFrame: 23
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -263,8 +263,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 206_I
       takeName: Take 001
-      firstFrame: 1
-      lastFrame: 516
+      firstFrame: 23
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
