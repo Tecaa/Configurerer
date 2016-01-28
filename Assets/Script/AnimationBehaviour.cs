@@ -15,7 +15,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     public event EventHandler RepetitionReallyStart;
     public Movement movement;
     public Limb limb;
-    [HideInInspector]
     public Laterality execution;
     [HideInInspector]
     public Animator animator;
@@ -133,7 +132,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     
     public void PrepareWeb() {
         this.isWeb = true;
-        if(this.execution == Laterality.Single)
+        if(IsInterleaved)
             this._Opposite.isWeb = true;
         PrepareWebInternal(); 
     }

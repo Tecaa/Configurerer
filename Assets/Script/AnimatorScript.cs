@@ -75,7 +75,7 @@ public class AnimatorScript : MonoBehaviour
         CurrentExercise.PropertyChanged += currentExercise_PropertyChanged;
 
         /////////   INICIO CODIGO DE TESTEO //////////
-        Invoke("testPrepare", 1);
+        //Invoke("testPrepare", 1);
 
         //Invoke("testRun", 12);
 
@@ -103,7 +103,7 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Left), new BehaviourParams(4, 2));
 
 
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.RetracciónEscapularEnBípedoConFlexiónDeTronco_90_BIPEDO + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
+        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.FlexiónDeCodoEnBípedo_Unilateral_90 + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
            + (int)Limb.Right + "}, \"Caller\": 1}");
     }
     public void testRun()

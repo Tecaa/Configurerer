@@ -75,7 +75,7 @@ namespace Assets
 
             Debug.DrawLine(hombro.transform.position, codo.transform.position, Color.cyan);
 
-            if(articulacion == ArticulacionType.MusloDerecha)
+            if(articulacion == ArticulacionType.BrazoDerecho)
             {
                 GameObject.FindGameObjectWithTag("anguloFrontal").GetComponent<Text>().text = "Angulo Frontal : " + AngleFrontal;
 

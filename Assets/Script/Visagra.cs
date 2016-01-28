@@ -20,9 +20,8 @@ namespace Assets
             Vector3 vectorInicial = inicio.transform.position - centro.transform.position;
             Vector3 vectorFinal = fin.transform.position - centro.transform.position;
 
-            AngleSagital = Vector3.Angle(vectorInicial, vectorFinal) * -1 + 180; 
+            AngleSagital = Vector3.Angle(vectorInicial, vectorFinal) * -1 + 180;
 
-            
             base.Update();
         }
 
