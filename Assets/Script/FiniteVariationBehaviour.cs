@@ -67,7 +67,8 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     {
         BehaviourParams lp = (BehaviourParams)bp;
         this._RealLerpParams = lp;
-        // this._behaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+        this._behaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+        OnRepetitionEnd();
         friendsBehaviours = new List<AnimationBehaviour>();
         foreach (Exercise ex in bp.Variations)
         {
@@ -236,9 +237,10 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                     OnLerpRoundTripEnd();
                     if (!IsInterleaved || (IsInterleaved && limb == Limb.Right))
                     {
-                        SetNextVariation();
+                        
                         OnRepetitionEnd();
-
+                        DebugLifeware.Log("Se viene x", DebugLifeware.Developer.Marco_Rojas);
+                        SetNextVariation();
 
                         if (!this.isWeb)
                         {
