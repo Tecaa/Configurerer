@@ -16,6 +16,8 @@ public class FiniteVariationBehaviour : AnimationBehaviour {
     public List<Exercise> randomAnimations;
     [HideInInspector]
     public uint actualRandomAnimationIndex;
+    [HideInInspector]
+    private List<AnimationBehaviour> friendsBehaviours;
     public void SetLerpBehaviourState(AnimationBehaviourState lbs)
     {
         Debug.LogWarning("SetLerpBehaviour : " + lbs);
@@ -41,29 +43,56 @@ public class FiniteVariationBehaviour : AnimationBehaviour {
     override public void Prepare(BehaviourParams sp)
     {
         this._RealLerpParams = sp;
-        this._behaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
-
-        this.setRandomAnimations(this.GetRandomAnimations(), 0);
+        //this._behaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+        friendsBehaviours = new List<AnimationBehaviour>();
+        foreach(Exercise ex in sp.Variations)
+        {
+            friendsBehaviours.Add(AnimationBehaviour.GetBehaviour(ex.Movement, ex.Limb));
+        }
+        this.initializeRandomAnimations(this.GetRandomAnimations(sp.Variations));
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
     }
 
-    private void setRandomAnimations(List<Exercise> animations, uint index)
+    private void initializeRandomAnimations(List<Exercise> animations)
     {
         List<AnimationBehaviour> abs = AnimationBehaviour.GetBehaviours(this.movement);
         foreach(FiniteVariationBehaviour ab in abs)
         {
             ab.randomAnimations = animations;
-            ab.actualRandomAnimationIndex = index;
+            ab.actualRandomAnimationIndex = 0;
+            ab.friendsBehaviours = this.friendsBehaviours;
         }
     }
 
-    private List<Exercise> GetRandomAnimations()
+    private void SetNextVariation()
+    {
+        List<AnimationBehaviour> abs = AnimationBehaviour.GetBehaviours(this.movement);
+        uint temp = actualRandomAnimationIndex + 1;
+        foreach (FiniteVariationBehaviour ab in abs)
+        {
+            ab.actualRandomAnimationIndex = temp;
+        }
+    }
+
+    private List<Exercise> GetRandomAnimations(List<Exercise> exs)
     {
         List<Exercise> random = new List<Exercise>();
-        random.Add(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left));
-        random.Add(new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left));
-        random.Add(new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left));
+
+        exs.AddRange(exs);
+        exs.AddRange(exs);
+
+        System.Random r = new System.Random(1);
+        int rval;
+        int actualCount = exs.Count;
+        while(exs.Count>0)
+        {
+            rval = r.Next() % actualCount;
+            --actualCount;
+            random.Add(exs[rval]);
+            exs.RemoveAt(rval);
+        }
+    
         return random;
     }
 
@@ -212,6 +241,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour {
                     animator.SetTrigger("ChangeLimb");
                 }
                 OnRepetitionEnd();
+                SetNextVariation();
                 if (!this.isWeb && _behaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     this.PauseAnimation();
                 if (_behaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
@@ -231,8 +261,9 @@ public class FiniteVariationBehaviour : AnimationBehaviour {
     }
 
 
-	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         animator.speed = 1.0f;
 	}
 

@@ -220,3 +220,84 @@ public enum AnimationBehaviourState
     RUNNING_WITH_PARAMS,
     INITIAL_POSE
 }
+public class BehaviourParams //: BehaviourParams
+{
+    public float Angle, ForwardSpeed, BackwardSpeed;
+    public const float DEFAULT_TIME = 1.0f;
+    public int SecondsBetweenRepetitions = 1;
+    public int SecondsInPose = 1;
+    public List<Exercise> Variations;
+
+    public BehaviourParams()
+    {
+
+    }
+
+    /// <summary>
+    /// Constructor usable en StayInPoseBehaviour?
+    /// </summary>
+    /// <param name="_secondsInPose"></param>
+    /// <param name="_secondsBetweenReps"></param>
+    public BehaviourParams(int _secondsInPose, int _secondsBetweenReps)
+    {
+        SecondsBetweenRepetitions = _secondsBetweenReps;
+        SecondsInPose = _secondsInPose;
+    }
+
+    /// <summary>
+    /// Constructor para FiniteBehaviour?
+    /// </summary>
+    /// <param name="_secondsBetweenReps"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    public BehaviourParams(int _secondsBetweenReps, float _forwardSpeed, float _backwardSpeed)
+    {
+        SecondsBetweenRepetitions = _secondsBetweenReps;
+        ForwardSpeed = _forwardSpeed;
+        BackwardSpeed = _backwardSpeed;
+    }
+
+    /// <summary>
+    /// Constructor para FiniteVariationBehaviour
+    /// </summary>
+    /// <param name="_secondsBetweenReps"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    public BehaviourParams(List<Exercise> _variations, int _secondsBetweenReps, float _forwardSpeed, float _backwardSpeed)
+    {
+        SecondsBetweenRepetitions = _secondsBetweenReps;
+        ForwardSpeed = _forwardSpeed;
+        BackwardSpeed = _backwardSpeed;
+        Variations = _variations;
+    }
+
+    /// <summary>
+    /// Constructor usable en LerpBehaviour
+    /// </summary>
+    /// <param name="_angle"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    /// <param name="_secondsBetweenReps"></param>
+    public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsBetweenReps)
+    {
+        Angle = _angle;
+        ForwardSpeed = _forwardSpeed;
+        BackwardSpeed = _backwardSpeed;
+        SecondsBetweenRepetitions = _secondsBetweenReps;
+        SecondsInPose = 0;
+    }
+
+    /// <summary>
+    /// Constructor general
+    /// </summary>
+    /// <param name="_angle"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    /// <param name="_secondsInPose"></param>
+    /// <param name="_secondsBetweenReps"></param>
+    public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsInPose, int _secondsBetweenReps)
+        : this(_angle, _forwardSpeed, _backwardSpeed, _secondsBetweenReps)
+    {
+        SecondsInPose = _secondsInPose;
+    }
+}
