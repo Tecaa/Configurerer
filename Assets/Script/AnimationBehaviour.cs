@@ -33,6 +33,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 this._Opposite.IsInterleaved = IsInterleaved;
         }
     }
+    [HideInInspector]
     public bool isWeb = false;
     
     private AnimationBehaviour _opposite;

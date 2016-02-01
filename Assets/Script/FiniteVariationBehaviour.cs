@@ -6,13 +6,15 @@ using System.Collections.Generic;
 using System.Threading;
 
 /// <summary>
-/// MPX state machine
+/// Discreto con variación state machine
 /// </summary>
-public class StayInRandomPoseBehaviour : AnimationBehaviour {
+public class FiniteVariationBehaviour : AnimationBehaviour {
 
     enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
     private StayInPoseState stayInPoseState;
+    [HideInInspector]
     public List<Exercise> randomAnimations;
+    [HideInInspector]
     public uint actualRandomAnimationIndex;
     public void SetLerpBehaviourState(AnimationBehaviourState lbs)
     {
@@ -49,7 +51,7 @@ public class StayInRandomPoseBehaviour : AnimationBehaviour {
     private void setRandomAnimations(List<Exercise> animations, uint index)
     {
         List<AnimationBehaviour> abs = AnimationBehaviour.GetBehaviours(this.movement);
-        foreach(StayInRandomPoseBehaviour ab in abs)
+        foreach(FiniteVariationBehaviour ab in abs)
         {
             ab.randomAnimations = animations;
             ab.actualRandomAnimationIndex = index;
@@ -276,7 +278,7 @@ public class StayInRandomPoseBehaviour : AnimationBehaviour {
     {
 
         _behaviourState = AnimationBehaviourState.STOPPED;
-        if ((_Opposite as StayInRandomPoseBehaviour)._behaviourState != AnimationBehaviourState.STOPPED)
+        if ((_Opposite as FiniteVariationBehaviour)._behaviourState != AnimationBehaviourState.STOPPED)
             _Opposite.Stop();
 
         animator.speed = 1;
