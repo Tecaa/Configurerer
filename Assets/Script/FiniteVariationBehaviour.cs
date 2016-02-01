@@ -1,63 +1,88 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Assets;
 using System;
-using Assets;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 
-/// <summary>
-/// Discreto con variación state machine
-/// </summary>
-public class FiniteVariationBehaviour : AnimationBehaviour {
-
-    enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
-    private StayInPoseState stayInPoseState;
+public class FiniteVariationBehaviour : AnimationBehaviour
+{
+    /// <summary>
+    /// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
+    /// </summary>
+    public bool haCambiadoDeEstado = false;
     [HideInInspector]
     public List<Exercise> randomAnimations;
     [HideInInspector]
     public uint actualRandomAnimationIndex;
     [HideInInspector]
     private List<AnimationBehaviour> friendsBehaviours;
-    public void SetLerpBehaviourState(AnimationBehaviourState lbs)
+    private event EventHandler LerpRoundTripEnd;
+    /// <summary>
+    /// Se utiliza para enviar datos a ExerciseDataGenerator en intervalos de tiempo determinados.
+    /// El tiempo que ha pasado desde que se hizo la última captura de datos.
+    /// </summary>
+    private float timeSinceCapture = 0;
+    protected void OnLerpRoundTripEnd()
     {
-        Debug.LogWarning("SetLerpBehaviour : " + lbs);
-        this._behaviourState = lbs;
+        EventHandler eh = LerpRoundTripEnd;
+        if (eh != null)
+        {
+            eh(this, new EventArgs());
+        }
     }
-    public DateTime? endRepTime = null;
-    private List<AnimationInfo> _timeAndAngles;
 
-    /// <summary>
-    /// Tiempo que demora acelerar o desacelerar el movimiento concéntrico
-    /// </summary>
-    private float timeTakenDuringForwardLerp = 1f;
+    void LerpBehaviour_LerpRoundTripEnd(object sender, EventArgs e)
+    {
+        endRepTime = DateTime.Now;
+        if (IsInterleaved && this.limb == Limb.Right)
+        {
+            (this._Opposite as FiniteBehaviour).endRepTime = endRepTime;
+        }
+    }
 
-    /// <summary>
-    /// Tiempo que demora acelerar o desacelerar el movimiento excéntrico
-    /// </summary>
-    private float timeTakenDuringBackwardLerp = 1f;
     public BehaviourParams GetParams()
     {
         return this._actualLerpParams;
     }
-
-    override public void Prepare(BehaviourParams sp)
+    protected override AnimationBehaviourState _BehaviourState
     {
-        this._RealLerpParams = sp;
-        //this._behaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+        get { return this._behaviourState; }
+        set
+        {
+            this._behaviourState = value;
+            switch (value)
+            {
+                case AnimationBehaviourState.RUNNING_DEFAULT:
+                case AnimationBehaviourState.RUNNING_WITH_PARAMS:
+                    animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+                    break;
+                case AnimationBehaviourState.PREPARING_WITH_PARAMS:
+                    //StartLerp();
+                    break;
+            }
+        }
+    }
+
+    override public void Prepare(BehaviourParams bp)
+    {
+        BehaviourParams lp = (BehaviourParams)bp;
+        this._RealLerpParams = lp;
+        // this._behaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
         friendsBehaviours = new List<AnimationBehaviour>();
-        foreach(Exercise ex in sp.Variations)
+        foreach (Exercise ex in bp.Variations)
         {
             friendsBehaviours.Add(AnimationBehaviour.GetBehaviour(ex.Movement, ex.Limb));
         }
-        this.initializeRandomAnimations(this.GetRandomAnimations(sp.Variations));
+        this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
+
     }
 
     private void initializeRandomAnimations(List<Exercise> animations)
     {
         List<AnimationBehaviour> abs = AnimationBehaviour.GetBehaviours(this.movement);
-        foreach(FiniteVariationBehaviour ab in abs)
+        foreach (FiniteVariationBehaviour ab in abs)
         {
             ab.randomAnimations = animations;
             ab.actualRandomAnimationIndex = 0;
@@ -67,12 +92,14 @@ public class FiniteVariationBehaviour : AnimationBehaviour {
 
     private void SetNextVariation()
     {
-        List<AnimationBehaviour> abs = AnimationBehaviour.GetBehaviours(this.movement);
+        //List<AnimationBehaviour> abs = AnimationBehaviour.GetBehaviours(this.movement);
         uint temp = actualRandomAnimationIndex + 1;
-        foreach (FiniteVariationBehaviour ab in abs)
+        foreach (FiniteVariationBehaviour ab in this.friendsBehaviours)
         {
             ab.actualRandomAnimationIndex = temp;
         }
+        AnimatorScript.instance.CurrentExercise = this.randomAnimations[(int)this.actualRandomAnimationIndex];
+        DebugLifeware.Log(this.actualRandomAnimationIndex, DebugLifeware.Developer.Alfredo_Gallardo);
     }
 
     private List<Exercise> GetRandomAnimations(List<Exercise> exs)
@@ -85,242 +112,209 @@ public class FiniteVariationBehaviour : AnimationBehaviour {
         System.Random r = new System.Random(1);
         int rval;
         int actualCount = exs.Count;
-        while(exs.Count>0)
+        while (exs.Count > 0)
         {
             rval = r.Next() % actualCount;
             --actualCount;
             random.Add(exs[rval]);
             exs.RemoveAt(rval);
         }
-    
+
         return random;
     }
-
     private void _Opposite_RepetitionEnd(object sender, EventArgs e)
     {
         OnRepetitionEnd();
     }
     override protected void PrepareWebInternal()
     {
-
-        this._behaviourState = AnimationBehaviourState.PREPARING_WEB;
-        if (IsInterleaved)
-            this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
-
+        this._BehaviourState = AnimationBehaviourState.PREPARING_WEB;
     }
     override public void Run()
     {
         endRepTime = null;
-        Debug.Log("Tirando Run");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
         }
-
-        this._behaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-
+        this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
+        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
+        this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
     }
+
 
     override public void RunWeb()
     {
         endRepTime = null;
-        Debug.Log("Tirando RunWeb");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_DEFAULT);
         }
-
-        this._behaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
+        this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
+        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
+        this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
     }
-    override public void RunWeb(BehaviourParams stayInParams)
+    override public void RunWeb(BehaviourParams bp)
     {
+
+        BehaviourParams lerpParams = (BehaviourParams)bp;
         endRepTime = null;
-
-        Debug.Log("Tirando RunWebWithParams");
-        if (this.IsInterleaved)
-        {
-            this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
-        }
-
-        this._behaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-	
-
-        this._RealLerpParams = stayInParams;
+        this._RealLerpParams = lerpParams;
+        this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
+        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
+        this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
     }
-    
 
-    
-	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    private float defaultAnimationLength;
-    private float startAnimationTime;
-	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (this._actualLerpParams == null)
-            this._actualLerpParams = new BehaviourParams();
-        if(this._realLerpParams == null)
+        if (this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
-            this._realLerpParams = new BehaviourParams();
-        }
-        if (_behaviourState == AnimationBehaviourState.PREPARING_WEB)
-        {
-            Debug.Log("onrep end");
             OnRepetitionEnd();
-            this.Stop();
-
+            Stop();
         }
-
-        defaultAnimationLength = stateInfo.length;
-        startAnimationTime = Time.time;
-    
-        //Está la animación en caché
-        if (PreparedExercises.tryGetPreparedExercise(new Exercise(movement, execution, limb), out this._timeAndAngles, stateInfo.length))
+        else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS
+            || this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
-            //Repetición de preparación
-           
+            //Como en este behaviour se utiliza animation.Play para cada repetición, se entra más de una vez al metodo OnStateEnter, 
+            //por lo que si ya se ha entrado alguna vez, la velocidad se asigna como 0 para que se respete el tiempo entre ejecución 
+            //antes de comenzar la siguiente repetición.
+            if (haCambiadoDeEstado)
+                animator.speed = 0;
+            else
+            {
+                //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
+                animator.speed = this._RealLerpParams.ForwardSpeed;
+            }
         }
-        //No está la animación en caché
-        else
+        if (!haCambiadoDeEstado)
         {
-        }
-	}
-    void LerpBehaviour_LerpRoundTripEnd(object sender, EventArgs e)
-    {
-        endRepTime = DateTime.Now;
-        if (IsInterleaved)
-        {
-            (this._Opposite as StayInPoseBehaviour).endRepTime = endRepTime;
+            haCambiadoDeEstado = true;
         }
     }
 
-    //private bool ReadyToLerp = false;
-    float startHoldTime;
-    float startRestTime;
-	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
 
-        if (this._behaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        timeSinceCapture += Time.deltaTime;
+        if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             animator.speed = 0;
             return;
         }
-
-        float DELTA = 0.05f;
-        if (_behaviourState != AnimationBehaviourState.STOPPED)
+        const float INTERVAL = 0.1f;
+        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
         {
-            if (stayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
-            {
-                DebugLifeware.Log("Manteniendo", DebugLifeware.Developer.Marco_Rojas);
-             
-                animator.speed = 0;
-                startHoldTime = Time.time;
-                stayInPoseState = StayInPoseState.HoldingOn;
-                //Esperar
-            }
-
-
-            //Si ya pasó el tiempo en el ángulo máximo
-            else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _realLerpParams.SecondsInPose)
-            {
-                DebugLifeware.Log("Para atrás", DebugLifeware.Developer.Marco_Rojas);
-                animator.StartRecording(0);
-                animator.speed = -1;
-                animator.StopRecording();
-                stayInPoseState = StayInPoseState.Leaving;
-            }
-
-            else if (stayInPoseState == StayInPoseState.Leaving && Math.Abs(stateInfo.normalizedTime - 0) <= DELTA)
-            {
-                animator.speed = 0;
-                stayInPoseState = StayInPoseState.Resting;
-                startRestTime = Time.time;
-                if (IsInterleaved)
-                    DebugLifeware.Log("va a cambiar el limb", DebugLifeware.Developer.Marco_Rojas);
-                if (IsInterleaved)
-                {
-                    DebugLifeware.Log("cambiando limb", DebugLifeware.Developer.Marco_Rojas);
-                    animator.SetTrigger("ChangeLimb");
-                }
-                OnRepetitionEnd();
-                SetNextVariation();
-                if (!this.isWeb && _behaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
-                    this.PauseAnimation();
-                if (_behaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
-                    _behaviourState = AnimationBehaviourState.STOPPED;
-            
-            }
-
-            else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime >= _realLerpParams.SecondsBetweenRepetitions)
-            {
-                DebugLifeware.Log("descansando", DebugLifeware.Developer.Marco_Rojas);
-                animator.speed = 1;
-                stayInPoseState = StayInPoseState.GoingTo;
-            }
-            DebugLifeware.Log("termino", DebugLifeware.Developer.Marco_Rojas);
+            timeSinceCapture = timeSinceCapture - INTERVAL;
+            //if (exerciseDataGenerator == null)
+            //    exerciseDataGenerator = GameObject.FindObjectOfType<ExerciseDataGenerator>();
+            //TODO: rescatar de base de datos o diccionario
+            //TODO: rescatar captureData
+            //DebugLifeware.Log("grabando frame ", DebugLifeware.Developer.Marco_Rojas);
+            //if (this.exerciseDataGenerator != null)
+            //    this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.BoundingBoxBased);
         }
-        
-    }
 
+        DateTime temp = DateTime.Now;
+
+        if ((_BehaviourState != AnimationBehaviourState.STOPPED && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
+    && (endRepTime == null || new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= temp - endRepTime))
+        {
+
+            if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
+                this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
+                this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
+                this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
+            {
+                OnRepetitionReallyStart();
+                beginRep = true;
+            }
+            if (stateInfo.normalizedTime >= 1.0f && haCambiadoDeEstado)
+            {
+                beginRep = false;
+                if (this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+                {
+                    OnLerpRoundTripEnd();
+                    if (!IsInterleaved || (IsInterleaved && limb == Limb.Right))
+                    {
+                        SetNextVariation();
+                        OnRepetitionEnd();
+
+
+                        if (!this.isWeb)
+                        {
+                            this.PauseAnimation();
+                        }
+                    }
+                    if (IsInterleaved)
+                    {
+                        haCambiadoDeEstado = false;
+                        animator.SetTrigger("ChangeLimb");
+                    }
+                    if (!IsInterleaved && this.isWeb)
+                    {
+                        animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+                    }
+                    if (this._BehaviourState == AnimationBehaviourState.STOPPED)
+                    {
+                        endRepTime = null;
+                    }
+                }
+                else if (this._behaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
+                {
+                    OnRepetitionEnd();
+                    Stop();
+                }
+
+            }
+            else
+            {
+                if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+                {
+                    if (stateInfo.normalizedTime <= 0.5f)
+                    {
+                        animator.speed = this._RealLerpParams.ForwardSpeed;
+                    }
+                    else
+                    {
+                        animator.speed = this._RealLerpParams.BackwardSpeed;
+                    }
+                }
+            }
+        }
+    }
 
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        animator.speed = 1.0f;
-	}
-
-	
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        // animator.speed = 1.0f;
+    }
 
     /// <summary>
-    /// Obtiene el intervalo de tiempo en segundos y el ángulo más cercano al entregado por parámetro
+    /// Detiene la interpolación que actualmente se está ejecutando
     /// </summary>
-    /// <param name="angle">Ángulo que se quiere buscar en la lista de frames</param>
-    /// <param name="aiList">Lista de AnimationInfo que representan el tiempo en segundos y el ángulo en cada frame</param>
-    /// <returns>Retorna una AnimationInfo que contiene el tiempo y el ángulo encontrado más cercano al solicitado</returns>
-    AnimationInfo GetAnimationInfo(float angle, List<AnimationInfo> aiList)
-    {
-        //TODO: Quizás se pueda mejorar
-        List<AnimationInfo> aiListTemp = aiList.GetRange(1, (int)aiList.Count / 2);
-        aiListTemp.Reverse();
-        AnimationInfo aiTemp = new AnimationInfo(float.MaxValue, float.MaxValue);
-        bool wasNear = false;
-        foreach (AnimationInfo ai in aiListTemp)
-        {
-            float dif = Math.Abs(ai.angle - angle);
-            if ((dif <= 3) && !wasNear)
-            {
-                wasNear = true;
-            }
-            else if ((dif > 3) && wasNear)
-            {
-                return aiTemp;
-            }
-
-            if (dif < Math.Abs(aiTemp.angle - angle))
-                aiTemp = ai;
-            else
-                continue;
-        }
-
-        return aiTemp;
-    }
-
-
-
-    public override void Stop()
-    {
-
-        _behaviourState = AnimationBehaviourState.STOPPED;
-        if ((_Opposite as FiniteVariationBehaviour)._behaviourState != AnimationBehaviourState.STOPPED)
+    override public void Stop()
+    {/*
+        this._BehaviourState = AnimationBehaviourState.STOPPED;
+        if ((_Opposite as FiniteBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
             _Opposite.Stop();
 
-        animator.speed = 1;
-        stayInPoseState = StayInPoseState.Resting;
-
+        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;*/
+        //this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
+        _BehaviourState = AnimationBehaviourState.STOPPED;
+        animator.speed = 1;
+
     }
+
     void OnDestroy()
     {
         if (this.IsInterleaved)
             this._Opposite.RepetitionEnd -= _Opposite_RepetitionEnd;
+
+        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
+
         base.OnDestroy();
     }
+
 }
