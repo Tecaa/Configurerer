@@ -100,18 +100,19 @@ public class AnimatorScript : MonoBehaviour
                 
         //PrepareExercise(new Exercise(Movement.EstocadaFrontalCortaConTorsiónDeTronco_60, Laterality.Single, Limb.Interleaved), new BehaviourParams(70, 1.5f, 0.4f, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1.5f, 0.4f, 3));
-        //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Left), new BehaviourParams(4, 2));
+        
+        //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
 
 
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.FlexiónDeCodoEnBípedo_Unilateral_90 + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
+        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaMantenerPose + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
            + (int)Limb.Right + "}, \"Caller\": 1}");
     }
     public void testRun()
     {
-        string s = "{\"Angle\":45,\"ForwardSpeed\":1.2,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":0}";
-        RunExerciseWeb(s);
+        //string s = "{\"Angle\":45,\"ForwardSpeed\":1.2,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
+        //RunExerciseWeb(s);
         //RunExercise();
-        //RunExerciseWebWithoutParams();
+        RunExerciseWebWithoutParams();
     }
     public void testResume()
     {
@@ -227,7 +228,7 @@ public class AnimatorScript : MonoBehaviour
 
     public void RunExercise()
     {
-        DebugLifeware.Log("Comienza el run", DebugLifeware.Developer.Marco_Rojas);
+        //DebugLifeware.Log("Comienza el run", DebugLifeware.Developer.Marco_Rojas);
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.Run();
         RewindExercise();
@@ -238,7 +239,6 @@ public class AnimatorScript : MonoBehaviour
     void behaviour_RepetitionReallyStart(object sender, EventArgs e)
     {
         RaiseEvent(OnRepetitionReallyStart);
-        DebugLifeware.Log("Repetition has really ended.", DebugLifeware.Developer.Alfredo_Gallardo);
     }
 
     public void ResumeExercise()

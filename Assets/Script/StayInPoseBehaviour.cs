@@ -9,13 +9,13 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
     enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
     private StayInPoseState stayInPoseState;
- 
+    public bool haCambiadoDeEstado = false;
     public void SetLerpBehaviourState(AnimationBehaviourState lbs)
     {
         Debug.LogWarning("SetLerpBehaviour : " + lbs);
         this._behaviourState = lbs;
     }
-    public DateTime? endRepTime = null;
+    //public DateTime? endRepTime = null;
     private List<AnimationInfo> _timeAndAngles;
 
     /// <summary>
@@ -54,7 +54,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     override public void Run()
     {
         endRepTime = null;
-        Debug.Log("Tirando Run");
+        //Debug.Log("Tirando Run");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
@@ -66,7 +66,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     override public void RunWeb()
     {
         endRepTime = null;
-        Debug.Log("Tirando RunWeb");
+        //Debug.Log("Tirando RunWeb");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_DEFAULT);
@@ -78,7 +78,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     {
         endRepTime = null;
 
-        Debug.Log("Tirando RunWebWithParams");
+        //Debug.Log("Tirando RunWebWithParams");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
@@ -103,7 +103,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
         if (_behaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
-            Debug.Log("onrep end");
+            //Debug.Log("onrep end");
             OnRepetitionEnd();
             this.Stop();
 
@@ -148,6 +148,11 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                 throw new Exception("Animation not prepared");
             }*/
         }
+
+        if (!haCambiadoDeEstado)
+        {
+            haCambiadoDeEstado = true;
+        }
 	}
     void LerpBehaviour_LerpRoundTripEnd(object sender, EventArgs e)
     {
@@ -175,9 +180,19 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
 
         float DELTA = 0.05f;
-        if (_behaviourState != AnimationBehaviourState.STOPPED)
+
+        DateTime temp = DateTime.Now;
+
+        //if(endRepTime == null)
+        //{
+        //    DebugLifeware.Log("asddsa", DebugLifeware.Developer.Alfredo_Gallardo    );
+        //}
+        if (_behaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
-            if (!beginRep)
+            if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
+                this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
+                this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
+                this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
                 OnRepetitionReallyStart();
                 beginRep = true;
@@ -185,7 +200,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 //            Debug.Log(stayInPoseState + "  " + (Time.time - startRestTime));
             if (stayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
             {
-                DebugLifeware.Log("Manteniendo", DebugLifeware.Developer.Marco_Rojas);
+                //DebugLifeware.Log("Manteniendo", DebugLifeware.Developer.Marco_Rojas);
              
                 animator.speed = 0;
                 startHoldTime = Time.time;
@@ -197,41 +212,43 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             //Si ya pasó el tiempo en el ángulo máximo
             else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _realLerpParams.SecondsInPose)
             {
-                DebugLifeware.Log("Para atrás", DebugLifeware.Developer.Marco_Rojas);
+                //DebugLifeware.Log("Para atrás", DebugLifeware.Developer.Marco_Rojas);
                 animator.StartRecording(0);
                 animator.speed = -1;
                 animator.StopRecording();
                 stayInPoseState = StayInPoseState.Leaving;
             }
 
-            else if (stayInPoseState == StayInPoseState.Leaving && Math.Abs(stateInfo.normalizedTime - 0) <= DELTA)
+            else if (stayInPoseState == StayInPoseState.Leaving && Math.Abs(stateInfo.normalizedTime - 0) <= DELTA && haCambiadoDeEstado)
             {
+                beginRep = false;
                 animator.speed = 0;
                 stayInPoseState = StayInPoseState.Resting;
                 startRestTime = Time.time;
-                if (IsInterleaved)
-                    DebugLifeware.Log("va a cambiar el limb", DebugLifeware.Developer.Marco_Rojas);
-                if (IsInterleaved)
+
+                if (!this.isWeb && _behaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS && (!IsInterleaved || (IsInterleaved && limb == Limb.Right)))
+                    this.PauseAnimation();
+                if (IsInterleaved && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
-                    DebugLifeware.Log("cambiando limb", DebugLifeware.Developer.Marco_Rojas);
+                    //DebugLifeware.Log("cambiando limb", DebugLifeware.Developer.Marco_Rojas);
+                    haCambiadoDeEstado = false;
                     animator.SetTrigger("ChangeLimb");
                 }
                 OnRepetitionEnd();
-                if (!this.isWeb && _behaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
-                    this.PauseAnimation();
+
                 if (_behaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     _behaviourState = AnimationBehaviourState.STOPPED;
-            
+                
             }
 
-            else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime >= _realLerpParams.SecondsBetweenRepetitions)
+            else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime>= _realLerpParams.SecondsBetweenRepetitions)
             {
-                DebugLifeware.Log("descansando", DebugLifeware.Developer.Marco_Rojas);
+                //DebugLifeware.Log("descansando", DebugLifeware.Developer.Marco_Rojas);
                 animator.speed = 1;
                 stayInPoseState = StayInPoseState.GoingTo;
-                beginRep = false;
+
             }
-            DebugLifeware.Log("termino", DebugLifeware.Developer.Marco_Rojas);
+            //DebugLifeware.Log("termino", DebugLifeware.Developer.Marco_Rojas);
         }
         
     }
