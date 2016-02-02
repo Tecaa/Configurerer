@@ -8,7 +8,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     //protected ExerciseDataGenerator exerciseDataGenerator;
     
     public event EventHandler RepetitionEnd;
-
+    public bool CentralNode;
     /// <summary>
     /// Se dispara despues del tiempo entre ejecciones
     /// </summary>
@@ -23,6 +23,8 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     public DateTime? endRepTime = null;
     [HideInInspector]
     public bool beginRep = false;
+    //[HideInInspector]
+    //protected List<AnimationBehaviour> friendsBehaviours;
     public bool IsInterleaved
     {
         get { return _isInterleaved; }
@@ -100,12 +102,19 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     protected AnimationBehaviourState originalABS = AnimationBehaviourState.STOPPED;
     public void ResumeAnimation()
     {
+        AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
+        if (central != null)
+        {
+            this.originalABS = central.originalABS;
+        }
+        
+        Debug.Log("previo2 " + originalABS);
         if (this.IsInterleaved && this.limb == Limb.Left)
         {
             animator.SetTrigger("ChangeLimb");
             this._Opposite.SetBehaviourState(originalABS);
         }
-
+        
         this._BehaviourState = originalABS;
         this.endRepTime = DateTime.Now;
         if (this.IsInterleaved)
@@ -114,10 +123,19 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     public void PauseAnimation(){
         originalABS = this._behaviourState;
+        Debug.Log("previo1 " + originalABS);
+
+        AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
+        if (central != null)
+        {
+            central.originalABS = this._behaviourState;
+        }
+
         this._behaviourState = AnimationBehaviourState.STOPPED;
+        Debug.Log("haciendo vel 0 ......");
         animator.speed = 0;
-        
-        
+
+       
         if (IsInterleaved)
         {
             if (this.limb == Limb.Right)
@@ -175,24 +193,23 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     /// Obtiene todos los behaviours que calcen con el movement
     /// </summary>
     /// <param name="movement"></param>
-    public static List<AnimationBehaviour> GetBehaviours(Movement movement)
+    public static AnimationBehaviour GetCentralBehaviour(Movement movement)
     {
 
         Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
         AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
-        List<AnimationBehaviour> list = new List<AnimationBehaviour>();
         foreach (AnimationBehaviour lb in behaviours)
         {
-            if (lb.movement == movement)
+            if (lb.movement == movement && lb.CentralNode)
             {
                 if (lb.animator == null)
                 {
                     lb.animator = a;
                 }
-                list.Add(lb);
+                return lb;
             }
         }
-        return list;
+        return null;
     }
 
     protected AnimationBehaviourState _behaviourState;

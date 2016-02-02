@@ -9,14 +9,14 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     /// <summary>
     /// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
     /// </summary>
+    [HideInInspector]
     public bool haCambiadoDeEstado = false;
     [HideInInspector]
     public List<Exercise> randomAnimations;
     [HideInInspector]
     public uint actualRandomAnimationIndex;
-    [HideInInspector]
-    private List<AnimationBehaviour> friendsBehaviours;
     private event EventHandler LerpRoundTripEnd;
+
     /// <summary>
     /// Se utiliza para enviar datos a ExerciseDataGenerator en intervalos de tiempo determinados.
     /// El tiempo que ha pasado desde que se hizo la última captura de datos.
@@ -68,12 +68,11 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         BehaviourParams lp = (BehaviourParams)bp;
         this._RealLerpParams = lp;
         this._behaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
-        OnRepetitionEnd();
-        friendsBehaviours = new List<AnimationBehaviour>();
+        /*friendsBehaviours = new List<AnimationBehaviour>();
         foreach (Exercise ex in bp.Variations)
         {
             friendsBehaviours.Add(AnimationBehaviour.GetBehaviour(ex.Movement, ex.Limb));
-        }
+        }*/
         this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
@@ -82,25 +81,20 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
     private void initializeRandomAnimations(List<Exercise> animations)
     {
-        List<AnimationBehaviour> abs = AnimationBehaviour.GetBehaviours(this.movement);
-        foreach (FiniteVariationBehaviour ab in abs)
-        {
-            ab.randomAnimations = animations;
-            ab.actualRandomAnimationIndex = 0;
-            ab.friendsBehaviours = this.friendsBehaviours;
-        }
+        FiniteVariationBehaviour ab = (FiniteVariationBehaviour)AnimationBehaviour.GetCentralBehaviour(this.movement);
+        
+        ab.randomAnimations = animations;
+        ab.actualRandomAnimationIndex = 0;
+        //ab.friendsBehaviours = this.friendsBehaviours;
     }
 
     private void SetNextVariation()
     {
-        //List<AnimationBehaviour> abs = AnimationBehaviour.GetBehaviours(this.movement);
-        uint temp = actualRandomAnimationIndex + 1;
-        foreach (FiniteVariationBehaviour ab in this.friendsBehaviours)
-        {
-            ab.actualRandomAnimationIndex = temp;
-        }
+        FiniteVariationBehaviour ab = (FiniteVariationBehaviour)AnimationBehaviour.GetCentralBehaviour(this.movement);
+       
+        ++ab.actualRandomAnimationIndex;
         AnimatorScript.instance.CurrentExercise = this.randomAnimations[(int)this.actualRandomAnimationIndex];
-        DebugLifeware.Log(this.actualRandomAnimationIndex, DebugLifeware.Developer.Alfredo_Gallardo);
+        DebugLifeware.Log(this.randomAnimations[(int)this.actualRandomAnimationIndex].Movement + " " + this.actualRandomAnimationIndex, DebugLifeware.Developer.Marco_Rojas);
     }
 
     private List<Exercise> GetRandomAnimations(List<Exercise> exs)
@@ -168,7 +162,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
+        if (this._BehaviourState == AnimationBehaviourState.PREPARING_WEB || this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
             OnRepetitionEnd();
             Stop();
@@ -180,7 +174,10 @@ public class FiniteVariationBehaviour : AnimationBehaviour
             //por lo que si ya se ha entrado alguna vez, la velocidad se asigna como 0 para que se respete el tiempo entre ejecución 
             //antes de comenzar la siguiente repetición.
             if (haCambiadoDeEstado)
-                animator.speed = 0;
+            {
+                //animator.speed = 0;
+                //Debug.Log("haciendo vel 0 .");
+            }
             else
             {
                 //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
@@ -194,12 +191,14 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     }
 
 
+
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timeSinceCapture += Time.deltaTime;
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             animator.speed = 0;
+            Debug.Log("haciendo vel 0 ..");
             return;
         }
         const float INTERVAL = 0.1f;
@@ -217,6 +216,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
         DateTime temp = DateTime.Now;
 
+        Debug.Log(_BehaviourState);
         if ((_BehaviourState != AnimationBehaviourState.STOPPED && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
     && (endRepTime == null || new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
@@ -237,10 +237,10 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                     OnLerpRoundTripEnd();
                     if (!IsInterleaved || (IsInterleaved && limb == Limb.Right))
                     {
-                        
-                        OnRepetitionEnd();
+
                         DebugLifeware.Log("Se viene x", DebugLifeware.Developer.Marco_Rojas);
                         SetNextVariation();
+                        OnRepetitionEnd();
 
                         if (!this.isWeb)
                         {
@@ -304,6 +304,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;*/
         //this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
+        Debug.Log("stopeadno");
         _BehaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 1;
 
