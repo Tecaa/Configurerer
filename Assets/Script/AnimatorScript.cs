@@ -102,6 +102,14 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1.5f, 0.4f, 3));
         
         PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
+        DebugLifeware.Log("preparando pos loco", DebugLifeware.Developer.Alfredo_Gallardo);
+        //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
+        PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
+            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
+        }, 0, 1, 1));
 
 
         //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaMantenerPose + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
