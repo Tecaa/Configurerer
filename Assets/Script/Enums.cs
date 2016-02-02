@@ -123,6 +123,10 @@ public enum Movement
     SentadillaMonopodal = 630000,
     PlantiflexiónDeTobilloSedenteEnCamilla = 650000,
 
+    PenduloEnBipedoCon45DeFlexiónDeTronco = 450000,
+    PenduloEnBipedoConFlexiónDe90DeTronco = 460000,
+    PenduloEnProno = 470000,
+
     PruebaMantenerPose = 10
 
 }
