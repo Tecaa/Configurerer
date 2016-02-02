@@ -101,23 +101,23 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.EstocadaFrontalCortaConTorsiónDeTronco_60, Laterality.Single, Limb.Interleaved), new BehaviourParams(70, 1.5f, 0.4f, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1.5f, 0.4f, 3));
         
-        PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
-        DebugLifeware.Log("preparando pos loco", DebugLifeware.Developer.Alfredo_Gallardo);
         //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
-        PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
-            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
-        }, 0, 1, 1));
+
+        PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
+        //PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
+        //    { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
+        //    { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
+        //    { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
+        //    { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
+        //}, 0, 1, 1));
 
 
-        //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaMantenerPose + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
+        //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PenduloEnBipedoCon45DeFlexiónDeTronco + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
         //   + (int)Limb.Right + "}, \"Caller\": 1}");
     }
     public void testRun()
     {
-        //string s = "{\"Angle\":45,\"ForwardSpeed\":1.2,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
+        //string s = "{\"Angle\":45,\"ForwardSpeed\":1.2,\"BackwardSpeed\":0.8,\"SecondsInPose\":5,\"SecondsBetweenRepetitions\":3}";
         //RunExerciseWeb(s);
         RunExercise();
         //RunExerciseWebWithoutParams();
@@ -223,7 +223,7 @@ public class AnimatorScript : MonoBehaviour
         }
         behaviour.RepetitionEnd += behaviour_PrepareEndWeb;
         behaviour.PrepareWeb();
-        CurrentExercise = e;
+        CurrentExercise = e;    
     }
 
     void behaviour_PrepareEndWeb(object sender, EventArgs e)

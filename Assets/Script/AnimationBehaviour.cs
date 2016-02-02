@@ -83,6 +83,11 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     protected void OnRepetitionEnd()
     {
+        //TODO: Fix rapido pero que debe arreglarse ya que el evento se lanza aún cuando se está en modo web.
+        if(this.isWeb && (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB))
+        {
+            return;
+        }
         DebugLifeware.Log("OnRepetitionEnd", DebugLifeware.Developer.Alfredo_Gallardo);        
         EventHandler eh = RepetitionEnd;
         if (eh != null)
@@ -92,6 +97,11 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     protected void OnRepetitionReallyStart()
     {
+        //TODO: Fix rapido pero que debe arreglarse ya que el evento se lanza aún cuando se está en modo web.
+        if (this.isWeb)
+        {
+            return;
+        }
         DebugLifeware.Log("OnRepetitionStart after " + (DateTime.Now - endRepTime), DebugLifeware.Developer.Alfredo_Gallardo);
         EventHandler eh = RepetitionReallyStart;
         if (eh != null)
@@ -108,7 +118,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             this.originalABS = central.originalABS;
         }
         
-        Debug.Log("previo2 " + originalABS);
         if (this.IsInterleaved && this.limb == Limb.Left)
         {
             animator.SetTrigger("ChangeLimb");
@@ -123,7 +132,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     public void PauseAnimation(){
         originalABS = this._behaviourState;
-        Debug.Log("previo1 " + originalABS);
 
         AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
         if (central != null)
@@ -132,7 +140,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
 
         this._behaviourState = AnimationBehaviourState.STOPPED;
-        Debug.Log("haciendo vel 0 ......");
         animator.speed = 0;
 
        

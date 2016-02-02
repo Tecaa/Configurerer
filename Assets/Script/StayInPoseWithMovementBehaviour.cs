@@ -5,7 +5,7 @@ using Assets;
 using System.Collections.Generic;
 using System.Threading;
 
-public class StayInPoseBehaviourWithMovement : AnimationBehaviour {
+public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
     enum StayInPoseState { HoldingOn, Resting }
     private StayInPoseState stayInPoseState;
@@ -92,14 +92,9 @@ public class StayInPoseBehaviourWithMovement : AnimationBehaviour {
         }
         if (_behaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
-            //Debug.Log("onrep end");
             OnRepetitionEnd();
             this.Stop();
-
         }
-
-        defaultAnimationLength = stateInfo.length;
-        startAnimationTime = Time.time;
     
         if (!haCambiadoDeEstado)
         {
@@ -117,12 +112,8 @@ public class StayInPoseBehaviourWithMovement : AnimationBehaviour {
 
     //private bool ReadyToLerp = false;
     float startHoldTime;
-    float startRestTime;
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        /*if (Time.time - startAnimationTime >= defaultAnimationLength)
-            animator.speed = 0;*/
-//        Debug.Log(_behaviourState + GetInstanceID());
 
 
         if (this._behaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
@@ -131,38 +122,43 @@ public class StayInPoseBehaviourWithMovement : AnimationBehaviour {
             return;
         }
 
-        float DELTA = 0.05f;
-
         DateTime temp = DateTime.Now;
 
-        //if(endRepTime == null)
-        //{
-        //    DebugLifeware.Log("asddsa", DebugLifeware.Developer.Alfredo_Gallardo    );
-        //}
         if (_behaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
+
             if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
+
                 OnRepetitionReallyStart();
                 beginRep = true;
+                animator.speed = 1;
                 startHoldTime = Time.time;
                 stayInPoseState = StayInPoseState.HoldingOn;
             }
-            //            Debug.Log(stayInPoseState + "  " + (Time.time - startRestTime));
-
 
             //Si ya pasó el tiempo indicado realizando el movimiento
             if (stayInPoseState == StayInPoseState.HoldingOn && (Time.time - startHoldTime) >= this._RealLerpParams.SecondsInPose )
             {
+                DebugLifeware.Log("Tiempo en pose maxima = " + (Time.time - startHoldTime).ToString(), DebugLifeware.Developer.Alfredo_Gallardo);
                 animator.speed = 0;
                 //startHoldTime = 0;
                 stayInPoseState = StayInPoseState.Resting;
-                OnRepetitionEnd();
-                if (!this.isWeb && _behaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS && (!IsInterleaved || (IsInterleaved && limb == Limb.Right)))
+                beginRep = false;
+                if (!this.isWeb && this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     this.PauseAnimation();
+                else if(this.isWeb && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+                {
+                    endRepTime = DateTime.Now;
+                }
+                if(this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
+                {
+                    this.Stop();
+                }
+                OnRepetitionEnd();
             }
 
 
@@ -258,7 +254,7 @@ public class StayInPoseBehaviourWithMovement : AnimationBehaviour {
     {
 
         _behaviourState = AnimationBehaviourState.STOPPED;
-        if ((_Opposite as StayInPoseBehaviourWithMovement)._behaviourState != AnimationBehaviourState.STOPPED)
+        if ((_Opposite as StayInPoseWithMovementBehaviour)._behaviourState != AnimationBehaviourState.STOPPED)
             _Opposite.Stop();
 
         //this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
