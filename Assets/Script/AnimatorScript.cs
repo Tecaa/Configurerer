@@ -97,10 +97,11 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-
+                
         //PrepareExercise(new Exercise(Movement.EstocadaFrontalCortaConTorsiónDeTronco_60, Laterality.Single, Limb.Interleaved), new BehaviourParams(70, 1.5f, 0.4f, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1.5f, 0.4f, 3));
         //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
+		//PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
         PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
             { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
             { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
@@ -238,7 +239,7 @@ public class AnimatorScript : MonoBehaviour
         }
         behaviour.RepetitionEnd += behaviour_PrepareEndWeb;
         behaviour.PrepareWeb();
-        CurrentExercise = e;
+        CurrentExercise = e;    
     }
 
     void behaviour_PrepareEndWeb(object sender, EventArgs e)

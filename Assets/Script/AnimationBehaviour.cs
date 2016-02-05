@@ -112,6 +112,11 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     protected virtual void OnRepetitionEnd()
     {
+        //TODO: Fix rapido pero que debe arreglarse ya que el evento se lanza aún cuando se está en modo web.
+        if(this.isWeb && (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB))
+        {
+            return;
+        }
         DebugLifeware.Log("OnRepetitionEnd" + " " + this.IsCentralNode, DebugLifeware.Developer.Alfredo_Gallardo | DebugLifeware.Developer.Marco_Rojas);
         EventHandler eh = RepetitionEnd;
         if (eh != null)
@@ -122,6 +127,11 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     protected void OnRepetitionReallyStart()
     {
+        //TODO: Fix rapido pero que debe arreglarse ya que el evento se lanza aún cuando se está en modo web.
+        if (this.isWeb)
+        {
+            return;
+        }
         DebugLifeware.Log("OnRepetitionStart after " + (DateTime.Now - endRepTime), DebugLifeware.Developer.Alfredo_Gallardo);
         EventHandler eh = RepetitionReallyStart;
         if (eh != null)
