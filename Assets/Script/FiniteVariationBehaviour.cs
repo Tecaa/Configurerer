@@ -128,7 +128,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         exs.AddRange(exs);
         exs.AddRange(exs);
 
-        System.Random r = new System.Random(1);
+        System.Random r = new System.Random();
         int rval;
         int actualCount = exs.Count;
         while (exs.Count > 0)
