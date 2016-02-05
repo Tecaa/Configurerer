@@ -148,9 +148,9 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
                 //startHoldTime = 0;
                 stayInPoseState = StayInPoseState.Resting;
                 beginRep = false;
-                if (!this.isWeb && this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
+                if (!this.IsWeb && this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     this.PauseAnimation();
-                else if(this.isWeb && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+                else if(this.IsWeb && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
                     endRepTime = DateTime.Now;
                 }
