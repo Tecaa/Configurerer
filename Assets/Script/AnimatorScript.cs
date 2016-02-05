@@ -100,25 +100,36 @@ public class AnimatorScript : MonoBehaviour
 
         //PrepareExercise(new Exercise(Movement.EstocadaFrontalCortaConTorsiónDeTronco_60, Laterality.Single, Limb.Interleaved), new BehaviourParams(70, 1.5f, 0.4f, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1.5f, 0.4f, 3));
-        DebugLifeware.Log("preparando pos loco", DebugLifeware.Developer.Alfredo_Gallardo);
         //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
         PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
             { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
             { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
-        }, 0, 1, 1));
-
-
+            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Right) },
+            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
+            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
+        }, 2, 2, 0.5f));
+        
+        /*
+        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaA + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
+           + (int)Limb.Right + "}, \"Caller\": 1}");
+        */
         //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaMantenerPose + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
         //  + (int)Limb.Right + "}, \"Caller\": 1}");
     }
     public void testRun()
     {
-        //string s = "{\"Angle\":45,\"ForwardSpeed\":1.2,\"BackwardSpeed\":0.8,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
+        //string s = "{\"Angle\":45,\"ForwardSpeed\":2,\"BackwardSpeed\":2,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
         //RunExerciseWeb(s);
+        /*BehaviourParams p = new BehaviourParams(new List<Exercise>() {
+            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
+        }, 3, 0.5f, 2);
+        string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
+        RunExerciseWeb(s);
+    */    
         RunExercise();
-       // RunExerciseWebWithoutParams();
+        //RunExerciseWebWithoutParams();
     }
     public void testResume()
     {
@@ -169,13 +180,19 @@ public class AnimatorScript : MonoBehaviour
     /// <param name="param"></param>
     public void PrepareExercise(Exercise e, BehaviourParams param)
     {
-
-        behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
+        if (param.Variations == null)
+            behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
+        else
+            behaviour = AnimationBehaviour.GetCentralBehaviour(e.Movement);
         DebugLifeware.Log(e.Movement + " " + e.Limb, DebugLifeware.Developer.Marco_Rojas);
 
         behaviour.Prepare(param);
         behaviour.RepetitionEnd += behaviour_PrepareEnd;
-        CurrentExercise = e;
+
+        if (param.Variations == null)
+            CurrentExercise = e;
+        else
+            CurrentExercise = behaviour.randomAnimations[0];
     }
 
     private IEnumerator InitialPoseDelayed()
@@ -283,7 +300,12 @@ public class AnimatorScript : MonoBehaviour
         BehaviourParams rep = JsonConvert.DeserializeObject<BehaviourParams>(s);
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.RunWeb(rep);
-        RewindExercise();
+
+        if (rep.Variations == null)
+            RewindExercise();
+        else
+            CurrentExercise = behaviour.randomAnimations[0];
+
     }
     public void RunExerciseWebWithoutParams()
     {

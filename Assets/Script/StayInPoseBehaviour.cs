@@ -113,7 +113,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         startAnimationTime = Time.time;
     
         //Está la animación en caché
-        if (PreparedExercises.tryGetPreparedExercise(new Exercise(movement, execution, limb), out this._timeAndAngles, stateInfo.length))
+        if (PreparedExercises.tryGetPreparedExercise(new Exercise(movement, laterality, limb), out this._timeAndAngles, stateInfo.length))
         {
             //Repetición de preparación
             /*
@@ -226,7 +226,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                 stayInPoseState = StayInPoseState.Resting;
                 startRestTime = Time.time;
 
-                if (!this.isWeb && _behaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS && (!IsInterleaved || (IsInterleaved && limb == Limb.Right)))
+                if (!this.IsWeb && _behaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS && (!IsInterleaved || (IsInterleaved && limb == Limb.Right)))
                     this.PauseAnimation();
                 if (IsInterleaved && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {

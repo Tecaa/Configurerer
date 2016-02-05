@@ -77,8 +77,10 @@ public class WebScript : MonoBehaviour {
 	}
     void OnDestroy()
     {
-
-        AnimatorScript.instance.OnPrepareExerciseStart -= AnimatorScript_OnPrepareExerciseStart;
-        AnimatorScript.instance.OnPrepareExerciseEnd -= AnimatorScript_OnPrepareExerciseEnd;
+        if (AnimatorScript.instance != null)
+        {
+            AnimatorScript.instance.OnPrepareExerciseStart -= AnimatorScript_OnPrepareExerciseStart;
+            AnimatorScript.instance.OnPrepareExerciseEnd -= AnimatorScript_OnPrepareExerciseEnd;
+        }
     }
 }

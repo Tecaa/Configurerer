@@ -8,21 +8,27 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     //protected ExerciseDataGenerator exerciseDataGenerator;
     
     public event EventHandler RepetitionEnd;
-    public bool CentralNode;
+    public bool IsCentralNode;
     /// <summary>
     /// Se dispara despues del tiempo entre ejecciones
     /// </summary>
     public event EventHandler RepetitionReallyStart;
     public Movement movement;
     public Limb limb;
-    public Laterality execution;
+    public Laterality laterality;
     [HideInInspector]
     public Animator animator;
+    [HideInInspector]
+    public List<Exercise> randomAnimations;
     private bool _isInterleaved;
     [HideInInspector]
     public DateTime? endRepTime = null;
     [HideInInspector]
     public bool beginRep = false;
+    private AnimationBehaviour _centralNode;
+
+    const int MAGIC_NUMBER = 10000;
+
     //[HideInInspector]
     //protected List<AnimationBehaviour> friendsBehaviours;
     public bool IsInterleaved
@@ -36,7 +42,30 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
     }
     [HideInInspector]
-    public bool isWeb = false;
+    private bool isWeb = false;
+    public bool IsWeb
+    {
+        get
+        {
+            if (IsCentralNode)
+                return this.isWeb;
+            else
+            {
+                AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
+                return central.IsWeb;
+            }
+        }
+        set
+        {
+            if (IsCentralNode)
+                this.isWeb = value;
+            else
+            {
+                AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
+                central.IsWeb = value;
+            }
+        }
+    }
     
     private AnimationBehaviour _opposite;
     protected AnimationBehaviour _Opposite
@@ -81,14 +110,15 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     {
         this._behaviourState = lbs;
     }
-    protected void OnRepetitionEnd()
+    protected virtual void OnRepetitionEnd()
     {
-        DebugLifeware.Log("OnRepetitionEnd", DebugLifeware.Developer.Alfredo_Gallardo);        
+        DebugLifeware.Log("OnRepetitionEnd" + " " + this.IsCentralNode, DebugLifeware.Developer.Alfredo_Gallardo | DebugLifeware.Developer.Marco_Rojas);
         EventHandler eh = RepetitionEnd;
         if (eh != null)
         {
             eh(this, new EventArgs());
         }
+        
     }
     protected void OnRepetitionReallyStart()
     {
@@ -106,9 +136,12 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         if (central != null)
         {
             this.originalABS = central.originalABS;
+            central.endRepTime = DateTime.Now;
         }
-        
-        Debug.Log("previo2 " + originalABS);
+        else
+
+            this.endRepTime = DateTime.Now;
+
         if (this.IsInterleaved && this.limb == Limb.Left)
         {
             animator.SetTrigger("ChangeLimb");
@@ -116,23 +149,21 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
         
         this._BehaviourState = originalABS;
-        this.endRepTime = DateTime.Now;
         if (this.IsInterleaved)
             this._Opposite.endRepTime = this.endRepTime;
         
     }
     public void PauseAnimation(){
-        originalABS = this._behaviourState;
-        Debug.Log("previo1 " + originalABS);
+        originalABS = this._BehaviourState;
+
 
         AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
         if (central != null)
         {
-            central.originalABS = this._behaviourState;
+            central.originalABS = this._BehaviourState;
         }
 
-        this._behaviourState = AnimationBehaviourState.STOPPED;
-        Debug.Log("haciendo vel 0 ......");
+        this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 0;
 
        
@@ -150,43 +181,73 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 
     
     public void PrepareWeb() {
-        this.isWeb = true;
+        this.IsWeb = true;
+        
         if(IsInterleaved)
-            this._Opposite.isWeb = true;
+            this._Opposite.IsWeb = true;
         PrepareWebInternal(); 
     }
     
     public void InitialPose()
     {
-        //animator.Play(0, 0, 0);
-        //animator.speed = 1;
         this._behaviourState = AnimationBehaviourState.INITIAL_POSE;
-        //animator.speed = 0;
     }
-   
+
     public static AnimationBehaviour GetBehaviour(Movement m, Limb l)
     {
+        int mov_search = (int)m / MAGIC_NUMBER;
+        AnimationBehaviour encontrado = null;
         Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
         AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
-        Limb l2 = l;
-        if (l == Limb.Interleaved)
-        {
-            l2 = Limb.Left;
-        }
+
         foreach (AnimationBehaviour lb in behaviours)
         {
-            if (lb.movement == m && lb.limb == l2)
+            int lb_mov = (int)lb.movement / MAGIC_NUMBER;
+            if (lb_mov == mov_search)
             {
                 if (lb.animator == null)
-                {
                     lb.animator = a;
-                    if (l == Limb.Interleaved)
-                        lb.IsInterleaved = true;
+
+                if (lb.IsCentralNode)
+                {
+                    // Si se encontró un nodo central que calce con el 'Movement' entonces se retorna.
+                    encontrado = lb;
+                    break;
                 }
-                return lb;
+                else if (l == lb.limb)
+                    encontrado = lb;
             }
         }
-        return null;
+        // Si no es un movimiento con nodo central, entonces se retorna. Se asume sin problemas que es el único encontrado.
+        return encontrado;
+    }
+
+
+    protected static List<AnimationBehaviour> getFriendBehaviours(Movement m)
+    {
+        int mov_search = (int)m / MAGIC_NUMBER;
+        List<AnimationBehaviour> encontrados = new List<AnimationBehaviour>();
+        Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
+        AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
+
+        foreach (AnimationBehaviour lb in behaviours)
+        {
+            int lb_mov = (int)lb.movement / MAGIC_NUMBER;
+            if (lb_mov == mov_search)
+            {
+                if (lb.animator == null)
+                    lb.animator = a;
+
+                if (!lb.IsCentralNode)
+                {
+                    //if (l == lb.limb)
+                    encontrados.Add(lb);
+                }
+                
+            }
+        }
+        // Si no es un movimiento con nodo central, entonces se retorna. Se asume sin problemas que es el único encontrado.
+        return encontrados;
     }
 
     /// <summary>
@@ -195,21 +256,26 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     /// <param name="movement"></param>
     public static AnimationBehaviour GetCentralBehaviour(Movement movement)
     {
-
+        int mov = (int)movement / MAGIC_NUMBER;
         Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
         AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
+        AnimationBehaviour temp = null;
         foreach (AnimationBehaviour lb in behaviours)
         {
-            if (lb.movement == movement && lb.CentralNode)
+            int m = (int)lb.movement / MAGIC_NUMBER;
+            if (m == mov)
             {
                 if (lb.animator == null)
                 {
                     lb.animator = a;
                 }
-                return lb;
+                if (lb.IsCentralNode)
+                {
+                    temp = lb;
+                }
             }
         }
-        return null;
+        return temp;
     }
 
     protected AnimationBehaviourState _behaviourState;

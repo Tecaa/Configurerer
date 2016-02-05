@@ -183,8 +183,7 @@ public class FiniteBehaviour : AnimationBehaviour
                     {
                         OnRepetitionEnd();
 
-
-                        if (!this.isWeb)
+                        if (!this.IsWeb)
                         {
                             this.PauseAnimation();
                         }
@@ -194,7 +193,7 @@ public class FiniteBehaviour : AnimationBehaviour
                         haCambiadoDeEstado = false;
                         animator.SetTrigger("ChangeLimb");
                     }
-                    if(!IsInterleaved && this.isWeb)
+                    if(!IsInterleaved && this.IsWeb)
                     {
                         animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                     }
