@@ -110,6 +110,13 @@ public class AnimatorScript : MonoBehaviour
             { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
         }, 2, 2, 0.5f));
+		/*
+		PrepareExercise(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
+			{ new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
+			{ new Exercise(Movement.Pablo_B, Laterality.Single, Limb.Left) },
+			{ new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
+			{ new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
+		}, 2, 2, 0.5f));*/
         
         /*
         PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaA + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
@@ -185,7 +192,8 @@ public class AnimatorScript : MonoBehaviour
             behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         else
             behaviour = AnimationBehaviour.GetCentralBehaviour(e.Movement);
-        DebugLifeware.Log(e.Movement + " " + e.Limb, DebugLifeware.Developer.Marco_Rojas);
+        DebugLifeware.Log(e.Movement + " " + e.Limb + "  " + e.Laterality, DebugLifeware.Developer.Marco_Rojas);
+		DebugLifeware.Log (Newtonsoft.Json.JsonConvert.SerializeObject(param), DebugLifeware.Developer.Marco_Rojas);
 
         behaviour.Prepare(param);
         behaviour.RepetitionEnd += behaviour_PrepareEnd;
