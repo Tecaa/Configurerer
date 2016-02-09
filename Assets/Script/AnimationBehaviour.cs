@@ -302,6 +302,52 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
     }
 
+	protected void initializeRandomAnimations(List<Exercise> animations)
+	{
+		
+		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
+		FiniteVariationBehaviour ab = (FiniteVariationBehaviour)central;
+		
+		ab.randomAnimations = animations;
+		ab.actualRandomAnimationIndex = 0;
+		
+		//ab.friendsBehaviours = this.friendsBehaviours;
+	}
+	
+	protected void SetNextVariation()
+	{
+		
+		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
+
+		FiniteVariationBehaviour ab = (FiniteVariationBehaviour)central;
+		++ab.actualRandomAnimationIndex;
+		int index = (int)ab.actualRandomAnimationIndex % central.randomAnimations.Count;
+		AnimatorScript.instance.CurrentExercise = central.randomAnimations[index];
+	}
+	
+	protected List<Exercise> GetRandomAnimations(List<Exercise> exs)
+	{
+		List<Exercise> random = new List<Exercise>();
+		
+		exs.AddRange(exs);
+		exs.AddRange(exs);
+		//exs.AddRange(exs);
+		//exs.AddRange(exs);
+		
+		System.Random r = new System.Random();
+		int rval;
+		int actualCount = exs.Count;
+		while (exs.Count > 0)
+		{
+			rval = r.Next() % actualCount;
+			--actualCount;
+			random.Add(exs[rval]);
+			exs.RemoveAt(rval);
+		}
+		
+		return random;
+	}
+
 }
 public enum AnimationBehaviourState
 {

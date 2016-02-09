@@ -101,46 +101,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
     }
 
-    private void initializeRandomAnimations(List<Exercise> animations)
-    {
-        FiniteVariationBehaviour ab = (FiniteVariationBehaviour)this.CentralNode;
-        
-        ab.randomAnimations = animations;
-        ab.actualRandomAnimationIndex = 0;
-        
-        //ab.friendsBehaviours = this.friendsBehaviours;
-    }
-
-    private void SetNextVariation()
-    {
-        FiniteVariationBehaviour ab = (FiniteVariationBehaviour)this.CentralNode;
-        ++ab.actualRandomAnimationIndex;
-        int index = (int)ab.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count;
-        AnimatorScript.instance.CurrentExercise = this.CentralNode.randomAnimations[index];
-    }
     
-    private List<Exercise> GetRandomAnimations(List<Exercise> exs)
-    {
-        List<Exercise> random = new List<Exercise>();
-
-        exs.AddRange(exs);
-        exs.AddRange(exs);
-        exs.AddRange(exs);
-        exs.AddRange(exs);
-
-        System.Random r = new System.Random();
-        int rval;
-        int actualCount = exs.Count;
-        while (exs.Count > 0)
-        {
-            rval = r.Next() % actualCount;
-            --actualCount;
-            random.Add(exs[rval]);
-            exs.RemoveAt(rval);
-        }
-
-        return random;
-    }
     private void _Opposite_RepetitionEnd(object sender, EventArgs e)
     {
         OnRepetitionEnd();
