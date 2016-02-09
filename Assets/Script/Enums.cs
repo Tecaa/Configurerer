@@ -36,6 +36,8 @@ public enum Movement
     DesplazamientoLateralConPaso075 = 50002,
     DesplazamientoLateralConPaso100 = 50003
      * */
+
+	milton = 100,
     Iddle = 0,
     AbducciónDeCaderaEnDecúbitoLateral = 10000,
     AducciónResistidaEnPlanoEscapular = 20000,
