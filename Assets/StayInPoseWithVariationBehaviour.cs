@@ -2,11 +2,28 @@
 using System.Collections;
 
 public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
+
+	private StayInPoseWithVariationBehaviour _centralNode;
+	public StayInPoseWithVariationBehaviour CentralNode
+	{
+		get
+		{
+			if (_centralNode == null)
+				_centralNode = (StayInPoseWithVariationBehaviour)AnimationBehaviour.GetCentralBehaviour(this.movement);
+			return _centralNode;
+		}
+	}
+
 	#region implemented abstract members of AnimationBehaviour
 
-	public override void Prepare (BehaviourParams lp)
+	public override void Prepare (BehaviourParams bp)
 	{
-
+		BehaviourParams lp = (BehaviourParams)bp;
+		this.CentralNode._RealLerpParams = lp;
+		this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+		this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
+		//if (IsInterleaved)
+			//this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
 	}
 
 	protected override void PrepareWebInternal ()
@@ -16,7 +33,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
 	public override void Run ()
 	{
-		throw new System.NotImplementedException ();
+		Debug.Log ("hola");
 	}
 
 	public override void RunWeb ()
@@ -36,6 +53,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
 	#endregion
 
+	
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	//override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

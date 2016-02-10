@@ -10,7 +10,6 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     /// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
     /// </summary>
     [HideInInspector]
-    public uint actualRandomAnimationIndex;
     private event EventHandler LerpRoundTripEnd;
     private FiniteVariationBehaviour _centralNode;
     public FiniteVariationBehaviour CentralNode

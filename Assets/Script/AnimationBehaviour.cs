@@ -28,6 +28,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     private AnimationBehaviour _centralNode;
 
     const int MAGIC_NUMBER = 10000;
+	public uint actualRandomAnimationIndex;
 
     //[HideInInspector]
     //protected List<AnimationBehaviour> friendsBehaviours;
@@ -306,7 +307,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	{
 		
 		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
-		FiniteVariationBehaviour ab = (FiniteVariationBehaviour)central;
+		AnimationBehaviour ab = (AnimationBehaviour)central;
 		
 		ab.randomAnimations = animations;
 		ab.actualRandomAnimationIndex = 0;
@@ -319,7 +320,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 		
 		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
 
-		FiniteVariationBehaviour ab = (FiniteVariationBehaviour)central;
+		AnimationBehaviour ab = (AnimationBehaviour)central;
 		++ab.actualRandomAnimationIndex;
 		int index = (int)ab.actualRandomAnimationIndex % central.randomAnimations.Count;
 		AnimatorScript.instance.CurrentExercise = central.randomAnimations[index];
