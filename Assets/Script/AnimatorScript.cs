@@ -50,7 +50,7 @@ public class AnimatorScript : MonoBehaviour
 
     Caller prepareCaller;
     [HideInInspector]
-    public BehaviourParams lerpParams;
+    public BehaviourParams behaviourParams;
 
     public Exercise CurrentExercise
     {
@@ -110,13 +110,13 @@ public class AnimatorScript : MonoBehaviour
             { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
         }, 2, 2, 0.5f));*/
-
+        
 		PrepareExercise(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
 			{ new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_B, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
-		}, 2, 2, 0.5f));
+		}, 2, 1.5f, 5));
         
         /*
         PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaA + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"

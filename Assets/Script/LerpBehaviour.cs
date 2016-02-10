@@ -105,7 +105,7 @@ public class LerpBehaviour : AnimationBehaviour {
     private float timeTakenDuringBackwardLerp = 1f;
     public BehaviourParams GetParams()
     {
-        return this._actualLerpParams;
+        return this._actualParams;
     }
     /*
     public void SetParams(LerpParams lp, LerpBehaviourState lbs)
@@ -117,7 +117,7 @@ public class LerpBehaviour : AnimationBehaviour {
     override public void Prepare(BehaviourParams bp)
     {
         BehaviourParams lp = (BehaviourParams)bp;
-        this._RealLerpParams = lp;
+        this._RealParams = lp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_DEFAULT;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
@@ -175,7 +175,7 @@ public class LerpBehaviour : AnimationBehaviour {
         ReadyToLerp = false;
 	
 
-        this._RealLerpParams = lerpParams;
+        this._RealParams = lerpParams;
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
@@ -290,7 +290,7 @@ public class LerpBehaviour : AnimationBehaviour {
         //Y el tiempo que ha transcurrido de la ultima rep es mayor al tiempo de pause entre repeticiones. O no ha habido última rep.
        
         if (_BehaviourState != AnimationBehaviourState.STOPPED && ReadyToLerp
-            && (endRepTime == null || new TimeSpan(0, 0, (int)_actualLerpParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
+            && (endRepTime == null || new TimeSpan(0, 0, (int)_actualParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
             if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) && 
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WEB && 
@@ -432,21 +432,21 @@ public class LerpBehaviour : AnimationBehaviour {
 
         if (_BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || _BehaviourState == AnimationBehaviourState.PREPARING_WEB || _BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
         {
-            _actualLerpParams = new BehaviourParams(defaultAnimationLength, 1, 1, 0);
+            _actualParams = new BehaviourParams(defaultAnimationLength, 1, 1, 0);
             timeTakenDuringLerp = (float)Math.Floor(defaultAnimationLength * 10) / 10;
             //timeTakenDuringLerp = defaultAnimationLength;
         }
         else
         {
-            _actualLerpParams = _RealLerpParams;
-            timeTakenDuringLerp = (float)Math.Floor(GetAnimationInfo(_actualLerpParams.Angle, _timeAndAngles).time * 10) / 10;
+            _actualParams = _RealParams;
+            timeTakenDuringLerp = (float)Math.Floor(GetAnimationInfo(_actualParams.Angle, _timeAndAngles).time * 10) / 10;
             //timeTakenDuringLerp = GetAnimationInfo(_actualLerpParams.Angle, _timeAndAngles).time;
         }
         //Normalizo el tiempo que tardo en parar
-        timeTakenDuringForwardLerp = timeTakenDuringLerp / _actualLerpParams.ForwardSpeed;
-        timeTakenDuringBackwardLerp = timeTakenDuringLerp / _actualLerpParams.BackwardSpeed;
-        forwardSpeed = _actualLerpParams.ForwardSpeed;
-        backwardSpeed = _actualLerpParams.BackwardSpeed;
+        timeTakenDuringForwardLerp = timeTakenDuringLerp / _actualParams.ForwardSpeed;
+        timeTakenDuringBackwardLerp = timeTakenDuringLerp / _actualParams.BackwardSpeed;
+        forwardSpeed = _actualParams.ForwardSpeed;
+        backwardSpeed = _actualParams.BackwardSpeed;
         BeginLerp(0, forwardSpeed, true);
     }
 
@@ -458,7 +458,7 @@ public class LerpBehaviour : AnimationBehaviour {
         timeStartedLerping = Time.time;
         // En caso de que se ejecute un Lerp que requiera pausa entre lerps, se agrega el tiempo de pausa a el tiempo de inicio del Lerp.
         if (pauseBeforeLerping && endRepTime != null)
-            timeStartedLerping += _actualLerpParams.SecondsBetweenRepetitions;
+            timeStartedLerping += _actualParams.SecondsBetweenRepetitions;
         startPosition = startPos;
         endPosition = endPos;
         ReadyToLerp = true;
