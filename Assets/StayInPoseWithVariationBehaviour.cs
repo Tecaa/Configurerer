@@ -14,9 +14,11 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 	{
 		get
 		{
-			if (_centralNode == null)
+            
+            if (_centralNode == null)
 				_centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
-			return (StayInPoseWithVariationBehaviour)_centralNode;
+            
+            return (StayInPoseWithVariationBehaviour)_centralNode;
 		}
 	}
 

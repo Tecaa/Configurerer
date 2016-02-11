@@ -199,7 +199,7 @@ public class AnimatorScript : MonoBehaviour
             behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         else
             behaviour = AnimationBehaviour.GetCentralBehaviour(e.Movement);
-        DebugLifeware.Log(e.Movement + " " + e.Limb + "  " + e.Laterality, DebugLifeware.Developer.Marco_Rojas);
+        DebugLifeware.Log(e.Movement + " " + e.Limb + "  " + e.Laterality + " " + behaviour.GetType(), DebugLifeware.Developer.Marco_Rojas);
 		DebugLifeware.Log (Newtonsoft.Json.JsonConvert.SerializeObject(param), DebugLifeware.Developer.Marco_Rojas);
 
         behaviour.Prepare(param);

@@ -38,6 +38,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
 
     const int MAGIC_NUMBER = 10000;
+    [HideInInspector]
 	public uint actualRandomAnimationIndex;
 
     //[HideInInspector]
