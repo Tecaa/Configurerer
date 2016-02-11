@@ -36,10 +36,10 @@ public enum Movement
     DesplazamientoLateralConPaso075 = 50002,
     DesplazamientoLateralConPaso100 = 50003
      * */
-	Milton_A = 200,
-	Milton_B = 201,
-	Milton_C = 202,
-	Milton_D = 203,
+	Milton_A = 2000000,
+	Milton_B = 2000001,
+	Milton_C = 2000002,
+	Milton_D = 2000003,
 	Pablo_A = 900000,
 	Pablo_B = 900001,
 	Pablo_C = 900002,
