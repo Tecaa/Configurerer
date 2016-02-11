@@ -10,16 +10,15 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     /// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
     /// </summary>
     [HideInInspector]
-    public uint actualRandomAnimationIndex;
     private event EventHandler LerpRoundTripEnd;
-    private FiniteVariationBehaviour _centralNode;
+    //private FiniteVariationBehaviour _centralNode;
     public FiniteVariationBehaviour CentralNode
     {
         get
         {
             if (_centralNode == null)
-                _centralNode = (FiniteVariationBehaviour)AnimationBehaviour.GetCentralBehaviour(this.movement);
-            return _centralNode;
+                _centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
+			return (FiniteVariationBehaviour)_centralNode;
         }
     }
     /// <summary>
@@ -59,7 +58,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
     public BehaviourParams GetParams()
     {
-        return this._actualLerpParams;
+        return this._actualParams;
     }
     protected override AnimationBehaviourState _BehaviourState
     {
@@ -92,8 +91,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
     override public void Prepare(BehaviourParams bp)
     {
-        BehaviourParams lp = (BehaviourParams)bp;
-        this.CentralNode._RealLerpParams = lp;
+        this._RealParams = bp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
         this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
         if (IsInterleaved)
@@ -151,7 +149,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
         BehaviourParams p = (BehaviourParams)bp;
         this.CentralNode.endRepTime = null;
-        this.CentralNode._RealLerpParams = p;
+        this.CentralNode._RealParams = p;
         this.initializeRandomAnimations(bp.Variations);
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
         this.CentralNode.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
@@ -174,7 +172,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
             //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
 
-            animator.speed = this.CentralNode._RealLerpParams.ForwardSpeed;
+            animator.speed = this.CentralNode._RealParams.ForwardSpeed;
 
         }
 
@@ -203,14 +201,14 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         }
 
         DateTime now = DateTime.Now;
-        if (this.CentralNode != null && this.CentralNode._realLerpParams != null)
-            DebugLifeware.Log((int)this.CentralNode._RealLerpParams.SecondsBetweenRepetitions + "   " + (now - this.CentralNode.endRepTime), DebugLifeware.Developer.Marco_Rojas);
+        if (this.CentralNode != null && this.CentralNode._realParams != null)
+            DebugLifeware.Log((int)this.CentralNode._RealParams.SecondsBetweenRepetitions + "   " + (now - this.CentralNode.endRepTime), DebugLifeware.Developer.Marco_Rojas);
         if (this.CentralNode.endRepTime != null && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT &&
-            new TimeSpan(0, 0, (int)this.CentralNode._RealLerpParams.SecondsBetweenRepetitions) > now - this.CentralNode.endRepTime)
+            new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) > now - this.CentralNode.endRepTime)
             animator.speed = 0;
 
         if ((_BehaviourState != AnimationBehaviourState.STOPPED && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
-            && (this.CentralNode.endRepTime == null || new TimeSpan(0, 0, (int)this.CentralNode._RealLerpParams.SecondsBetweenRepetitions) <= now - this.CentralNode.endRepTime))
+            && (this.CentralNode.endRepTime == null || new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) <= now - this.CentralNode.endRepTime))
         {
 
             if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
@@ -228,13 +226,13 @@ public class FiniteVariationBehaviour : AnimationBehaviour
             {
                 if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
-                    if (animator.speed != this.CentralNode._RealLerpParams.ForwardSpeed  && stateInfo.normalizedTime <= 0.5f)
+                    if (animator.speed != this.CentralNode._RealParams.ForwardSpeed  && stateInfo.normalizedTime <= 0.5f)
                     {
-                        animator.speed = this.CentralNode._RealLerpParams.ForwardSpeed;
+                        animator.speed = this.CentralNode._RealParams.ForwardSpeed;
                     }
-                    else if (animator.speed != this.CentralNode._RealLerpParams.BackwardSpeed && stateInfo.normalizedTime > 0.5f)
+                    else if (animator.speed != this.CentralNode._RealParams.BackwardSpeed && stateInfo.normalizedTime > 0.5f)
                     {
-                        animator.speed = this.CentralNode._RealLerpParams.BackwardSpeed;
+                        animator.speed = this.CentralNode._RealParams.BackwardSpeed;
                     }
                 }
             }

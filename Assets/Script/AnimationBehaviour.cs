@@ -25,9 +25,19 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     public DateTime? endRepTime = null;
     [HideInInspector]
     public bool beginRep = false;
-    private AnimationBehaviour _centralNode;
+    protected  AnimationBehaviour _centralNode;
+    public AnimationBehaviour CentralNode
+    {
+        get
+        {
+            if (_centralNode == null)
+                _centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
+            return (AnimationBehaviour)_centralNode;
+        }
+    }
 
     const int MAGIC_NUMBER = 10000;
+	public uint actualRandomAnimationIndex;
 
     //[HideInInspector]
     //protected List<AnimationBehaviour> friendsBehaviours;
@@ -51,8 +61,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 return this.isWeb;
             else
             {
-                AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
-                return central.IsWeb;
+                return this.CentralNode.IsWeb;
             }
         }
         set
@@ -61,8 +70,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 this.isWeb = value;
             else
             {
-                AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
-                central.IsWeb = value;
+                this.CentralNode.IsWeb = value;
             }
         }
     }
@@ -84,25 +92,31 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             }
         }
     }
-    protected BehaviourParams _actualLerpParams;
-    protected BehaviourParams _realLerpParams;
-    protected BehaviourParams _RealLerpParams
+    protected BehaviourParams _actualParams;
+    protected BehaviourParams _realParams;
+    protected BehaviourParams _RealParams
     {
         get
         {
-            return _realLerpParams;
+            if (this.IsCentralNode)
+                return _realParams;
+            else
+                return this.CentralNode._RealParams;
         }
         set
         {
-            _realLerpParams = value;
 
             if (this.IsInterleaved)
             {
                 this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
                 //this._Opposite.IsInterleaved = IsInterleaved;
-                if (this._Opposite._RealLerpParams != value)
-                    this._Opposite._RealLerpParams = value;
+                if (this._Opposite._RealParams != value)
+                    this._Opposite._RealParams = value;
             }
+            if (this.IsCentralNode)
+                this._realParams = value;
+            else
+                this.CentralNode._RealParams = value;
         }
     }
 
@@ -140,16 +154,14 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
     }
     protected AnimationBehaviourState originalABS = AnimationBehaviourState.STOPPED;
-    public void ResumeAnimation()
+    public virtual void ResumeAnimation()
     {
-        AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
-        if (central != null)
+        if (this.CentralNode != null)
         {
-            this.originalABS = central.originalABS;
-            central.endRepTime = DateTime.Now;
+            this.originalABS = this.CentralNode.originalABS;
+            this.CentralNode.endRepTime = DateTime.Now;
         }
         else
-
             this.endRepTime = DateTime.Now;
 
         if (this.IsInterleaved && this.limb == Limb.Left)
@@ -161,16 +173,15 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         this._BehaviourState = originalABS;
         if (this.IsInterleaved)
             this._Opposite.endRepTime = this.endRepTime;
-        
     }
-    public void PauseAnimation(){
+        
+    public virtual void PauseAnimation(){
         originalABS = this._BehaviourState;
 
 
-        AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
-        if (central != null)
+        if (this.CentralNode != null)
         {
-            central.originalABS = this._BehaviourState;
+            this.CentralNode.originalABS = this._BehaviourState;
         }
 
         this._BehaviourState = AnimationBehaviourState.STOPPED;
@@ -289,7 +300,32 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
 
     protected AnimationBehaviourState _behaviourState;
-    protected virtual AnimationBehaviourState _BehaviourState {   get  { return _behaviourState; } set { _behaviourState = value; }}
+    protected virtual AnimationBehaviourState _BehaviourState {
+        get
+        {
+            if(IsCentralNode)
+            {
+                return this._behaviourState;
+            }
+            else
+            {
+                return CentralNode._BehaviourState;
+            }
+            
+        }
+        set
+        {
+            if (IsCentralNode)
+            {
+                this._behaviourState = value;
+            }
+            else
+            {
+                CentralNode._BehaviourState = value;
+            }
+            
+        }
+    }
 
     abstract public void Stop();
     protected void OnDestroy()
@@ -306,7 +342,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	{
 		
 		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
-		FiniteVariationBehaviour ab = (FiniteVariationBehaviour)central;
+		AnimationBehaviour ab = (AnimationBehaviour)central;
 		
 		ab.randomAnimations = animations;
 		ab.actualRandomAnimationIndex = 0;
@@ -316,13 +352,9 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	
 	protected void SetNextVariation()
 	{
-		
-		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
-
-		FiniteVariationBehaviour ab = (FiniteVariationBehaviour)central;
-		++ab.actualRandomAnimationIndex;
-		int index = (int)ab.actualRandomAnimationIndex % central.randomAnimations.Count;
-		AnimatorScript.instance.CurrentExercise = central.randomAnimations[index];
+		++this.CentralNode.actualRandomAnimationIndex;
+		int index = (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count;
+		AnimatorScript.instance.CurrentExercise = this.CentralNode.randomAnimations[index];
 	}
 	
 	protected List<Exercise> GetRandomAnimations(List<Exercise> exs)
@@ -346,6 +378,56 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 		}
 		
 		return random;
+	}
+
+
+	protected bool _isAnimationRunning
+	{
+		get
+		{
+			return animationIsRunning();
+		}
+	}
+
+	private bool animationIsRunning()
+	{
+		if (this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
+			return true;
+		else
+			return false;	
+	}
+
+
+	protected bool _isAnimationPreparing
+	{
+		get
+		{
+			return animationIsPreparing();
+		}
+	}
+	
+	private bool animationIsPreparing()
+	{
+		if (this.CentralNode._BehaviourState == AnimationBehaviourState.PREPARING_WEB || this.CentralNode._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
+			return true;
+		else
+			return false;	
+}
+
+	protected bool _isAnimationStopped
+	{
+		get
+		{
+			return animationIsStopped();
+		}
+	}
+	
+	private bool animationIsStopped()
+	{
+		if (this.CentralNode._BehaviourState == AnimationBehaviourState.STOPPED )
+			return true;
+		else
+			return false;	
 	}
 
 }
@@ -411,6 +493,21 @@ public class BehaviourParams //: BehaviourParams
     }
 
     /// <summary>
+    /// Constructor para StayInPoseWithVariationBehaviour
+    /// </summary>
+    /// <param name="_secondsBetweenReps"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    public BehaviourParams(List<Exercise> _variations, int _secondsBetweenReps, float _speed, int _secondsInPose)
+    {
+        SecondsBetweenRepetitions = _secondsBetweenReps;
+        ForwardSpeed = _speed;
+        BackwardSpeed = _speed;
+        Variations = _variations;
+        SecondsInPose = _secondsInPose;
+    }
+
+    /// <summary>
     /// Constructor usable en LerpBehaviour
     /// </summary>
     /// <param name="_angle"></param>
@@ -439,4 +536,9 @@ public class BehaviourParams //: BehaviourParams
     {
         SecondsInPose = _secondsInPose;
     }
+
+
+
+
+
 }

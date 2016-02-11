@@ -36,15 +36,11 @@ public enum Movement
     DesplazamientoLateralConPaso075 = 50002,
     DesplazamientoLateralConPaso100 = 50003
      * */
-<<<<<<< HEAD
-
 	milton = 100,
-=======
 	Pablo_A = 100,
 	Pablo_B = 101,
 	Pablo_C = 102,
 	Pablo_D = 103,
->>>>>>> origin/master
     Iddle = 0,
     AbducciónDeCaderaEnDecúbitoLateral = 10000,
     AducciónResistidaEnPlanoEscapular = 20000,
