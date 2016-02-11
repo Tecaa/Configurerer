@@ -102,18 +102,7 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1.5f, 0.4f, 3));
         //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
 		//PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
-       
-		PrepareExercise(new Exercise(Movement.milton, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
-			{ new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
-			{ new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
-			{ new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
-			{ new Exercise(Movement.PruebaC, Laterality.Single, Limb.Right) },
-			{ new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
-			{ new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
-		}, 2, 2, 0.5f));
-		
-        /*
-        PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
+        /*PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
             { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
             { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
@@ -121,6 +110,13 @@ public class AnimatorScript : MonoBehaviour
             { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
         }, 2, 2, 0.5f));*/
+
+		PrepareExercise(new Exercise(Movement.Milton_A, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
+			{ new Exercise(Movement.Milton_A, Laterality.Single, Limb.Left) },
+			{ new Exercise(Movement.Milton_B, Laterality.Single, Limb.Left) },
+			{ new Exercise(Movement.Milton_C, Laterality.Single, Limb.Left) },
+			{ new Exercise(Movement.Milton_D, Laterality.Single, Limb.Left) },
+		}, 2, 2, 0.5f));
         
         /*
         PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaA + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"

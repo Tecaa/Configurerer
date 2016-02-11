@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public abstract class AnimationBehaviour : StateMachineBehaviour {
 
     //protected ExerciseDataGenerator exerciseDataGenerator;
-    
+	
+	protected enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
     public event EventHandler RepetitionEnd;
     public bool IsCentralNode;
     /// <summary>

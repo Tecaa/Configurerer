@@ -7,7 +7,6 @@ using System.Threading;
 
 public class StayInPoseBehaviour : AnimationBehaviour {
 
-    enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
     private StayInPoseState stayInPoseState;
     public bool haCambiadoDeEstado = false;
     public void SetLerpBehaviourState(AnimationBehaviourState lbs)
@@ -207,7 +206,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                 stayInPoseState = StayInPoseState.HoldingOn;
                 //Esperar
             }
-
 
             //Si ya pasó el tiempo en el ángulo máximo
             else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _realParams.SecondsInPose)

@@ -96,22 +96,25 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
             {
                 CentralNode.DeltaTime = value;
             }
-        }
-    }
+		}
+	}
 
     //
     //==== FIN Controlar tiempos de repeticiones
     //
 
 
-    #region implemented abstract members of AnimationBehaviour
+	#region implemented abstract members of AnimationBehaviour
 
-    public override void Prepare (BehaviourParams bp)
+	public override void Prepare (BehaviourParams bp)
 	{
 		BehaviourParams lp = (BehaviourParams)bp;
 		this.CentralNode._RealParams = lp;
 		this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
 		this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
+		//if (IsInterleaved)
+			//this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
+
 	}
 
 	protected override void PrepareWebInternal ()
@@ -128,7 +131,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 		this.StayInPoseWithVariationRoundTripEnd -= StayInPoseWithVariationBehaviour_VariationTripEnd;
 		this.StayInPoseWithVariationRoundTripEnd += StayInPoseWithVariationBehaviour_VariationTripEnd; //¿por que subscribirse y desuscribirse?
 	}
-	
+
 	public override void RunWeb ()
 	{
 		throw new System.NotImplementedException ();
@@ -266,13 +269,13 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
 
         if(deltaTime >= INTERVAL) //ha transcurrido un intervalo
-        {
+	{
             deltaTime = deltaTime - INTERVAL;
             
             if(timeSinceStart >= secondsInPose && _isAnimationRunning)
             {
                 finishRepetition();
-            }
+	}
 
         }
 
@@ -303,10 +306,10 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     private void finishRepetition()
     {
         Debug.LogWarning("se ha acabado una repeticion");
+	
 
-        
         animator.SetInteger(AnimatorParams.Movement, -1);
-        
+
         OnRepetitionEnd();
         this.PauseAnimation();
 
