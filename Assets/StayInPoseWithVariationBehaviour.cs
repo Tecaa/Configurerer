@@ -24,6 +24,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 		this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
 		//if (IsInterleaved)
 			//this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
+
 	}
 
 	protected override void PrepareWebInternal ()
