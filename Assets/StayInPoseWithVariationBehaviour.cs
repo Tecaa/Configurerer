@@ -15,12 +15,37 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 		get
 		{
             
-            if (_centralNode == null)
-				_centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
+            if( this.IsCentralNode)
+            {
+                return this;
+            }
+            else
+            {
+                if (_centralNode == null)
+                    _centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
+                return (StayInPoseWithVariationBehaviour)_centralNode;
+            }
             
-            return (StayInPoseWithVariationBehaviour)_centralNode;
+            
 		}
 	}
+
+    private float ExerciceVelocity;
+    public float exerciceVelocity
+    {
+        get
+        {
+            if (this.IsCentralNode)
+            {
+                return this._realParams.ForwardSpeed;
+            }
+            else
+            {
+                return CentralNode._realParams.ForwardSpeed;
+            }
+
+        }
+    }
 
 
     //
@@ -271,13 +296,13 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
 
         if(deltaTime >= INTERVAL) //ha transcurrido un intervalo
-	{
-            deltaTime = deltaTime - INTERVAL;
+	    {
+                deltaTime = deltaTime - INTERVAL;
             
-            if(timeSinceStart >= secondsInPose && _isAnimationRunning)
-            {
-                finishRepetition();
-	}
+                if(timeSinceStart >= secondsInPose && _isAnimationRunning)
+                {
+                    finishRepetition();
+	            }
 
         }
 
@@ -314,6 +339,19 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
         OnRepetitionEnd();
         this.PauseAnimation();
+
+    }
+
+
+    public override void ResumeAnimation()
+    {
+
+        Debug.Log("resumiendo");
+        base.ResumeAnimation();
+        timeSinceStart = 0;
+        deltaTime = 0;
+        animator.speed = exerciceVelocity;
+
 
     }
 

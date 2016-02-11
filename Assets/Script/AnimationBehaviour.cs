@@ -175,6 +175,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         this._BehaviourState = originalABS;
         if (this.IsInterleaved)
             this._Opposite.endRepTime = this.endRepTime;
+        Debug.Log("ahora el estado es : " + this.CentralNode._BehaviourState);
     }
         
     public virtual void PauseAnimation(){
