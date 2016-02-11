@@ -14,14 +14,13 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	/// </summary>
 	[HideInInspector]
 	private event EventHandler LerpRoundTripEnd;
-	private StayInPoseXtreme _centralNode;
-	public StayInPoseXtreme CentralNode
+	public new StayInPoseXtreme CentralNode
 	{
 		get
 		{
 			if (_centralNode == null)
-				_centralNode = (StayInPoseXtreme)AnimationBehaviour.GetCentralBehaviour(this.movement);
-			return _centralNode;
+				_centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
+			return (StayInPoseXtreme)_centralNode;
 		}
 	}
 	/// <summary>
@@ -61,7 +60,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	
 	public BehaviourParams GetParams()
 	{
-		return this._actualLerpParams;
+		return this._actualParams;
 	}
 	protected override AnimationBehaviourState _BehaviourState
 	{
@@ -95,7 +94,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	override public void Prepare(BehaviourParams bp)
 	{
 		BehaviourParams lp = (BehaviourParams)bp;
-		this.CentralNode._RealLerpParams = lp;
+		this.CentralNode._RealParams = lp;
 		this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
 		this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
 		if (IsInterleaved)
@@ -153,7 +152,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 		
 		BehaviourParams p = (BehaviourParams)bp;
 		this.CentralNode.endRepTime = null;
-		this.CentralNode._RealLerpParams = p;
+		this.CentralNode._RealParams = p;
 		this.initializeRandomAnimations(bp.Variations);
 		this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
 		this.CentralNode.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
@@ -176,7 +175,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 			
 			//Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
 			
-			animator.speed = this.CentralNode._RealLerpParams.ForwardSpeed;
+			animator.speed = this.CentralNode._RealParams.ForwardSpeed;
 			
 		}
 		
@@ -259,7 +258,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 		//{
 		//    DebugLifeware.Log("asddsa", DebugLifeware.Developer.Alfredo_Gallardo    );
 		//}
-		if (_behaviourState != AnimationBehaviourState.STOPPED && (this._centralNode.endRepTime == null || new TimeSpan(0, 0, (int)this._centralNode._RealLerpParams.SecondsBetweenRepetitions) <= temp - this._centralNode.endRepTime))
+		if (_behaviourState != AnimationBehaviourState.STOPPED && (this._centralNode.endRepTime == null || new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) <= temp - this._centralNode.endRepTime))
 		{
 
 			if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
@@ -282,7 +281,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 			}
 			
 			//Si ya pasó el tiempo en el ángulo máximo
-			else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= this._centralNode._realLerpParams.SecondsInPose)
+			else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= this.CentralNode._RealParams.SecondsInPose)
 			{
 				//DebugLifeware.Log("Para atrás", DebugLifeware.Developer.Marco_Rojas);
 				animator.StartRecording(0);
@@ -313,7 +312,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				
 			}
 			
-			else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime>= this._centralNode._realLerpParams.SecondsBetweenRepetitions)
+			else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime>= this.CentralNode._RealParams.SecondsBetweenRepetitions)
 			{
 				//DebugLifeware.Log("descansando", DebugLifeware.Developer.Marco_Rojas);
 				animator.speed = 1;
