@@ -117,14 +117,16 @@ public class AnimatorScript : MonoBehaviour
 			{ new Exercise(Movement.Milton_C, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Milton_D, Laterality.Single, Limb.Left) },
 		}, 2, 2, 0.5f));*/
-
+        /*
 		PrepareExercise(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
 			{ new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_B, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
 		}, 2, 1.5f, 8));
-        
+        */
+        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), Caller.Preview);
+        PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
         /*
         PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaA + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
            + (int)Limb.Right + "}, \"Caller\": 1}");
@@ -143,8 +145,8 @@ public class AnimatorScript : MonoBehaviour
         string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         RunExerciseWeb(s);
     */    
-        RunExercise();
-        //RunExerciseWebWithoutParams();
+        //RunExercise();
+        RunExerciseWebWithoutParams();
     }
     public void testResume()
     {

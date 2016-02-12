@@ -94,7 +94,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             }
         }
     }
-    protected BehaviourParams _actualParams;
+    protected BehaviourParams _currentParams;
     protected BehaviourParams _realParams;
     protected BehaviourParams _RealParams
     {
@@ -349,9 +349,22 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 		
 		ab.randomAnimations = animations;
 		ab.actualRandomAnimationIndex = 0;
-		
-		//ab.friendsBehaviours = this.friendsBehaviours;
-	}
+
+        //ab.friendsBehaviours = this.friendsBehaviours;
+    }
+    protected void initializeRandomAnimations()
+    {
+        if (this.randomAnimations == null)
+        {
+            this.randomAnimations = new List<Exercise>();
+            List<AnimationBehaviour> friends = AnimationBehaviour.getFriendBehaviours(this.movement);
+            foreach (AnimationBehaviour a in friends)
+            {
+                randomAnimations.Add(new Exercise(a.movement, a.laterality, a.limb));
+            }
+        }
+    }
+   
 	
 	protected void SetNextVariation()
 	{
@@ -433,6 +446,18 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 			return false;	
 	}
 
+    protected int exerciceMovement
+    {
+        get
+        {
+            return this.animator.GetInteger("Movement");
+        }
+        set
+        {
+            this.animator.SetInteger("Movement", value);
+        }
+    }
+
 }
 public enum AnimationBehaviourState
 {
@@ -446,7 +471,7 @@ public enum AnimationBehaviourState
 }
 public class BehaviourParams //: BehaviourParams
 {
-    public float Angle, ForwardSpeed, BackwardSpeed;
+    public float Angle, ForwardSpeed = 1, BackwardSpeed = 1;
     public const float DEFAULT_TIME = 1.0f;
     public int SecondsBetweenRepetitions = 1;
     public int SecondsInPose = 1;

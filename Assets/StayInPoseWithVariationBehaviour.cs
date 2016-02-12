@@ -6,10 +6,9 @@ using UnityEngine;
 
 public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
-    
     private uint storedNextExercice;
-
-	private event EventHandler StayInPoseWithVariationRoundTripEnd;
+    private bool hasEnteredBefore = false;
+    private event EventHandler StayInPoseWithVariationRoundTripEnd;
 	public new StayInPoseWithVariationBehaviour CentralNode
 	{
 		get
@@ -48,11 +47,87 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     }
 
 
+
+    private float SecondsBetweenRepetitions;
+    public float secondsBetweenRepetitions
+    {
+        get
+        {
+            if (this.IsCentralNode)
+            {
+                return this._realParams.SecondsBetweenRepetitions;
+            }
+            else
+            {
+                return CentralNode._realParams.SecondsBetweenRepetitions;
+            }
+
+        }
+    }
+
+    private bool IsExecutingMovement = false;
+    public bool isExecutingMovement
+    {
+        get
+        {
+            if (this.IsCentralNode)
+            {
+                return this.IsExecutingMovement;
+            }
+            else
+            {
+                return CentralNode.IsExecutingMovement;
+            }
+
+        }
+        set
+        {
+            if (this.IsCentralNode)
+            {
+                this.IsExecutingMovement = value;
+            }
+            else
+            {
+                CentralNode.IsExecutingMovement = value;
+            }
+
+        }
+    }
+
+
     //
     //==== Controlar tiempos de repeticiones
     //
 
-    const float INTERVAL = 0.1f;
+
+    public ClockBehaviour _ClockBehaviour;
+    public ClockBehaviour clockBehaviour
+    {
+        get
+        {
+            if (this.IsCentralNode)
+            {
+                return this._ClockBehaviour;
+            }
+            else
+            {
+                return CentralNode._ClockBehaviour;
+            }
+
+        }
+        set
+        {
+            if (this.IsCentralNode)
+            {
+                this._ClockBehaviour = value;
+            }
+            else
+            {
+                CentralNode._ClockBehaviour = value;
+            }
+        }
+    }
+
     public float secondsInPose
     {
         get
@@ -69,104 +144,89 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         }
     }
 
-    private float TimeSinceStart = 0 ;
-    public float timeSinceStart
-    {
-        get
-        {
-            if (this.IsCentralNode)
-            {
-                return this.TimeSinceStart;
-            }
-            else
-            {
-                return CentralNode.TimeSinceStart;
-            }
-
-        }
-        set
-        {
-            if(this.IsCentralNode)
-            {
-                TimeSinceStart = value;
-            }
-            else
-            {
-                CentralNode.timeSinceStart = value;
-            }
-        }
-    }
-
-    private float DeltaTime = 0;
-    public float deltaTime
-    {
-        get
-        {
-
-            if (this.IsCentralNode)
-            {
-                return this.DeltaTime;
-            }
-            else
-            {
-                return CentralNode.DeltaTime;
-            }
-            
-        }
-        set
-        {
-            if (this.IsCentralNode)
-            {
-                DeltaTime = value;
-            }
-            else
-            {
-                CentralNode.DeltaTime = value;
-            }
-		}
-	}
+   
 
     //
     //==== FIN Controlar tiempos de repeticiones
     //
 
+    //==== Reloj
 
-	#region implemented abstract members of AnimationBehaviour
 
-	public override void Prepare (BehaviourParams bp)
+    private AnimatorClock _AnimatorClock;
+    public AnimatorClock animatorClock
+    {
+        get
+        {
+            if (this.IsCentralNode)
+            {
+                return _AnimatorClock;
+            }
+            else
+            {
+                return CentralNode.animatorClock;
+            }
+        }
+        set
+        {
+            if (this.IsCentralNode)
+            {
+                _AnimatorClock = value;
+            }
+            else
+            {
+                CentralNode.animatorClock = value;
+            }
+        }
+    }
+
+
+
+    //===== FIN RELOJ
+
+
+    #region implemented abstract members of AnimationBehaviour
+
+    public override void Prepare (BehaviourParams bp)
 	{
 		BehaviourParams lp = (BehaviourParams)bp;
 		this.CentralNode._RealParams = lp;
-		this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+        this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
 		this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
-		//if (IsInterleaved)
-			//this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
-
 	}
 
 	protected override void PrepareWebInternal ()
 	{
-		throw new System.NotImplementedException ();
-	}
+        //BehaviourParams lp = (BehaviourParams)bp;
+
+        Debug.Log("haciendo prepare web");
+        this._BehaviourState = AnimationBehaviourState.PREPARING_WEB;
+        //this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
+    }
 
 	public override void Run ()
 	{
 
 		this.CentralNode.endRepTime = null;
-
 		this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
 		this.StayInPoseWithVariationRoundTripEnd -= StayInPoseWithVariationBehaviour_VariationTripEnd;
 		this.StayInPoseWithVariationRoundTripEnd += StayInPoseWithVariationBehaviour_VariationTripEnd; //¿por que subscribirse y desuscribirse?
+
+
 	}
 
 	public override void RunWeb ()
-	{
-		throw new System.NotImplementedException ();
-	}
+    {
+        this.CentralNode.endRepTime = null;
+        this.CentralNode._RealParams = new BehaviourParams();
+        Debug.Log("cayendo en el run web sin parametros");
+        this.initializeRandomAnimations();
+        this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
+    }
 
 	public override void RunWeb (BehaviourParams lerpParams)
 	{
-		throw new System.NotImplementedException ();
+		
 	}
 
 	/// <summary>
@@ -174,15 +234,50 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 	/// </summary>
 	override public void Stop()
 	{
-	
-		animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
+        exerciceMovement = (int)Movement.Iddle;
 		this.CentralNode._BehaviourState = AnimationBehaviourState.STOPPED;
 		animator.speed = 1;
 	}
-	#endregion
+    #endregion
 
 
-	protected void OnStayInPoseWithVariationRoundTripEnd()
+    private void executionTimerStart()
+    {
+        Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
+        isExecutingMovement = true;
+    }
+
+    private void executionTimerFinish()
+    {
+        Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
+        isExecutingMovement = false;
+
+        if (_isAnimationRunning)
+        {
+            finishRepetitionExecution();
+        }
+
+    }
+
+
+    /**
+    Cuando se acaba el tiempo de pausa entre repeticiones
+    **/
+    private void pauseBetweenRepetitionsFinish()
+    {
+        clockBehaviour.stopTimeBetweenRepetitionsTimer();
+        Debug.Log("termina pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+        SetNextVariation();
+        animator.speed = exerciceVelocity;
+
+    }
+
+    private void pauseBetweenRepetitionsStart()
+    {
+        Debug.Log("comienza pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+    }
+
+    protected void OnStayInPoseWithVariationRoundTripEnd()
 	{
 		
 		if (!IsCentralNode)
@@ -207,17 +302,39 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 		}
 	}
 
+
+    private void startNewExecution()
+    {
+
+        clockBehaviour.executeRepetitionTime(secondsInPose);
+    }
+
+
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-        if (this.IsCentralNode)
-            timeSinceStart = 0;
+
+        if (this.IsCentralNode && hasEnteredBefore == false)
+        {
+            hasEnteredBefore = true;
+
+            clockBehaviour = new ClockBehaviour();
+            clockBehaviour.executionTimerFinish += executionTimerFinish;
+            clockBehaviour.executionTimerStart += executionTimerStart;
+            clockBehaviour.pauseBetweenRepetitionsStart += pauseBetweenRepetitionsStart;
+            clockBehaviour.pauseBetweenRepetitionsFinish += pauseBetweenRepetitionsFinish;
+            
+        }
+
+
+            
 
         if (_isAnimationPreparing)
 		{
 			Debug.Log ("esta preparando");
 			OnRepetitionEnd();
 			Stop();
-		}
+            clockBehaviour.stopExecutionTimer();
+        }
 		else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS
 		         || this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
 		{
@@ -242,16 +359,15 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 			if ( _isAnimationRunning == true )
 			{
 
-                if(timeSinceStart < secondsInPose)
+
+                if(isExecutingMovement == true)
                 {
-                    Debug.Log("next variation " + timeSinceStart + "  <  " + secondsInPose);
                     SetNextVariation();
                 }
                 
 
 				if (!this.IsWeb)
 				{
-                    //Debug.Log("no es web");
 					//this.PauseAnimation();
 				}
 
@@ -269,8 +385,13 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 		}
 		else
 		{
+            if(animator.GetInteger("Movement") != -1)
+            {
+                    startNewExecution();
+            }
+                
 
-		}
+        }
 
 	}
 
@@ -279,8 +400,8 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        clockBehaviour.Update();
 
-        
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             animator.speed = 0;
@@ -289,23 +410,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
         if (_isAnimationPreparing || _isAnimationStopped)
             return;
-
-        float delta = Time.deltaTime;
-        timeSinceStart += delta;
-        deltaTime += delta;
-
-
-        if(deltaTime >= INTERVAL) //ha transcurrido un intervalo
-	    {
-                deltaTime = deltaTime - INTERVAL;
-            
-                if(timeSinceStart >= secondsInPose && _isAnimationRunning)
-                {
-                    finishRepetition();
-	            }
-
-        }
-
 
     }
 
@@ -319,42 +423,69 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         }	
 		else
         {
-            Debug.Log("repeticion terminada");
             base.OnRepetitionEnd();
+            
         }
 			
 	}
 
 	public BehaviourParams GetParams()
 	{
-		return this._actualParams;
+		return this._currentParams;
 	}
 
-    private void finishRepetition()
+    private void finishRepetitionExecution()
     {
-        Debug.LogWarning("se ha acabado una repeticion");
-	
-
-        animator.SetInteger(AnimatorParams.Movement, -1);
-
+        exerciceMovement = -1;
         OnRepetitionEnd();
         this.PauseAnimation();
-
+        clockBehaviour.stopExecutionTimer();
     }
+
 
 
     public override void ResumeAnimation()
     {
-
-        Debug.Log("resumiendo");
         base.ResumeAnimation();
-        timeSinceStart = 0;
-        deltaTime = 0;
-        animator.speed = exerciceVelocity;
-
-
+        clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);
     }
 
+
+    public override void PauseAnimation()
+    {
+        originalABS = this._BehaviourState;
+
+
+        if (this.CentralNode != null)
+        {
+            this.CentralNode.originalABS = this._BehaviourState;
+        }
+
+        this._BehaviourState = AnimationBehaviourState.STOPPED;
+        
+        if (IsInterleaved)
+        {
+            if (this.limb == Limb.Right)
+                this._Opposite.PauseAnimation();
+        }
+    }
+
+    new void OnDestroy()
+    {
+        /**
+        if (this.IsInterleaved)
+            this._Opposite.RepetitionEnd -= _Opposite_RepetitionEnd;
+
+        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
+         **/
+
+        //animatorClock.pauseBetweenRepetitionsStart -= pauseBetweenRepetitionsStart;
+        //animatorClock.pauseBetweenRepetitionsFinish -= pauseBetweenRepetitionsFinish;
+
+        base.OnDestroy();
+    }
+
+    
 
 }
 

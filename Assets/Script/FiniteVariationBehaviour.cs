@@ -58,7 +58,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
     public BehaviourParams GetParams()
     {
-        return this._actualParams;
+        return this._currentParams;
     }
     protected override AnimationBehaviourState _BehaviourState
     {
@@ -131,15 +131,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_DEFAULT);
         }
         this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
-        if (this.randomAnimations == null)
-        {
-            this.randomAnimations = new List<Exercise>();
-            List<AnimationBehaviour> friends = AnimationBehaviour.getFriendBehaviours(this.movement);
-            foreach(AnimationBehaviour a in friends)
-            {
-                randomAnimations.Add(new Exercise(a.movement, a.laterality, a.limb));
-            }
-        }
+        this.initializeRandomAnimations();
 
         this.CentralNode.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         this.CentralNode.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;

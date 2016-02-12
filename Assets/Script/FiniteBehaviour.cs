@@ -36,7 +36,7 @@ public class FiniteBehaviour : AnimationBehaviour
 
     public BehaviourParams GetParams()
     {
-        return this._actualParams;
+        return this._currentParams;
     }
     protected override  AnimationBehaviourState _BehaviourState
     {
