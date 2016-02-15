@@ -454,6 +454,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
         set
         {
+            Debug.Log("cambiando estado animator a " + value.ToString());
             this.animator.SetInteger("Movement", value);
         }
     }
