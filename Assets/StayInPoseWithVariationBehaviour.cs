@@ -150,37 +150,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     //==== FIN Controlar tiempos de repeticiones
     //
 
-    //==== Reloj
-
-
-    private AnimatorClock _AnimatorClock;
-    public AnimatorClock animatorClock
-    {
-        get
-        {
-            if (this.IsCentralNode)
-            {
-                return _AnimatorClock;
-            }
-            else
-            {
-                return CentralNode.animatorClock;
-            }
-        }
-        set
-        {
-            if (this.IsCentralNode)
-            {
-                _AnimatorClock = value;
-            }
-            else
-            {
-                CentralNode.animatorClock = value;
-            }
-        }
-    }
-
-
 
     //===== FIN RELOJ
 
