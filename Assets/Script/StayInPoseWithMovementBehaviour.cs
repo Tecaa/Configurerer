@@ -18,7 +18,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
     public BehaviourParams GetParams()
     {
-        return this._actualParams;
+        return this._currentParams;
     }
 
     override public void Prepare(BehaviourParams sp)
@@ -84,8 +84,8 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
     private float startAnimationTime;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
-        if (this._actualParams == null)
-            this._actualParams = new BehaviourParams();
+        if (this._currentParams == null)
+            this._currentParams = new BehaviourParams();
         if(this._realParams == null)
         {
             this._realParams = new BehaviourParams();
