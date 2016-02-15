@@ -187,8 +187,8 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		
-		if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
+
+        if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
 		{
 			animator.speed = 0;
 			return;
@@ -202,7 +202,13 @@ public class StayInPoseXtreme : AnimationBehaviour {
         //{
         //    DebugLifeware.Log("asddsa", DebugLifeware.Developer.Alfredo_Gallardo    );
         //}
-		if (this._BehaviourState != AnimationBehaviourState.STOPPED && (this.CentralNode.endRepTime == null || new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) <= temp - this.CentralNode.endRepTime))
+        if (IsCentralNode)
+        {
+            Debug.Log("pausa entre repeticiones");
+            //SetNextVariation();
+        }
+
+        if (this._BehaviourState != AnimationBehaviourState.STOPPED && (this.CentralNode.endRepTime == null || new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) <= temp - this.CentralNode.endRepTime))
 		{
             
             if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
