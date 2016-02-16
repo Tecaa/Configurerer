@@ -183,8 +183,10 @@ public class FiniteBehaviour : AnimationBehaviour
                     {
                         OnRepetitionEnd();
 
-                        if (!this.IsWeb)
+                        if ( (!this.IsWeb) && (!this.IsInInstruction))
                         {
+                            Debug.Log("isWeb [" + this.IsWeb + "]esInsutrccion [" + this.IsInInstruction + "]");
+                            Debug.Log("pausando animacion");
                             this.PauseAnimation();
                         }
                     }
@@ -193,7 +195,7 @@ public class FiniteBehaviour : AnimationBehaviour
                         haCambiadoDeEstado = false;
                         animator.SetTrigger("ChangeLimb");
                     }
-                    if(!IsInterleaved && this.IsWeb)
+                    if(!IsInterleaved && (this.IsWeb || this.IsInInstruction) )
                     {
                         animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                     }
@@ -244,6 +246,7 @@ public class FiniteBehaviour : AnimationBehaviour
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;*/
         //this._BehaviourState = AnimationBehaviourState.STOPPED;
+        Debug.Log("CALLED: stop");
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
         _BehaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 1;

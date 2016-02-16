@@ -9,6 +9,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     private uint storedNextExercice;
     private bool hasEnteredBefore = false;
     private event EventHandler StayInPoseWithVariationRoundTripEnd;
+    protected override bool HasCentralNode { get { return true; } }
     private bool isRewinding = false;
     private bool IsRewinding
     {
@@ -158,9 +159,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
 	public override void Run ()
 	{
-
 		this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-
 	}
 
 	public override void RunWeb ()
@@ -225,7 +224,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
             finishRepetitionExecution();
         }
 
-        if(IsWeb == true)
+        if(IsWeb == true || IsInInstruction == true)
         {
             this.ResumeAnimation();
         }

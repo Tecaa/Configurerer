@@ -59,7 +59,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     {
         get
         {
-            if (IsCentralNode)
+            if (IsCentralNode || !this.HasCentralNode)
                 return this.isWeb;
             else
             {
@@ -68,7 +68,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
         set
         {
-            if (IsCentralNode)
+            if (IsCentralNode || !this.HasCentralNode)
                 this.isWeb = value;
             else
             {
@@ -100,7 +100,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     {
         get
         {
-            if (this.IsCentralNode)
+            if (this.IsCentralNode || !this.HasCentralNode)
                 return _realParams;
             else
                 return this.CentralNode._RealParams;
@@ -115,10 +115,39 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 if (this._Opposite._RealParams != value)
                     this._Opposite._RealParams = value;
             }
-            if (this.IsCentralNode)
+            if (this.IsCentralNode || !this.HasCentralNode)
                 this._realParams = value;
             else
                 this.CentralNode._RealParams = value;
+        }
+    }
+    
+
+    private bool isInInstruction = false;
+    public bool IsInInstruction
+    {
+        get
+        {
+            if (this.IsCentralNode || !this.HasCentralNode)
+            {
+                return this.isInInstruction;
+            }
+            else
+            {
+                return CentralNode.IsInInstruction;
+            }
+
+        }
+        set
+        {
+            if (this.IsCentralNode || !this.HasCentralNode)
+            {
+                this.isInInstruction = value;
+            }
+            else
+            {
+                CentralNode.IsInInstruction = value;
+            }
         }
     }
 
@@ -198,11 +227,17 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     abstract public void Prepare(BehaviourParams lp);
     abstract protected void PrepareWebInternal();
-    abstract public void Run();
+    abstract public void Run(); // cambiar a protected
     abstract public void RunWeb();
     abstract public void RunWeb(BehaviourParams lerpParams);
 
-    
+    public void Run(bool isInInstructionInput)
+    {
+        this.IsInInstruction = isInInstructionInput;
+        Run();
+    }
+
+
     public void PrepareWeb() {
         this.IsWeb = true;
         
@@ -456,7 +491,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             this.animator.SetInteger("Movement", value);
         }
     }
-
+    protected virtual bool HasCentralNode { get { return false; } }
 }
 public enum AnimationBehaviourState
 {

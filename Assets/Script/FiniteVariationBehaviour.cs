@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class FiniteVariationBehaviour : AnimationBehaviour
 {
+    protected override bool HasCentralNode { get { return true; } }
+
     /// <summary>
     /// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
     /// </summary>
@@ -246,7 +248,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                     SetNextVariation();
                     OnRepetitionEnd();
                     
-                    if (!this.IsWeb)
+                    if (!this.IsWeb && !this.IsInInstruction)
                     {
                         this.PauseAnimation();
                     }
