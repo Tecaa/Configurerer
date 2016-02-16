@@ -110,13 +110,13 @@ public class AnimatorScript : MonoBehaviour
             { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
         }, 2, 2, 0.5f));*/
-		/*
+		
 		PrepareExercise(new Exercise(Movement.Milton_A, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
 			{ new Exercise(Movement.Milton_A, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Milton_B, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Milton_C, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Milton_D, Laterality.Single, Limb.Left) },
-		}, 2, 2, 0.5f));*/
+		}, 2, 1));
         /*
 		PrepareExercise(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
 			{ new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },

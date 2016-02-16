@@ -522,7 +522,7 @@ public class BehaviourParams //: BehaviourParams
     }
 
     /// <summary>
-    /// Constructor para StayInPoseWithVariationBehaviour
+    /// Constructor para StayInPoseWithVariationBehaviour 
     /// </summary>
     /// <param name="_secondsBetweenReps"></param>
     /// <param name="_forwardSpeed"></param>
@@ -536,6 +536,18 @@ public class BehaviourParams //: BehaviourParams
         SecondsInPose = _secondsInPose;
     }
 
+    /// <summary>
+    /// Constructor para StayInPoseXtreme 
+    /// </summary>
+    /// <param name="_secondsBetweenReps"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    public BehaviourParams(List<Exercise> _variations, int _secondsBetweenReps, int _secondsInPose)
+    {
+        SecondsBetweenRepetitions = _secondsBetweenReps;
+        Variations = _variations;
+        SecondsInPose = _secondsInPose;
+    }
     /// <summary>
     /// Constructor usable en LerpBehaviour
     /// </summary>
