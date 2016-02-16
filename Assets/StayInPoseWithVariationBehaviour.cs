@@ -96,12 +96,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         }
     }
 
-
-    //
-    //==== Controlar tiempos de repeticiones
-    //
-
-
     public ClockBehaviour _ClockBehaviour;
     public ClockBehaviour clockBehaviour
     {
@@ -147,17 +141,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     }
 
 
-
-    //
-    //==== FIN Controlar tiempos de repeticiones
-    //
-
-
-    //===== FIN RELOJ
-
-
-
-
     #region implemented abstract members of AnimationBehaviour
 
     public override void Prepare (BehaviourParams bp)
@@ -184,7 +167,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     {
 
         this.CentralNode._RealParams = new BehaviourParams();
-        Debug.Log("cayendo en el run web sin parametros");
         this.initializeRandomAnimations();
         this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
     }
@@ -230,13 +212,12 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
     private void executionTimerStart()
     {
-        Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
         isExecutingMovement = true;
+        OnRepetitionReallyStart();
     }
 
     private void executionTimerFinish()
     {
-        Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
         isExecutingMovement = false;
 
         if (_isAnimationRunning)
@@ -258,7 +239,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     private void pauseBetweenRepetitionsFinish()
     {
         clockBehaviour.stopTimeBetweenRepetitionsTimer();
-        Debug.Log("termina pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+
         SetNextVariation();
         animator.speed = 1;
 
@@ -266,7 +247,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
     private void pauseBetweenRepetitionsStart()
     {
-        Debug.Log("comienza pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+
     }
 
     protected void OnStayInPoseWithVariationRoundTripEnd()
@@ -316,7 +297,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
         if (_isAnimationPreparing)
 		{
-			Debug.Log ("esta preparando");
 			OnRepetitionEnd();
 			Stop();
             clockBehaviour.stopExecutionTimer();
@@ -409,7 +389,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
     private void finishRepetitionExecution()
     {
-        Debug.Log("se termina la ejecucion");
         exerciceMovement = -1;
         OnRepetitionEnd();
         this.PauseAnimation();
@@ -446,17 +425,18 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
     new void OnDestroy()
     {
-        /**
-        if (this.IsInterleaved)
-            this._Opposite.RepetitionEnd -= _Opposite_RepetitionEnd;
-
-        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
-         **/
-
-        //animatorClock.pauseBetweenRepetitionsStart -= pauseBetweenRepetitionsStart;
-        //animatorClock.pauseBetweenRepetitionsFinish -= pauseBetweenRepetitionsFinish;
-
+        
         base.OnDestroy();
+        try
+        {
+            clockBehaviour.pauseBetweenRepetitionsStart -= pauseBetweenRepetitionsStart;
+            clockBehaviour.pauseBetweenRepetitionsFinish -= pauseBetweenRepetitionsFinish;
+        }
+        catch
+        {
+
+        }
+
     }
 
     
