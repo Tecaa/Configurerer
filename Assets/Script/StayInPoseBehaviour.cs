@@ -26,6 +26,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     /// Tiempo que demora acelerar o desacelerar el movimiento excéntrico
     /// </summary>
     private float timeTakenDuringBackwardLerp = 1f;
+
     public BehaviourParams GetParams()
     {
         return this._currentParams;

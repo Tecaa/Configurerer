@@ -473,8 +473,8 @@ public class BehaviourParams //: BehaviourParams
 {
     public float Angle, ForwardSpeed = 1, BackwardSpeed = 1;
     public const float DEFAULT_TIME = 1.0f;
-    public int SecondsBetweenRepetitions = 3;
-    public int SecondsInPose = 8;
+    public int SecondsBetweenRepetitions = 1;
+    public int SecondsInPose = 3;
     public List<Exercise> Variations;
 
     public BehaviourParams()

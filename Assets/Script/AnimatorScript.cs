@@ -116,7 +116,10 @@ public class AnimatorScript : MonoBehaviour
 			{ new Exercise(Movement.Milton_B, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Milton_C, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Milton_D, Laterality.Single, Limb.Left) },
-		}, 2, 1));
+		}, 2, 2));
+
+        //PrepareExerciseWebParams param = new PrepareExerciseWebParams(new Exercise(Movement.Milton_A, Laterality.Single, Limb.Left), Caller.Preview);
+        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
         /*
 		PrepareExercise(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
 			{ new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
@@ -124,7 +127,7 @@ public class AnimatorScript : MonoBehaviour
 			{ new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
 		}, 2, 1.5f, 8));*/
-        
+
         /*
         PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaA + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
            + (int)Limb.Right + "}, \"Caller\": 1}");
