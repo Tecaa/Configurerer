@@ -135,7 +135,7 @@ public enum Movement
     PenduloEnBipedoConFlexiónDe90DeTronco = 460000,
     PenduloEnProno = 470000,
 
-    PruebaMantenerPose = 10
+    PruebaMantenerPose = 8000000
 
 }
 

@@ -183,7 +183,7 @@ public class FiniteBehaviour : AnimationBehaviour
                     {
                         OnRepetitionEnd();
 
-                        if ( (!this.IsWeb) && (!this.IsInInstruction))
+                        if ((!this.IsWeb) && (!this.IsInInstruction) && (!this.IsInInstruction))
                         {
                             Debug.Log("isWeb [" + this.IsWeb + "]esInsutrccion [" + this.IsInInstruction + "]");
                             Debug.Log("pausando animacion");

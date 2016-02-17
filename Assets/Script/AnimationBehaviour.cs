@@ -340,7 +340,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     protected virtual AnimationBehaviourState _BehaviourState {
         get
         {
-            if(IsCentralNode)
+            if(IsCentralNode || !this.HasCentralNode)
             {
                 return this._behaviourState;
             }
@@ -352,7 +352,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
         set
         {
-            if (IsCentralNode)
+            if (IsCentralNode || !this.HasCentralNode)
             {
                 this._behaviourState = value;
             }

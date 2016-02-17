@@ -195,8 +195,6 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         }
 
         DateTime now = DateTime.Now;
-        if (this.CentralNode != null && this.CentralNode._realParams != null)
-            DebugLifeware.Log((int)this.CentralNode._RealParams.SecondsBetweenRepetitions + "   " + (now - this.CentralNode.endRepTime), DebugLifeware.Developer.Marco_Rojas);
         if (this.CentralNode.endRepTime != null && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT &&
             new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) > now - this.CentralNode.endRepTime)
             animator.speed = 0;
@@ -247,9 +245,10 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 {
                     SetNextVariation();
                     OnRepetitionEnd();
-                    
-                    if (!this.IsWeb && !this.IsInInstruction)
+
+                    if ((!this.IsWeb) && (!this.IsInInstruction))
                     {
+                        Debug.Log("isWeb [" + this.IsWeb + "]esInsutrccion [" + this.IsInInstruction + "]");
                         this.PauseAnimation();
                     }
                 }

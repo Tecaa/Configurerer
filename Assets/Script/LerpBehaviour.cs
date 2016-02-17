@@ -556,7 +556,7 @@ public class LerpBehaviour : AnimationBehaviour {
                         OnLerpRoundTripEnd();
                         if (!IsInterleaved || IsInterleaved && limb == Limb.Right)
                         {
-                            if (!this.IsWeb) 
+                            if ((!this.IsWeb) && (!this.IsInInstruction))
                                 this.PauseAnimation();
                             OnRepetitionEnd();
                         }

@@ -337,7 +337,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 		{
 
 
-            if(animator.GetInteger("Movement") > 0)
+            if( exerciceMovement > 0)
             {
                     startNewExecution();
             }

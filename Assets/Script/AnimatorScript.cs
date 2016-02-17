@@ -99,11 +99,31 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-                
+
         //PrepareExercise(new Exercise(Movement.EstocadaFrontalCortaConTorsiónDeTronco_60, Laterality.Single, Limb.Interleaved), new BehaviourParams(70, 1.5f, 0.4f, 3));
-        PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1.5f, 0.4f, 3));
+        //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
         //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
-		//PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
+        //PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
+
+
+        Exercise ex = new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Left);
+        BehaviourParams bp = new BehaviourParams(5, 3);
+        PrepareExercise(ex, bp);
+
+        //PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(ex, Caller.Preview);
+        //PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
+
+
+
+        /**
+        PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
+            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Right) },
+            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
+            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
+        }, 2, 2, 0.5f));**/
 
         /**
         PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
@@ -132,7 +152,7 @@ public class AnimatorScript : MonoBehaviour
 			{ new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
 		}, 2, 1.5f, 8));**/
-        
+
         /**
         PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), Caller.Preview);
         PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));**/
@@ -145,6 +165,11 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testRun()
     {
+        //BehaviourParams param = new BehaviourParams(60, 1f, 1f, 3);
+        //RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
+
+
+
         //string s = "{\"Angle\":45,\"ForwardSpeed\":2,\"BackwardSpeed\":2,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
         //RunExerciseWeb(s);
         /*BehaviourParams p = new BehaviourParams(new List<Exercise>() {
@@ -153,17 +178,17 @@ public class AnimatorScript : MonoBehaviour
         }, 3, 0.5f, 2);
         string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         RunExerciseWeb(s);
-    */    
+    */
         RunExercise();
-       // RunExerciseWebWithoutParams();
-     /**
-        BehaviourParams p = new BehaviourParams(new List<Exercise>() {
-            { new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.Pablo_B, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
-        }, 2, 1.5f, 8);
-        RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));**/
+        //RunExerciseWebWithoutParams();
+        /**
+           BehaviourParams p = new BehaviourParams(new List<Exercise>() {
+               { new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
+               { new Exercise(Movement.Pablo_B, Laterality.Single, Limb.Left) },
+               { new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
+               { new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
+           }, 2, 1.5f, 8);
+           RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));**/
 
     }
     public void testResume()
