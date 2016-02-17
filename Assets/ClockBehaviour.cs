@@ -62,7 +62,6 @@ public class ClockBehaviour {
     /// <param name="time"></param>
     public void executeRepetitionTime(float time)
     {
-        Debug.Log("sdfsd: "+ time);
         executionTimerStart();
         executionTimeDuration = time;
     }

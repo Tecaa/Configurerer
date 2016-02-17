@@ -368,6 +368,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	
 	protected void SetNextVariation()
 	{
+        Debug.Log("CAMBIANDO ANIMACION");
 		++this.CentralNode.actualRandomAnimationIndex;
 		int index = (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count;
 		AnimatorScript.instance.CurrentExercise = this.CentralNode.randomAnimations[index];
