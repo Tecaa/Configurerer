@@ -106,12 +106,12 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
 
 
-        Exercise ex = new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Left);
-        BehaviourParams bp = new BehaviourParams(5, 3);
-        PrepareExercise(ex, bp);
+        Exercise ex = new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left);
+        //BehaviourParams bp = new BehaviourParams(5, 2);
+        //PrepareExercise(ex, bp);
 
-        //PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(ex, Caller.Preview);
-        //PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
+        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(ex, Caller.Preview);
+        PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
 
 
 
@@ -179,8 +179,8 @@ public class AnimatorScript : MonoBehaviour
         string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         RunExerciseWeb(s);
     */
-        RunExercise();
-        //RunExerciseWebWithoutParams();
+        //RunExercise();
+        RunExerciseWebWithoutParams();
         /**
            BehaviourParams p = new BehaviourParams(new List<Exercise>() {
                { new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
@@ -314,7 +314,7 @@ public class AnimatorScript : MonoBehaviour
     {
         //DebugLifeware.Log("Comienza el run", DebugLifeware.Developer.Marco_Rojas);
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
-        behaviour.Run( true );
+        behaviour.Run( false );
         RewindExercise();
         behaviour.RepetitionEnd += behaviour_RepetitionEnd;
         behaviour.RepetitionReallyStart += behaviour_RepetitionReallyStart;
