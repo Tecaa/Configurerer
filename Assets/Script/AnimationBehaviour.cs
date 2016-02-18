@@ -517,7 +517,7 @@ public class BehaviourParams //: BehaviourParams
     }
 
     /// <summary>
-    /// Constructor usable en StayInPoseBehaviour?
+    /// Constructor usable en StayInPoseBehaviour y StayInPoseWithMovement?
     /// </summary>
     /// <param name="_secondsInPose"></param>
     /// <param name="_secondsBetweenReps"></param>
