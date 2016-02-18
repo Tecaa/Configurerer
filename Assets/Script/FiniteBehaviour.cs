@@ -16,6 +16,8 @@ public class FiniteBehaviour : AnimationBehaviour
     /// El tiempo que ha pasado desde que se hizo la última captura de datos.
     /// </summary>
     private float timeSinceCapture = 0;
+    protected override bool HasCentralNode { get { return false; } }
+
     protected void OnLerpRoundTripEnd()
     {
         EventHandler eh = LerpRoundTripEnd;
@@ -56,6 +58,7 @@ public class FiniteBehaviour : AnimationBehaviour
             }
         }
     }
+
 
     override public void Prepare(BehaviourParams bp)
     {

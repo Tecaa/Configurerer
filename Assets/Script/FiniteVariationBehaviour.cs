@@ -13,7 +13,6 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     /// </summary>
     [HideInInspector]
     private event EventHandler LerpRoundTripEnd;
-    //private FiniteVariationBehaviour _centralNode;
     public FiniteVariationBehaviour CentralNode
     {
         get

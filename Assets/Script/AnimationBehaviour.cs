@@ -498,7 +498,10 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             this.animator.SetInteger("Movement", value);
         }
     }
-    protected virtual bool HasCentralNode { get { return false; } }
+    /// <summary>
+    /// Sobreescribir en máquinas de estado que tengan nodo central
+    /// </summary>
+    protected abstract bool HasCentralNode { get; }
 }
 public enum AnimationBehaviourState
 {

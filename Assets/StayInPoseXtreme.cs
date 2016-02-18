@@ -28,6 +28,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
         }
     }
 
+    protected override bool HasCentralNode { get { return true; } }
     private bool holdingPose = false;
 	/// <summary>
 	/// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
@@ -244,7 +245,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 			this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
 		}
 		this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-        Debug.Log(this._BehaviourState + " " + this.IsCentralNode + "  " + this.CentralNode.limb + "  " + this.limb);
+        Debug.Log(this._BehaviourState + " " + this.IsCentralNode +  " " + this.IsInInstruction + "  " + this.CentralNode.limb + "  " + this.limb);
 		this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 		this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
 	}
@@ -421,9 +422,13 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				{
 					animator.SetTrigger("ChangeLimb");
 				}
-				if (!IsInterleaved && (this.IsWeb && !IsRewinding))
+                if (!IsInterleaved && ((this.IsWeb) || (this.IsInInstruction) && !IsRewinding))
+                {
+                    animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+                }
+                    
 				{
-					animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+					
 				}
 				if (this._BehaviourState == AnimationBehaviourState.STOPPED)
 				{
@@ -435,8 +440,9 @@ public class StayInPoseXtreme : AnimationBehaviour {
                 OnRepetitionEnd();
 				Stop();
 			}
-            if (this.IsWeb && !IsRewinding)
+            if ((this.IsWeb) || (this.IsInInstruction) && !IsRewinding)
             {
+                Debug.Log("2-ISWEB: [" + this.IsWeb + "] isInInsruction [" + this.IsInInstruction + "]" + "is rewinding [" + IsRewinding + "]" );
                 this.ResumeAnimation();
             }
         }
@@ -458,6 +464,8 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
         }
     }
+
+
     public override void ResumeAnimation()
     {
         base.ResumeAnimation();
