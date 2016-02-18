@@ -7,6 +7,27 @@ using UnityEngine;
 public class StayInPoseXtreme : AnimationBehaviour {
 
 	private StayInPoseState stayInPoseState;
+    private StayInPoseState _StayInPoseState
+    {
+        get
+        {
+
+            if (this.IsCentralNode)
+                return stayInPoseState;
+            else
+                return CentralNode.stayInPoseState;
+        }
+        set
+        {
+
+            if (this.IsCentralNode)
+                stayInPoseState = value;
+            else
+                CentralNode.stayInPoseState = value;
+
+        }
+    }
+
     private bool holdingPose = false;
 	/// <summary>
 	/// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
@@ -170,14 +191,14 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     private void executionTimerStart()
     {
-        Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
-        Debug.Log(" INICIO manteniendo pose pose ");
+        //Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
+        //Debug.Log(" INICIO manteniendo pose pose ");
     }
 
     private void executionTimerFinish()
     {
-        Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
-        Debug.Log("FIN manteniendo pose pose ");
+        //Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
+        //Debug.Log("FIN manteniendo pose pose ");
         this.CentralNode.holdingPose = true;
         clockBehaviour.stopExecutionTimer();
     }
@@ -189,13 +210,13 @@ public class StayInPoseXtreme : AnimationBehaviour {
     private void pauseBetweenRepetitionsFinish()
     {
         clockBehaviour.stopTimeBetweenRepetitionsTimer();
-        Debug.Log("termina pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+        //Debug.Log("termina pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
         SetNextVariation();
     }
 
     private void pauseBetweenRepetitionsStart()
     {
-        Debug.Log("comienza pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+        //Debug.Log("comienza pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
     }
 
     override public void Prepare(BehaviourParams bp)
@@ -209,7 +230,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	
 	private void _Opposite_RepetitionEnd(object sender, EventArgs e)
 	{
-        Debug.Log("_Opposite_RepetitionEnd");
 		OnRepetitionEnd();
 	}
 	override protected void PrepareWebInternal()
@@ -231,8 +251,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     override public void RunWeb()
 	{
-        Debug.Log("runWEB");
-        //this.CentralNode.endRepTime = null;
 		if (this.IsInterleaved)
 		{
 			this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_DEFAULT);
@@ -246,28 +264,21 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	}
 	override public void RunWeb(BehaviourParams bp)
 	{
-        Debug.Log("runWEB Parametros: "+ this._BehaviourState);
 
         if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
         {
-
-            animator.speed = this.CentralNode._RealParams.ForwardSpeed;
-            //stayInPoseState = StayInPoseState.GoingTo;
-            //OnRepetitionEnd();
+            animator.speed = 1;
+            this.CentralNode._StayInPoseState = StayInPoseState.GoingTo;
+            animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
             clockBehaviour.stopExecutionTimer();
             clockBehaviour.stopTimeBetweenRepetitionsTimer();
             this.CentralNode.actualRandomAnimationIndex = 0;
             IsRewinding = true;
-            //animator.SetInteger("Movement", -1);
-            //animator.speed = 0;
-            stayInPoseState = StayInPoseState.GoingTo;
 
             BehaviourParams p = (BehaviourParams)bp;
             this.CentralNode.endRepTime = null;
             this.CentralNode._RealParams = p;
-            this.initializeRandomAnimations(bp.Variations);
-            //this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-            animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+            this.initializeRandomAnimations(bp.Variations);            
         }
         else
         {
@@ -284,7 +295,10 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {   
-        Debug.Log("isreweinding state enter " + IsRewinding + " nodo: " + this.movement + " central? " + this.IsCentralNode);
+        if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS && !IsCentralNode && !IsWeb)
+        {
+            OnRepetitionReallyStart();
+        }
         
         if (!this.IsCentralNode && this.CentralNode.randomAnimations[0].Movement == this.movement)
             IsRewinding = false;
@@ -303,7 +317,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
         
         if (this._BehaviourState == AnimationBehaviourState.PREPARING_WEB || this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
-            Debug.Log("OnStateEnter");
             OnRepetitionEnd();
             Stop();
         }
@@ -319,9 +332,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
             animator.speed = 1f;
 
         }
-        //if (this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
-            //this.RepetitionReallyStart += RepetitionReallyStart;
-        //Debug.Log("estaduu Enter: " + this._BehaviourState);
+
     }
 
     float startHoldTime;
@@ -330,8 +341,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
         clockBehaviour.Update();
-        //Debug.Log(this._BehaviourState);
-        //Debug.Log(stayInPoseState);
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
 		{
 			animator.speed = 0;
@@ -339,7 +348,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
 		}
 		
 		float DELTA = 0.05f;
-        //Debug.Log("estaduuuupdate: " + this._BehaviourState);
 		DateTime temp = DateTime.Now;
         if (this._BehaviourState != AnimationBehaviourState.STOPPED && !IsCentralNode)
 		{
@@ -352,32 +360,29 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				beginRep = true;
 			}
 
-            if (stayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
+            if (this.CentralNode._StayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
 			{
-                Debug.Log("pasando a HoldingOn");
-				animator.speed = 0;
+                animator.speed = 0;
 				startHoldTime = Time.time;
-                Debug.Log("hold time: " + this.CentralNode._RealParams.SecondsInPose);
                 clockBehaviour.executeRepetitionTime(this.CentralNode._RealParams.SecondsInPose);
-                stayInPoseState = StayInPoseState.HoldingOn;
+                this.CentralNode._StayInPoseState = StayInPoseState.HoldingOn;
 			}
 			
 			//Si ya pasó el tiempo en el ángulo máximo
-			else if(stayInPoseState == StayInPoseState.HoldingOn && this.CentralNode.holdingPose)
+			else if(this.CentralNode._StayInPoseState == StayInPoseState.HoldingOn && this.CentralNode.holdingPose)
 			{
-                //Debug.Log("estoy en holdgingON pose: "+ this.CentralNode._RealParams.SecondsInPose);
                 this.CentralNode.holdingPose = false;
 				animator.StartRecording(0);
 				animator.speed = -1;
 				animator.StopRecording();
-				stayInPoseState = StayInPoseState.Leaving;
+                this.CentralNode._StayInPoseState = StayInPoseState.Leaving;
 			}
-			else if (stayInPoseState == StayInPoseState.Leaving && Math.Abs(stateInfo.normalizedTime - 0) <= DELTA)
+			else if (this.CentralNode._StayInPoseState == StayInPoseState.Leaving && Math.Abs(stateInfo.normalizedTime - 0) <= DELTA)
 			{
-                Debug.Log("estoy en leaving pose");
+
                 beginRep = false;
 				animator.speed = 1;
-				stayInPoseState = StayInPoseState.GoingTo;
+                this.CentralNode._StayInPoseState = StayInPoseState.GoingTo;
 				startRestTime = Time.time;
                 animator.SetInteger("Movement", -1);
 				
@@ -385,7 +390,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				{
 					animator.SetTrigger("ChangeLimb");
 				}
-                Debug.Log("Leaving");
 				
 				if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     _BehaviourState = AnimationBehaviourState.STOPPED;
@@ -393,14 +397,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
                 OnRepetitionEnd();
 
             }
-			/*
-			else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime>= this.CentralNode._RealParams.SecondsBetweenRepetitions)
-			{
-                Debug.Log("estoy en resting pose");
-                animator.speed = 1;
-				stayInPoseState = StayInPoseState.GoingTo;
-				
-			}*/
 		}
 	}
 	
@@ -408,7 +404,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //Debug.Log("onStateExit iscentralNOde: " + this.IsCentralNode + " estado " + this._BehaviourState + " speed " + animator.speed);
         if (!IsCentralNode)
 		{
 			beginRep = false;
@@ -463,7 +458,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
     }
     public override void ResumeAnimation()
     {
-        Debug.Log("resume");
         base.ResumeAnimation();
         clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);
         animator.speed = 1;
@@ -475,7 +469,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
             this.CentralNode.OnRepetitionEnd();
         else
         {
-            Debug.Log("Final");
             base.OnRepetitionEnd();
         }
 	}
