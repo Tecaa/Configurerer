@@ -202,7 +202,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
         this.CentralNode.holdingPose = true;
         clockBehaviour.stopExecutionTimer();
     }
-
+    
 
     /**
     Cuando se acaba el tiempo de pausa entre repeticiones
