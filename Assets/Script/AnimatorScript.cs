@@ -126,8 +126,11 @@ public class AnimatorScript : MonoBehaviour
 			{ new Exercise(Movement.Pablo_B, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
 			{ new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
-		}, 2, 1.5f, 8));*/
-
+		}, 2, 1.5f, 8));
+        
+        /**
+        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), Caller.Preview);
+        PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));**/
         /*
         PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaA + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
            + (int)Limb.Right + "}, \"Caller\": 1}");
@@ -147,9 +150,17 @@ public class AnimatorScript : MonoBehaviour
         }, 2, 2);
         string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         RunExerciseWeb(s);
-        */
+    */    
         RunExercise();
-        //RunExerciseWebWithoutParams();
+       // RunExerciseWebWithoutParams();
+     /**
+        BehaviourParams p = new BehaviourParams(new List<Exercise>() {
+            { new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.Pablo_B, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
+        }, 2, 1.5f, 8);
+        RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));**/
 
     }
     public void testResume()
@@ -323,10 +334,14 @@ public class AnimatorScript : MonoBehaviour
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.RunWeb(rep);
 
+
         if (rep.Variations == null)
             RewindExercise();
-        else
+        else //if (behaviour.GetType() != typeof(StayInPoseWithVariationBehaviour))
             CurrentExercise = behaviour.randomAnimations[0];
+
+
+
 
     }
     public void RunExerciseWebWithoutParams()

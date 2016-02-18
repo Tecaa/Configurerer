@@ -175,7 +175,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         this._BehaviourState = originalABS;
         if (this.IsInterleaved)
             this._Opposite.endRepTime = this.endRepTime;
-        Debug.Log("ahora el estado es : " + this.CentralNode._BehaviourState);
     }
         
     public virtual void PauseAnimation(){
@@ -484,7 +483,7 @@ public class BehaviourParams //: BehaviourParams
     }
 
     /// <summary>
-    /// Constructor usable en StayInPoseBehaviour?
+    /// Constructor usable en StayInPoseBehaviour y StayInPoseWithMovement?
     /// </summary>
     /// <param name="_secondsInPose"></param>
     /// <param name="_secondsBetweenReps"></param>
