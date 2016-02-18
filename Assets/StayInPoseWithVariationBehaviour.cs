@@ -43,7 +43,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
             else
             {
                 if (_centralNode == null)
-                    _centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
+                    _centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement, this.limb);
                 return (StayInPoseWithVariationBehaviour)_centralNode;
             }
             

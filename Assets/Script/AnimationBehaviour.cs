@@ -32,7 +32,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         get
         {
             if (_centralNode == null)
-                _centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
+                _centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement, this.limb);
             return (AnimationBehaviour)_centralNode;
         }
     }
@@ -266,7 +266,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 if (lb.animator == null)
                     lb.animator = a;
 
-                if (lb.IsCentralNode)
+                if (lb.IsCentralNode && lb.limb == l)
                 {
                     // Si se encontró un nodo central que calce con el 'Movement' entonces se retorna.
                     encontrado = lb;
@@ -312,12 +312,12 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     /// Obtiene todos los behaviours que calcen con el movement
     /// </summary>
     /// <param name="movement"></param>
-    public static AnimationBehaviour GetCentralBehaviour(Movement movement)
+    public static AnimationBehaviour GetCentralBehaviour(Movement movement, Limb limb)
     {
         int mov = (int)movement / MAGIC_NUMBER;
         Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
         AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
-        AnimationBehaviour temp = null;
+        List<AnimationBehaviour> centrals = new List<AnimationBehaviour>();
         foreach (AnimationBehaviour lb in behaviours)
         {
             int m = (int)lb.movement / MAGIC_NUMBER;
@@ -329,11 +329,17 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 }
                 if (lb.IsCentralNode)
                 {
-                    temp = lb;
+                    centrals.Add(lb);
                 }
             }
         }
-        return temp;
+        foreach (AnimationBehaviour lb in centrals)
+        {
+            if (lb.limb == limb)
+                return lb;
+        }
+        return null;
+        
     }
 
     protected AnimationBehaviourState _behaviourState;
@@ -378,7 +384,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	protected void initializeRandomAnimations(List<Exercise> animations)
 	{
 		
-		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
+		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement, this.limb);
 		AnimationBehaviour ab = (AnimationBehaviour)central;
 		
 		ab.randomAnimations = animations;

@@ -63,7 +63,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 		get
 		{
 			if (_centralNode == null)
-				_centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
+				_centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement, this.limb);
 			return (StayInPoseXtreme)_centralNode;
 		}
 	}
@@ -168,14 +168,14 @@ public class StayInPoseXtreme : AnimationBehaviour {
 			if (this.IsCentralNode)
 				return this._behaviourState;
 			else
-				return this.CentralNode._behaviourState;
+				return this.CentralNode._BehaviourState;
 		}
 		set
 		{
 			if (this.IsCentralNode)
 				this._behaviourState = value;
 			else
-				this.CentralNode._behaviourState = value;
+				this.CentralNode._BehaviourState = value;
 			switch (value)
 			{
 			case AnimationBehaviourState.RUNNING_DEFAULT:
@@ -244,7 +244,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 			this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
 		}
 		this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-
+        Debug.Log(this._BehaviourState + " " + this.IsCentralNode + "  " + this.CentralNode.limb + "  " + this.limb);
 		this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 		this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
 	}
@@ -305,6 +305,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
         if (this.IsCentralNode && hasEnteredBefore == false)
         {
+            Debug.Log("instanciamos el reloj");
             hasEnteredBefore = true;
 
             clockBehaviour = new ClockBehaviour();
@@ -362,6 +363,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
             if (this.CentralNode._StayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
 			{
+                Debug.Log("se cumplio la condicion" +  " " + this.CentralNode.limb);
                 animator.speed = 0;
 				startHoldTime = Time.time;
                 clockBehaviour.executeRepetitionTime(this.CentralNode._RealParams.SecondsInPose);
