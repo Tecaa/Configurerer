@@ -6,23 +6,41 @@ using System.Collections.Generic;
 public abstract class AnimationBehaviour : StateMachineBehaviour {
 
     //protected ExerciseDataGenerator exerciseDataGenerator;
-    
+	
+	protected enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
     public event EventHandler RepetitionEnd;
-    public bool CentralNode;
+    public bool IsCentralNode;
     /// <summary>
     /// Se dispara despues del tiempo entre ejecciones
     /// </summary>
     public event EventHandler RepetitionReallyStart;
     public Movement movement;
     public Limb limb;
-    public Laterality execution;
+    public Laterality laterality;
     [HideInInspector]
     public Animator animator;
+    [HideInInspector]
+    public List<Exercise> randomAnimations;
     private bool _isInterleaved;
     [HideInInspector]
     public DateTime? endRepTime = null;
     [HideInInspector]
     public bool beginRep = false;
+    protected  AnimationBehaviour _centralNode;
+    public AnimationBehaviour CentralNode
+    {
+        get
+        {
+            if (_centralNode == null)
+                _centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement);
+            return (AnimationBehaviour)_centralNode;
+        }
+    }
+
+    const int MAGIC_NUMBER = 10000;
+    [HideInInspector]
+	public uint actualRandomAnimationIndex;
+
     //[HideInInspector]
     //protected List<AnimationBehaviour> friendsBehaviours;
     public bool IsInterleaved
@@ -36,7 +54,28 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
     }
     [HideInInspector]
-    public bool isWeb = false;
+    private bool isWeb = false;
+    public bool IsWeb
+    {
+        get
+        {
+            if (IsCentralNode)
+                return this.isWeb;
+            else
+            {
+                return this.CentralNode.IsWeb;
+            }
+        }
+        set
+        {
+            if (IsCentralNode)
+                this.isWeb = value;
+            else
+            {
+                this.CentralNode.IsWeb = value;
+            }
+        }
+    }
     
     private AnimationBehaviour _opposite;
     protected AnimationBehaviour _Opposite
@@ -55,25 +94,31 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             }
         }
     }
-    protected BehaviourParams _actualLerpParams;
-    protected BehaviourParams _realLerpParams;
-    protected BehaviourParams _RealLerpParams
+    protected BehaviourParams _currentParams;
+    protected BehaviourParams _realParams;
+    protected BehaviourParams _RealParams
     {
         get
         {
-            return _realLerpParams;
+            if (this.IsCentralNode)
+                return _realParams;
+            else
+                return this.CentralNode._RealParams;
         }
         set
         {
-            _realLerpParams = value;
 
             if (this.IsInterleaved)
             {
                 this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
                 //this._Opposite.IsInterleaved = IsInterleaved;
-                if (this._Opposite._RealLerpParams != value)
-                    this._Opposite._RealLerpParams = value;
+                if (this._Opposite._RealParams != value)
+                    this._Opposite._RealParams = value;
             }
+            if (this.IsCentralNode)
+                this._realParams = value;
+            else
+                this.CentralNode._RealParams = value;
         }
     }
 
@@ -81,19 +126,20 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     {
         this._behaviourState = lbs;
     }
-    protected void OnRepetitionEnd()
+    protected virtual void OnRepetitionEnd()
     {
         //TODO: Fix rapido pero que debe arreglarse ya que el evento se lanza aún cuando se está en modo web.
         if(this.isWeb && (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB))
         {
             return;
         }
-        DebugLifeware.Log("OnRepetitionEnd", DebugLifeware.Developer.Alfredo_Gallardo);        
+        DebugLifeware.Log("OnRepetitionEnd" + " " + this.IsCentralNode, DebugLifeware.Developer.Alfredo_Gallardo | DebugLifeware.Developer.Marco_Rojas);
         EventHandler eh = RepetitionEnd;
         if (eh != null)
         {
             eh(this, new EventArgs());
         }
+        
     }
     protected void OnRepetitionReallyStart()
     {
@@ -110,14 +156,16 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
     }
     protected AnimationBehaviourState originalABS = AnimationBehaviourState.STOPPED;
-    public void ResumeAnimation()
+    public virtual void ResumeAnimation()
     {
-        AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
-        if (central != null)
+        if (this.CentralNode != null)
         {
-            this.originalABS = central.originalABS;
+            this.originalABS = this.CentralNode.originalABS;
+            this.CentralNode.endRepTime = DateTime.Now;
         }
-        
+        else
+            this.endRepTime = DateTime.Now;
+
         if (this.IsInterleaved && this.limb == Limb.Left)
         {
             animator.SetTrigger("ChangeLimb");
@@ -125,21 +173,20 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
         
         this._BehaviourState = originalABS;
-        this.endRepTime = DateTime.Now;
         if (this.IsInterleaved)
             this._Opposite.endRepTime = this.endRepTime;
-        
     }
-    public void PauseAnimation(){
-        originalABS = this._behaviourState;
+        
+    public virtual void PauseAnimation(){
+        originalABS = this._BehaviourState;
 
-        AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
-        if (central != null)
+
+        if (this.CentralNode != null)
         {
-            central.originalABS = this._behaviourState;
+            this.CentralNode.originalABS = this._BehaviourState;
         }
 
-        this._behaviourState = AnimationBehaviourState.STOPPED;
+        this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 0;
 
        
@@ -157,43 +204,73 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 
     
     public void PrepareWeb() {
-        this.isWeb = true;
+        this.IsWeb = true;
+        
         if(IsInterleaved)
-            this._Opposite.isWeb = true;
+            this._Opposite.IsWeb = true;
         PrepareWebInternal(); 
     }
     
     public void InitialPose()
     {
-        //animator.Play(0, 0, 0);
-        //animator.speed = 1;
         this._behaviourState = AnimationBehaviourState.INITIAL_POSE;
-        //animator.speed = 0;
     }
-   
+
     public static AnimationBehaviour GetBehaviour(Movement m, Limb l)
     {
+        int mov_search = (int)m / MAGIC_NUMBER;
+        AnimationBehaviour encontrado = null;
         Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
         AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
-        Limb l2 = l;
-        if (l == Limb.Interleaved)
-        {
-            l2 = Limb.Left;
-        }
+
         foreach (AnimationBehaviour lb in behaviours)
         {
-            if (lb.movement == m && lb.limb == l2)
+            int lb_mov = (int)lb.movement / MAGIC_NUMBER;
+            if (lb_mov == mov_search)
             {
                 if (lb.animator == null)
-                {
                     lb.animator = a;
-                    if (l == Limb.Interleaved)
-                        lb.IsInterleaved = true;
+
+                if (lb.IsCentralNode)
+                {
+                    // Si se encontró un nodo central que calce con el 'Movement' entonces se retorna.
+                    encontrado = lb;
+                    break;
                 }
-                return lb;
+                else if (l == lb.limb)
+                    encontrado = lb;
             }
         }
-        return null;
+        // Si no es un movimiento con nodo central, entonces se retorna. Se asume sin problemas que es el único encontrado.
+        return encontrado;
+    }
+
+
+    protected static List<AnimationBehaviour> getFriendBehaviours(Movement m)
+    {
+        int mov_search = (int)m / MAGIC_NUMBER;
+        List<AnimationBehaviour> encontrados = new List<AnimationBehaviour>();
+        Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
+        AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
+
+        foreach (AnimationBehaviour lb in behaviours)
+        {
+            int lb_mov = (int)lb.movement / MAGIC_NUMBER;
+            if (lb_mov == mov_search)
+            {
+                if (lb.animator == null)
+                    lb.animator = a;
+
+                if (!lb.IsCentralNode)
+                {
+                    //if (l == lb.limb)
+                    encontrados.Add(lb);
+                }
+                
+            }
+        }
+        // Si no es un movimiento con nodo central, entonces se retorna. Se asume sin problemas que es el único encontrado.
+        return encontrados;
     }
 
     /// <summary>
@@ -202,25 +279,55 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     /// <param name="movement"></param>
     public static AnimationBehaviour GetCentralBehaviour(Movement movement)
     {
-
+        int mov = (int)movement / MAGIC_NUMBER;
         Animator a = GameObject.FindObjectOfType<AnimatorScript>().anim;
         AnimationBehaviour[] behaviours = a.GetBehaviours<AnimationBehaviour>();
+        AnimationBehaviour temp = null;
         foreach (AnimationBehaviour lb in behaviours)
         {
-            if (lb.movement == movement && lb.CentralNode)
+            int m = (int)lb.movement / MAGIC_NUMBER;
+            if (m == mov)
             {
                 if (lb.animator == null)
                 {
                     lb.animator = a;
                 }
-                return lb;
+                if (lb.IsCentralNode)
+                {
+                    temp = lb;
+                }
             }
         }
-        return null;
+        return temp;
     }
 
     protected AnimationBehaviourState _behaviourState;
-    protected virtual AnimationBehaviourState _BehaviourState {   get  { return _behaviourState; } set { _behaviourState = value; }}
+    protected virtual AnimationBehaviourState _BehaviourState {
+        get
+        {
+            if(IsCentralNode)
+            {
+                return this._behaviourState;
+            }
+            else
+            {
+                return CentralNode._BehaviourState;
+            }
+            
+        }
+        set
+        {
+            if (IsCentralNode)
+            {
+                this._behaviourState = value;
+            }
+            else
+            {
+                CentralNode._BehaviourState = value;
+            }
+            
+        }
+    }
 
     abstract public void Stop();
     protected void OnDestroy()
@@ -230,6 +337,123 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             Delegate[] clientList = this.RepetitionEnd.GetInvocationList();
             foreach (var d in clientList)
                 this.RepetitionEnd -= (d as EventHandler);
+        }
+    }
+
+	protected void initializeRandomAnimations(List<Exercise> animations)
+	{
+		
+		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement);
+		AnimationBehaviour ab = (AnimationBehaviour)central;
+		
+		ab.randomAnimations = animations;
+		ab.actualRandomAnimationIndex = 0;
+
+        //ab.friendsBehaviours = this.friendsBehaviours;
+    }
+    protected void initializeRandomAnimations()
+    {
+        if (this.randomAnimations == null)
+        {
+            this.randomAnimations = new List<Exercise>();
+            List<AnimationBehaviour> friends = AnimationBehaviour.getFriendBehaviours(this.movement);
+            foreach (AnimationBehaviour a in friends)
+            {
+                randomAnimations.Add(new Exercise(a.movement, a.laterality, a.limb));
+            }
+        }
+    }
+   
+	
+	protected void SetNextVariation()
+	{
+		++this.CentralNode.actualRandomAnimationIndex;
+		int index = (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count;
+		AnimatorScript.instance.CurrentExercise = this.CentralNode.randomAnimations[index];
+	}
+	
+	protected List<Exercise> GetRandomAnimations(List<Exercise> exs)
+	{
+		List<Exercise> random = new List<Exercise>();
+		
+		exs.AddRange(exs);
+		exs.AddRange(exs);
+		//exs.AddRange(exs);
+		//exs.AddRange(exs);
+		
+		System.Random r = new System.Random();
+		int rval;
+		int actualCount = exs.Count;
+		while (exs.Count > 0)
+		{
+			rval = r.Next() % actualCount;
+			--actualCount;
+			random.Add(exs[rval]);
+			exs.RemoveAt(rval);
+		}
+		
+		return random;
+	}
+
+
+	protected bool _isAnimationRunning
+	{
+		get
+		{
+			return animationIsRunning();
+		}
+	}
+
+	private bool animationIsRunning()
+	{
+		if (this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
+			return true;
+		else
+			return false;	
+	}
+
+
+	protected bool _isAnimationPreparing
+	{
+		get
+		{
+			return animationIsPreparing();
+		}
+	}
+	
+	private bool animationIsPreparing()
+	{
+		if (this.CentralNode._BehaviourState == AnimationBehaviourState.PREPARING_WEB || this.CentralNode._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
+			return true;
+		else
+			return false;	
+}
+
+	protected bool _isAnimationStopped
+	{
+		get
+		{
+			return animationIsStopped();
+		}
+	}
+	
+	private bool animationIsStopped()
+	{
+		if (this.CentralNode._BehaviourState == AnimationBehaviourState.STOPPED )
+			return true;
+		else
+			return false;	
+	}
+
+    protected int exerciceMovement
+    {
+        get
+        {
+            return this.animator.GetInteger("Movement");
+        }
+        set
+        {
+            this.animator.SetInteger("Movement", value);
         }
     }
 
@@ -246,10 +470,10 @@ public enum AnimationBehaviourState
 }
 public class BehaviourParams //: BehaviourParams
 {
-    public float Angle, ForwardSpeed, BackwardSpeed;
+    public float Angle, ForwardSpeed = 1, BackwardSpeed = 1;
     public const float DEFAULT_TIME = 1.0f;
-    public int SecondsBetweenRepetitions = 1;
-    public int SecondsInPose = 1;
+    public int SecondsBetweenRepetitions = 3;
+    public int SecondsInPose = 8;
     public List<Exercise> Variations;
 
     public BehaviourParams()
@@ -258,7 +482,7 @@ public class BehaviourParams //: BehaviourParams
     }
 
     /// <summary>
-    /// Constructor usable en StayInPoseBehaviour?
+    /// Constructor usable en StayInPoseBehaviour y StayInPoseWithMovement?
     /// </summary>
     /// <param name="_secondsInPose"></param>
     /// <param name="_secondsBetweenReps"></param>
@@ -296,6 +520,33 @@ public class BehaviourParams //: BehaviourParams
     }
 
     /// <summary>
+    /// Constructor para StayInPoseWithVariationBehaviour 
+    /// </summary>
+    /// <param name="_secondsBetweenReps"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    public BehaviourParams(List<Exercise> _variations, int _secondsBetweenReps, float _speed, int _secondsInPose)
+    {
+        SecondsBetweenRepetitions = _secondsBetweenReps;
+        ForwardSpeed = _speed;
+        BackwardSpeed = _speed;
+        Variations = _variations;
+        SecondsInPose = _secondsInPose;
+    }
+
+    /// <summary>
+    /// Constructor para StayInPoseXtreme 
+    /// </summary>
+    /// <param name="_secondsBetweenReps"></param>
+    /// <param name="_forwardSpeed"></param>
+    /// <param name="_backwardSpeed"></param>
+    public BehaviourParams(List<Exercise> _variations, int _secondsBetweenReps, int _secondsInPose)
+    {
+        SecondsBetweenRepetitions = _secondsBetweenReps;
+        Variations = _variations;
+        SecondsInPose = _secondsInPose;
+    }
+    /// <summary>
     /// Constructor usable en LerpBehaviour
     /// </summary>
     /// <param name="_angle"></param>
@@ -324,4 +575,9 @@ public class BehaviourParams //: BehaviourParams
     {
         SecondsInPose = _secondsInPose;
     }
+
+
+
+
+
 }

@@ -36,7 +36,7 @@ public class FiniteBehaviour : AnimationBehaviour
 
     public BehaviourParams GetParams()
     {
-        return this._actualLerpParams;
+        return this._currentParams;
     }
     protected override  AnimationBehaviourState _BehaviourState
     {
@@ -60,7 +60,7 @@ public class FiniteBehaviour : AnimationBehaviour
     override public void Prepare(BehaviourParams bp)
     {
         BehaviourParams lp = (BehaviourParams)bp;
-        this._RealLerpParams = lp;
+        this._RealParams = lp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
@@ -104,7 +104,7 @@ public class FiniteBehaviour : AnimationBehaviour
 
         BehaviourParams lerpParams = (BehaviourParams)bp;
         endRepTime = null;
-        this._RealLerpParams = lerpParams;
+        this._RealParams = lerpParams;
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
@@ -128,7 +128,7 @@ public class FiniteBehaviour : AnimationBehaviour
             else
             {
                 //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
-                animator.speed = this._RealLerpParams.ForwardSpeed;
+                animator.speed = this._RealParams.ForwardSpeed;
             }
         }
         if(!haCambiadoDeEstado)
@@ -162,7 +162,7 @@ public class FiniteBehaviour : AnimationBehaviour
         DateTime temp = DateTime.Now;
 
         if ((_BehaviourState != AnimationBehaviourState.STOPPED && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
-    && (endRepTime == null || new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= temp - endRepTime))
+    && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
 
             if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
@@ -183,8 +183,7 @@ public class FiniteBehaviour : AnimationBehaviour
                     {
                         OnRepetitionEnd();
 
-
-                        if (!this.isWeb)
+                        if (!this.IsWeb)
                         {
                             this.PauseAnimation();
                         }
@@ -194,7 +193,7 @@ public class FiniteBehaviour : AnimationBehaviour
                         haCambiadoDeEstado = false;
                         animator.SetTrigger("ChangeLimb");
                     }
-                    if(!IsInterleaved && this.isWeb)
+                    if(!IsInterleaved && this.IsWeb)
                     {
                         animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                     }
@@ -216,11 +215,11 @@ public class FiniteBehaviour : AnimationBehaviour
                 {
                     if (stateInfo.normalizedTime <= 0.5f)
                     {
-                        animator.speed = this._RealLerpParams.ForwardSpeed;
+                        animator.speed = this._RealParams.ForwardSpeed;
                     }
                     else
                     {
-                        animator.speed = this._RealLerpParams.BackwardSpeed;
+                        animator.speed = this._RealParams.BackwardSpeed;
                     }
                 }
             }

@@ -1,4 +1,4 @@
-﻿using Assets;
+using Assets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,6 +36,14 @@ public enum Movement
     DesplazamientoLateralConPaso075 = 50002,
     DesplazamientoLateralConPaso100 = 50003
      * */
+	Milton_A = 2000000,
+	Milton_B = 2000001,
+	Milton_C = 2000002,
+	Milton_D = 2000003,
+	Pablo_A = 900000,
+	Pablo_B = 900001,
+	Pablo_C = 900002,
+	Pablo_D = 900003,
     Iddle = 0,
     AbducciónDeCaderaEnDecúbitoLateral = 10000,
     AducciónResistidaEnPlanoEscapular = 20000,

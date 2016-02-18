@@ -18,12 +18,12 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
     public BehaviourParams GetParams()
     {
-        return this._actualLerpParams;
+        return this._currentParams;
     }
 
     override public void Prepare(BehaviourParams sp)
     {
-        this._RealLerpParams = sp;
+        this._RealParams = sp;
         this._behaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
@@ -76,7 +76,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         this._behaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
 	
 
-        this._RealLerpParams = stayInParams;
+        this._RealParams = stayInParams;
     }
     
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -84,11 +84,11 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
     private float startAnimationTime;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
-        if (this._actualLerpParams == null)
-            this._actualLerpParams = new BehaviourParams();
-        if(this._realLerpParams == null)
+        if (this._currentParams == null)
+            this._currentParams = new BehaviourParams();
+        if(this._realParams == null)
         {
-            this._realLerpParams = new BehaviourParams();
+            this._realParams = new BehaviourParams();
         }
         if (_behaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
@@ -124,7 +124,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
         DateTime temp = DateTime.Now;
 
-        if (_behaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealLerpParams.SecondsBetweenRepetitions) <= temp - endRepTime))
+        if (_behaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
 
             if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
@@ -141,16 +141,16 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
             }
 
             //Si ya pasó el tiempo indicado realizando el movimiento
-            if (stayInPoseState == StayInPoseState.HoldingOn && (Time.time - startHoldTime) >= this._RealLerpParams.SecondsInPose )
+            if (stayInPoseState == StayInPoseState.HoldingOn && (Time.time - startHoldTime) >= this._RealParams.SecondsInPose )
             {
                 DebugLifeware.Log("Tiempo en pose maxima = " + (Time.time - startHoldTime).ToString(), DebugLifeware.Developer.Alfredo_Gallardo);
                 animator.speed = 0;
                 //startHoldTime = 0;
                 stayInPoseState = StayInPoseState.Resting;
                 beginRep = false;
-                if (!this.isWeb && this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
+                if (!this.IsWeb && this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     this.PauseAnimation();
-                else if(this.isWeb && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+                else if(this.IsWeb && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
                     endRepTime = DateTime.Now;
                 }
