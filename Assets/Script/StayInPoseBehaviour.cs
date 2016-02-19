@@ -9,6 +9,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
     private StayInPoseState stayInPoseState;
     public bool haCambiadoDeEstado = false;
+    protected override bool HasCentralNode { get { return false; } }
     public void SetLerpBehaviourState(AnimationBehaviourState lbs)
     {
         Debug.LogWarning("SetLerpBehaviour : " + lbs);

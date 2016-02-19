@@ -70,7 +70,7 @@ public class LerpBehaviour : AnimationBehaviour {
         }
     }
     #endregion
-
+    protected override bool HasCentralNode { get { return false; } }
 
     protected override AnimationBehaviourState _BehaviourState
     {

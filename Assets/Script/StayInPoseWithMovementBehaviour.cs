@@ -7,6 +7,7 @@ using System.Threading;
 
 public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
+    protected override bool HasCentralNode { get { return false; } }
     enum StayInPoseState { HoldingOn, Resting }
     private StayInPoseState stayInPoseState;
     public bool haCambiadoDeEstado = false;
