@@ -106,7 +106,7 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
 
 
-        //Exercise ex = new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left);
+        //jExercise ex = new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left);
         //BehaviourParams bp = new BehaviourParams(5, 2);
         //PrepareExercise(ex, bp);
 
@@ -165,8 +165,8 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testRun()
     {
-        //BehaviourParams param = new BehaviourParams(60, 1f, 1f, 3);
-        //RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
+        BehaviourParams param = new BehaviourParams(60, 1.5f, 1.5f, 3, 3);
+        RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
 
 
 
@@ -179,17 +179,17 @@ public class AnimatorScript : MonoBehaviour
         string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         RunExerciseWeb(s);
     */
-        RunExercise();
+        //RunExercise();
         //RunExerciseWebWithoutParams();
-        /**
-           BehaviourParams p = new BehaviourParams(new List<Exercise>() {
+        //PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f, 1.5f, 3, 3));
+        /*BehaviourParams p = new BehaviourParams(new List<Exercise>() {
                { new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
                { new Exercise(Movement.Pablo_B, Laterality.Single, Limb.Left) },
                { new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
                { new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
            }, 2, 1.5f, 8);
-           RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));**/
-
+           RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+           */
     }
     public void testResume()
     {
