@@ -256,7 +256,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 {
                     animator.SetTrigger("ChangeLimb");
                 }
-                if (!IsInterleaved && this.IsWeb)
+                if (!IsInterleaved && (this.IsWeb) || this.IsInInstruction)
                 {
                     animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                 }
