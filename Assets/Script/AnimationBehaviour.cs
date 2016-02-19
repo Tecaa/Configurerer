@@ -214,7 +214,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         {
             this.CentralNode.originalABS = this._BehaviourState;
         }
-
+        Debug.Log("pasuse " + _BehaviourState);
         this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 0;
 
@@ -598,17 +598,18 @@ public class BehaviourParams //: BehaviourParams
     /// <param name="_forwardSpeed"></param>
     /// <param name="_backwardSpeed"></param>
     /// <param name="_secondsBetweenReps"></param>
-    public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsBetweenReps)
+    /*
+    public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsBetweenReps, int _secondsInPose)
     {
         Angle = _angle;
         ForwardSpeed = _forwardSpeed;
         BackwardSpeed = _backwardSpeed;
         SecondsBetweenRepetitions = _secondsBetweenReps;
-        SecondsInPose = 0;
-    }
+        SecondsInPose = _secondsInPose;
+    }*/
 
     /// <summary>
-    /// Constructor general
+    /// Constructor general y para LerpBehaviour
     /// </summary>
     /// <param name="_angle"></param>
     /// <param name="_forwardSpeed"></param>
@@ -616,8 +617,11 @@ public class BehaviourParams //: BehaviourParams
     /// <param name="_secondsInPose"></param>
     /// <param name="_secondsBetweenReps"></param>
     public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsInPose, int _secondsBetweenReps)
-        : this(_angle, _forwardSpeed, _backwardSpeed, _secondsBetweenReps)
     {
+        Angle = _angle;
+        ForwardSpeed = _forwardSpeed;
+        BackwardSpeed = _backwardSpeed;
+        SecondsBetweenRepetitions = _secondsBetweenReps;
         SecondsInPose = _secondsInPose;
     }
 

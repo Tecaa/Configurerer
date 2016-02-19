@@ -100,7 +100,7 @@ public class AnimatorScript : MonoBehaviour
     public void testPrepare()
     {
 
-        //PrepareExercise(new Exercise(Movement.EstocadaFrontalCortaConTorsiónDeTronco_60, Laterality.Single, Limb.Interleaved), new BehaviourParams(70, 1.5f, 0.4f, 3));
+        PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f, 1.5f, 3, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
         //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
         //PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
@@ -136,14 +136,14 @@ public class AnimatorScript : MonoBehaviour
         }, 2, 2, 0.5f));
         ***/
         
-		
+		/*
 		PrepareExercise(new Exercise(Movement.Milton_A, Laterality.Single, Limb.Right), new BehaviourParams(new List<Exercise>() {
 			{ new Exercise(Movement.Milton_A, Laterality.Single, Limb.Right) },
 			{ new Exercise(Movement.Milton_B, Laterality.Single, Limb.Right) },
 			{ new Exercise(Movement.Milton_C, Laterality.Single, Limb.Right) },
 			{ new Exercise(Movement.Milton_D, Laterality.Single, Limb.Right) },
 		}, 2, 1));
-
+        */
         /**
         
 		PrepareExercise(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {

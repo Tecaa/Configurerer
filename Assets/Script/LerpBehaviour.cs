@@ -60,6 +60,8 @@ public class LerpBehaviour : AnimationBehaviour {
     /// </summary>
     private LerpState _lastLerpState;
 
+    private bool holdingPose = false;
+
     private event EventHandler LerpRoundTripEnd;
     protected void OnLerpRoundTripEnd()
     {
@@ -114,11 +116,74 @@ public class LerpBehaviour : AnimationBehaviour {
         this._lerpBehaviourState = lbs;
     }
     */
+    //
+    //==== Controlar tiempos de repeticiones
+    //
+
+    public ClockBehaviour _ClockBehaviour;
+    public ClockBehaviour clockBehaviour
+    {
+        get
+        {
+            return this._ClockBehaviour;
+        }
+        set
+        {
+            this._ClockBehaviour = value;
+        }
+    }
+
+    public float secondsInPose
+    {
+        get
+        {
+            return this._realParams.SecondsInPose;
+        }
+    }
+
+    //
+    //==== FIN Controlar tiempos de repeticiones
+    //
+
+
+    //===== FIN RELOJ
+
+    private void executionTimerStart()
+    {
+        //Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
+        //Debug.Log(" INICIO manteniendo pose pose ");
+        this.holdingPose = true;
+    }
+
+    private void executionTimerFinish()
+    {
+        //Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
+        //Debug.Log("FIN manteniendo pose pose ");
+        this.holdingPose = false;
+        clockBehaviour.stopExecutionTimer();
+    }
+
+
+    /**
+    Cuando se acaba el tiempo de pausa entre repeticiones
+    **/
+    private void pauseBetweenRepetitionsFinish()
+    {
+        //clockBehaviour.stopTimeBetweenRepetitionsTimer();
+        //Debug.Log("termina pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+        //SetNextVariation();
+    }
+
+    private void pauseBetweenRepetitionsStart()
+    {
+        //Debug.Log("comienza pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+    }
     override public void Prepare(BehaviourParams bp)
     {
         BehaviourParams lp = (BehaviourParams)bp;
         this._RealParams = lp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_DEFAULT;
+        Debug.Log(_BehaviourState + " " + this.GetInstanceID() + "  " + this.movement + " " + this.laterality + " " + this.limb);
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
     }
@@ -214,8 +279,21 @@ public class LerpBehaviour : AnimationBehaviour {
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     private float defaultAnimationLength;
-	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+    private bool hasEnteredBefore = false;
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
+        if (hasEnteredBefore == false)
+        {
+            Debug.Log("instanciamos el reloj");
+            hasEnteredBefore = true;
+
+            clockBehaviour = new ClockBehaviour();
+            clockBehaviour.executionTimerFinish += executionTimerFinish;
+            clockBehaviour.executionTimerStart += executionTimerStart;
+            clockBehaviour.pauseBetweenRepetitionsStart += pauseBetweenRepetitionsStart;
+            clockBehaviour.pauseBetweenRepetitionsFinish += pauseBetweenRepetitionsFinish;
+
+        }
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             return;
@@ -225,7 +303,6 @@ public class LerpBehaviour : AnimationBehaviour {
         //Está la animación en caché
         if(PreparedExercises.tryGetPreparedExercise(new Exercise(movement, laterality, limb), out this._timeAndAngles, stateInfo.length))
         {
-//            Debug.Log("saved exercise " + this.GetInstanceID());
             //Repetición de preparación
             if (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB)
             {
@@ -248,7 +325,8 @@ public class LerpBehaviour : AnimationBehaviour {
         //No está la animación en caché
         else
         {
-           if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
+            Debug.Log(_BehaviourState + " " + this.GetInstanceID() + "  "+ this.movement + " "+ this.laterality + " " + this.limb);
+            if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
             {
                 this._timeAndAngles = new List<AnimationInfo>();
                 this.StartLerp();
@@ -275,6 +353,7 @@ public class LerpBehaviour : AnimationBehaviour {
     int debug = 0;
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        clockBehaviour.Update();
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             animator.speed = 0;
@@ -333,7 +412,6 @@ public class LerpBehaviour : AnimationBehaviour {
             animator.StartRecording(0);
             animator.speed = Mathf.Lerp(startPosition, endPosition, percentageComplete);
             animator.StopRecording();
-            
             if (percentageComplete >= 1.0f)
             {
                 InterpolationEnd();
@@ -432,7 +510,7 @@ public class LerpBehaviour : AnimationBehaviour {
 
         if (_BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || _BehaviourState == AnimationBehaviourState.PREPARING_WEB || _BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
         {
-            _currentParams = new BehaviourParams(defaultAnimationLength, 1, 1, 0);
+            _currentParams = new BehaviourParams(defaultAnimationLength, 1, 1, 0, 3);
             timeTakenDuringLerp = (float)Math.Floor(defaultAnimationLength * 10) / 10;
             //timeTakenDuringLerp = defaultAnimationLength;
         }
@@ -493,98 +571,105 @@ public class LerpBehaviour : AnimationBehaviour {
     /// Cuando termina una interpolacion se comprueba el estado de la animacion para continuar con el ciclo de aceleración y desaceleracion
     /// </summary>
     private void InterpolationEnd()
-    { 
+    {
         switch (_currentLerpState)
         {
             case LerpState.Forward:
                 _currentLerpState = LerpState.Stopped;
                 _lastLerpState = LerpState.Forward;
                 BeginLerp(forwardSpeed, 0);
+                this.holdingPose = true;
+                Debug.Log("segundos " + this._currentParams.SecondsInPose);
+                clockBehaviour.executeRepetitionTime(this._currentParams.SecondsInPose);
                 break;
 
             case LerpState.Stopped:
-                if (_lastLerpState == LerpState.Forward)
-                {
-                    _currentLerpState = LerpState.Backward;
-                    _lastLerpState = LerpState.Stopped;
-                    BeginLerp(0, -backwardSpeed);
-                }
-                    
-                        
-                //De ser true, indica que termino una repeticion
-                else if (_lastLerpState == LerpState.Backward)
-                {
-                    _currentLerpState = LerpState.Forward;
-                    _lastLerpState = LerpState.Forward;
-                    beginRep = false;
-                    if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
+                //si holdingPose es TRUE el instructor esta en mantener Pose
+                if (holdingPose == false) { 
+                    if (_lastLerpState == LerpState.Forward)
                     {
-                        try
-                        {
-                            DebugLifeware.Log("se intentara savear", DebugLifeware.Developer.Marco_Rojas);
-                            PreparedExercises.InsertPreparedExercise(new Exercise(movement, laterality, limb), _timeAndAngles);
-                        }
-                        catch
-                        {
-
-                            DebugLifeware.Log("ya existia el ejercicio", DebugLifeware.Developer.Marco_Rojas);
-                            ; // do nothing
-                        }
-                        if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT)
-                        {
-                            this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
-                        }
-                        else
-                        {
-                            this._BehaviourState = AnimationBehaviourState.STOPPED;
-                            //TODO: NO SABEMOS SI DEJAR ESTA LINEA
-                            Stop();
-                            OnRepetitionEnd();
-                        }
+                        _currentLerpState = LerpState.Backward;
+                        _lastLerpState = LerpState.Stopped;
+                        BeginLerp(0, -backwardSpeed);
                     }
-                    else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
-                    {
-                        _BehaviourState = AnimationBehaviourState.STOPPED;
-                        //Stop();
-                        OnRepetitionEnd();
-                        //TODO: Recolectar datos y entregarlos a jorge
-                    }
-                    //Hace repeticiones hasta el infinito
-                    else if (this._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
-                    {
 
-                        OnLerpRoundTripEnd();
-                        if (!IsInterleaved || IsInterleaved && limb == Limb.Right)
+
+                    //De ser true, indica que termino una repeticion
+                    else if (_lastLerpState == LerpState.Backward)
+                    {
+                        _currentLerpState = LerpState.Forward;
+                        _lastLerpState = LerpState.Forward;
+                        beginRep = false;
+                        if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
                         {
-                            if ((!this.IsWeb) && (!this.IsInInstruction))
-                                this.PauseAnimation();
+                            try
+                            {
+                                DebugLifeware.Log("se intentara savear", DebugLifeware.Developer.Marco_Rojas);
+                                PreparedExercises.InsertPreparedExercise(new Exercise(movement, laterality, limb), _timeAndAngles);
+                            }
+                            catch
+                            {
+
+                                DebugLifeware.Log("ya existia el ejercicio", DebugLifeware.Developer.Marco_Rojas);
+                                ; // do nothing
+                            }
+                            if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT)
+                            {
+                                this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+                            }
+                            else
+                            {
+                                this._BehaviourState = AnimationBehaviourState.STOPPED;
+                                //TODO: NO SABEMOS SI DEJAR ESTA LINEA
+                                Stop();
+                                OnRepetitionEnd();
+                            }
+                        }
+                        else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
+                        {
+                            _BehaviourState = AnimationBehaviourState.STOPPED;
+                            //Stop();
                             OnRepetitionEnd();
+                            //TODO: Recolectar datos y entregarlos a jorge
                         }
-
-                        if (IsInterleaved)
-                        {
-                            if (this.limb == Limb.Left)
-                                this._Opposite.endRepTime = null;
-                            animator.SetTrigger("ChangeLimb");
-                        }
-                        if (this._BehaviourState == AnimationBehaviourState.STOPPED)
-                        {
-                            endRepTime = null;
-                            ReadyToLerp = false;
-
-                        }
-                        else if (!IsInterleaved)
+                        //Hace repeticiones hasta el infinito
+                        else if (this._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                         {
 
-                            StartLerp();
-                            //BeginLerp(0, forwardSpeed, true);
-                            //animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+                            OnLerpRoundTripEnd();
+                            if (!IsInterleaved || IsInterleaved && limb == Limb.Right)
+                            {
+                                if ((!this.IsWeb) && (!this.IsInInstruction))
+                                    this.PauseAnimation();
+                                OnRepetitionEnd();
+                            }
+
+                            if (IsInterleaved)
+                            {
+                                if (this.limb == Limb.Left)
+                                    this._Opposite.endRepTime = null;
+                                animator.SetTrigger("ChangeLimb");
+                            }
+                            if (this._BehaviourState == AnimationBehaviourState.STOPPED)
+                            {
+                                endRepTime = null;
+                                ReadyToLerp = false;
+
+                            }
+                            else if (!IsInterleaved)
+                            {
+
+                                StartLerp();
+                                //BeginLerp(0, forwardSpeed, true);
+                                //animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+                            }
                         }
                     }
                 }
                 break;
 
             case LerpState.Backward:
+                Debug.Log("Backward");
                 _currentLerpState = LerpState.Stopped;
                 _lastLerpState = LerpState.Backward;
                 BeginLerp(-backwardSpeed, 0);
@@ -597,6 +682,7 @@ public class LerpBehaviour : AnimationBehaviour {
     /// </summary>
     override public void Stop()
     {
+        Debug.Log(_BehaviourState);
         _BehaviourState = AnimationBehaviourState.STOPPED;
 
         if(this.IsInterleaved)
