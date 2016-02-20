@@ -100,7 +100,7 @@ public class AnimatorScript : MonoBehaviour
     public void testPrepare()
     {
 
-        PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f, 1.5f, 3, 3));
+        PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f, 1.5f, 8, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
         //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
         //PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
@@ -165,9 +165,10 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testRun()
     {
+        /*
         BehaviourParams param = new BehaviourParams(60, 1.5f, 1.5f, 3, 3);
         RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
-
+        */
 
 
         //string s = "{\"Angle\":45,\"ForwardSpeed\":2,\"BackwardSpeed\":2,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
@@ -179,7 +180,7 @@ public class AnimatorScript : MonoBehaviour
         string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         RunExerciseWeb(s);
     */
-        //RunExercise();
+        RunExercise();
         //RunExerciseWebWithoutParams();
         //PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f, 1.5f, 3, 3));
         /*BehaviourParams p = new BehaviourParams(new List<Exercise>() {

@@ -183,7 +183,6 @@ public class LerpBehaviour : AnimationBehaviour {
         BehaviourParams lp = (BehaviourParams)bp;
         this._RealParams = lp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_DEFAULT;
-        Debug.Log(_BehaviourState + " " + this.GetInstanceID() + "  " + this.movement + " " + this.laterality + " " + this.limb);
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
     }
@@ -284,7 +283,6 @@ public class LerpBehaviour : AnimationBehaviour {
     {
         if (hasEnteredBefore == false)
         {
-            Debug.Log("instanciamos el reloj");
             hasEnteredBefore = true;
 
             clockBehaviour = new ClockBehaviour();
@@ -325,7 +323,6 @@ public class LerpBehaviour : AnimationBehaviour {
         //No está la animación en caché
         else
         {
-            Debug.Log(_BehaviourState + " " + this.GetInstanceID() + "  "+ this.movement + " "+ this.laterality + " " + this.limb);
             if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
             {
                 this._timeAndAngles = new List<AnimationInfo>();
@@ -459,26 +456,8 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
                 break;
         }
-        //Debug.LogError(tempAnimationInfo.angle);
         GameObject.FindGameObjectWithTag("angulotexto").GetComponent<Text>().text = "Angulo " + joint.articulacion.ToString() + " : " + tempAnimationInfo.angle.ToString();
 
-        if( Math.Abs((int)tempAnimationInfo.angle - 45)  <= 1.5)
-        {
-                        
-            //Debug.LogWarning("45  -  " + tempAnimationInfo.time.ToString());
-        }
-        else if (Math.Abs((int)tempAnimationInfo.angle - 60) <= 1.5)
-        {
-            //animator.speed = 0;
-           // Debug.LogWarning("60  -  " + tempAnimationInfo.time.ToString());
-        }
-        else if (Math.Abs((int)tempAnimationInfo.angle - 90) <= 1.5)
-        {
-            //Debug.LogWarning("90  -  " + tempAnimationInfo.time.ToString());
-        }
-        //        Debug.Log("agregando angulo" + tempAnimationInfo.angle);
-
-       
     }
 
 
@@ -512,13 +491,11 @@ public class LerpBehaviour : AnimationBehaviour {
         {
             _currentParams = new BehaviourParams(defaultAnimationLength, 1, 1, 0, 3);
             timeTakenDuringLerp = (float)Math.Floor(defaultAnimationLength * 10) / 10;
-            //timeTakenDuringLerp = defaultAnimationLength;
         }
         else
         {
             _currentParams = _RealParams;
             timeTakenDuringLerp = (float)Math.Floor(GetAnimationInfo(_currentParams.Angle, _timeAndAngles).time * 10) / 10;
-            //timeTakenDuringLerp = GetAnimationInfo(_actualLerpParams.Angle, _timeAndAngles).time;
         }
         //Normalizo el tiempo que tardo en parar
         timeTakenDuringForwardLerp = timeTakenDuringLerp / _currentParams.ForwardSpeed;
@@ -579,7 +556,6 @@ public class LerpBehaviour : AnimationBehaviour {
                 _lastLerpState = LerpState.Forward;
                 BeginLerp(forwardSpeed, 0);
                 this.holdingPose = true;
-                Debug.Log("segundos " + this._currentParams.SecondsInPose);
                 clockBehaviour.executeRepetitionTime(this._currentParams.SecondsInPose);
                 break;
 
@@ -669,7 +645,6 @@ public class LerpBehaviour : AnimationBehaviour {
                 break;
 
             case LerpState.Backward:
-                Debug.Log("Backward");
                 _currentLerpState = LerpState.Stopped;
                 _lastLerpState = LerpState.Backward;
                 BeginLerp(-backwardSpeed, 0);
@@ -682,7 +657,6 @@ public class LerpBehaviour : AnimationBehaviour {
     /// </summary>
     override public void Stop()
     {
-        Debug.Log(_BehaviourState);
         _BehaviourState = AnimationBehaviourState.STOPPED;
 
         if(this.IsInterleaved)
