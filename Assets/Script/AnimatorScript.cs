@@ -147,13 +147,8 @@ public class AnimatorScript : MonoBehaviour
         */
         
         
-		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
-            new BehaviourParams(new List<Movement>() {
-			{ Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoIzquierda },
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaDerecha },
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda },
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha},
-        }, 2, 1.5f, 8));
+		PrepareExercise(new Exercise(Movement.EquilibrioMonopodal, Laterality.Single, Limb.Right), 
+            new BehaviourParams(1, 2, 0.2f, 8));
 
         /**
         PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), Caller.Preview);
