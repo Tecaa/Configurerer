@@ -20,7 +20,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     [HideInInspector]
     public Animator animator;
     [HideInInspector]
-    public List<Exercise> randomAnimations;
+    public List<Movement> randomAnimations;
     private bool _isInterleaved;
     [HideInInspector]
     public DateTime? endRepTime = null;
@@ -381,7 +381,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         }
     }
 
-	protected void initializeRandomAnimations(List<Exercise> animations)
+	protected void initializeRandomAnimations(List<Movement> animations)
 	{
 		
 		AnimationBehaviour central = AnimationBehaviour.GetCentralBehaviour(this.movement, this.limb);
@@ -396,11 +396,12 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     {
         if (this.randomAnimations == null)
         {
-            this.randomAnimations = new List<Exercise>();
+            this.randomAnimations = new List<Movement>();
             List<AnimationBehaviour> friends = AnimationBehaviour.getFriendBehaviours(this.movement);
             foreach (AnimationBehaviour a in friends)
             {
-                randomAnimations.Add(new Exercise(a.movement, a.laterality, a.limb));
+                //randomAnimations.Add(new Movement(a.movement, a.laterality, a.limb));
+                randomAnimations.Add(a.movement);
             }
         }
     }
@@ -411,12 +412,13 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         Debug.Log("CAMBIANDO ANIMACION");
 		++this.CentralNode.actualRandomAnimationIndex;
 		int index = (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count;
-		AnimatorScript.instance.CurrentExercise = this.CentralNode.randomAnimations[index];
+		AnimatorScript.instance.CurrentExercise = 
+            new Exercise(this.CentralNode.randomAnimations[index], this.CentralNode.laterality, this.CentralNode.limb);
 	}
 	
-	protected List<Exercise> GetRandomAnimations(List<Exercise> exs)
+	protected List<Movement> GetRandomAnimations(List<Movement> exs)
 	{
-		List<Exercise> random = new List<Exercise>();
+		List<Movement> random = new List<Movement>();
 		
 		exs.AddRange(exs);
 		exs.AddRange(exs);
@@ -519,7 +521,7 @@ public class BehaviourParams //: BehaviourParams
     public const float DEFAULT_TIME = 1.0f;
     public int SecondsBetweenRepetitions = 1;
     public int SecondsInPose = 1;
-    public List<Exercise> Variations;
+    public List<Movement> Variations;
 
     public BehaviourParams()
     {
@@ -556,7 +558,7 @@ public class BehaviourParams //: BehaviourParams
     /// <param name="_secondsBetweenReps"></param>
     /// <param name="_forwardSpeed"></param>
     /// <param name="_backwardSpeed"></param>
-    public BehaviourParams(List<Exercise> _variations, int _secondsBetweenReps, float _forwardSpeed, float _backwardSpeed)
+    public BehaviourParams(List<Movement> _variations, int _secondsBetweenReps, float _forwardSpeed, float _backwardSpeed)
     {
         SecondsBetweenRepetitions = _secondsBetweenReps;
         ForwardSpeed = _forwardSpeed;
@@ -570,7 +572,7 @@ public class BehaviourParams //: BehaviourParams
     /// <param name="_secondsBetweenReps"></param>
     /// <param name="_forwardSpeed"></param>
     /// <param name="_backwardSpeed"></param>
-    public BehaviourParams(List<Exercise> _variations, int _secondsBetweenReps, float _speed, int _secondsInPose)
+    public BehaviourParams(List<Movement> _variations, int _secondsBetweenReps, float _speed, int _secondsInPose)
     {
         SecondsBetweenRepetitions = _secondsBetweenReps;
         ForwardSpeed = _speed;
@@ -585,7 +587,7 @@ public class BehaviourParams //: BehaviourParams
     /// <param name="_secondsBetweenReps"></param>
     /// <param name="_forwardSpeed"></param>
     /// <param name="_backwardSpeed"></param>
-    public BehaviourParams(List<Exercise> _variations, int _secondsBetweenReps, int _secondsInPose)
+    public BehaviourParams(List<Movement> _variations, int _secondsBetweenReps, int _secondsInPose)
     {
         SecondsBetweenRepetitions = _secondsBetweenReps;
         Variations = _variations;

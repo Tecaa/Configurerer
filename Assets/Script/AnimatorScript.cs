@@ -100,10 +100,10 @@ public class AnimatorScript : MonoBehaviour
     public void testPrepare()
     {
 
-        PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f, 1.5f, 8, 3));
+        //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(65, 1f, 1f, 8, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
-        //PrepareExercise(new Exercise(Movement.PruebaMantenerPose, Laterality.Single, Limb.Right), new BehaviourParams(60, 1.5f,1.5f, 3, 2));
-        //PrepareExercise(new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f,1.5f, 6, 3));
+        //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2));
+        //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));
 
 
         //jExercise ex = new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left);
@@ -137,21 +137,23 @@ public class AnimatorScript : MonoBehaviour
         ***/
         
 		/*
-		PrepareExercise(new Exercise(Movement.Milton_A, Laterality.Single, Limb.Right), new BehaviourParams(new List<Exercise>() {
-			{ new Exercise(Movement.Milton_A, Laterality.Single, Limb.Right) },
-			{ new Exercise(Movement.Milton_B, Laterality.Single, Limb.Right) },
-			{ new Exercise(Movement.Milton_C, Laterality.Single, Limb.Right) },
-			{ new Exercise(Movement.Milton_D, Laterality.Single, Limb.Right) },
-		}, 2, 1));
+		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
+            new BehaviourParams(new List<Movement>() {
+			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
+			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda},
+			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha},
+			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
+        }, 2, 0));
         */
-        /**
         
-		PrepareExercise(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
-			{ new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left) },
-			{ new Exercise(Movement.Pablo_B, Laterality.Single, Limb.Left) },
-			{ new Exercise(Movement.Pablo_C, Laterality.Single, Limb.Left) },
-			{ new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
-		}, 2, 1.5f, 8));**/
+        
+		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
+            new BehaviourParams(new List<Movement>() {
+			{ Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoIzquierda },
+            { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaDerecha },
+            { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda },
+            { Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha},
+        }, 2, 1.5f, 8));
 
         /**
         PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), Caller.Preview);
@@ -254,7 +256,7 @@ public class AnimatorScript : MonoBehaviour
         if (param.Variations == null)
             CurrentExercise = e;
         else
-            CurrentExercise = behaviour.randomAnimations[0];
+            CurrentExercise = new Exercise(behaviour.randomAnimations[0], e.Laterality, e.Limb);
     }
 
     private IEnumerator InitialPoseDelayed()
@@ -367,7 +369,7 @@ public class AnimatorScript : MonoBehaviour
         if (rep.Variations == null)
             RewindExercise();
         else //if (behaviour.GetType() != typeof(StayInPoseWithVariationBehaviour))
-            CurrentExercise = behaviour.randomAnimations[0];
+            CurrentExercise = new Exercise(behaviour.randomAnimations[0], CurrentExercise.Laterality, CurrentExercise.Limb);
 
 
 

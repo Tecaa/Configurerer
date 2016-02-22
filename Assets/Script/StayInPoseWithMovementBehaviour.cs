@@ -10,6 +10,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
     protected override bool HasCentralNode { get { return false; } }
     enum StayInPoseState { HoldingOn, Resting }
     private StayInPoseState stayInPoseState;
+    [HideInInspector]
     public bool haCambiadoDeEstado = false;
     /*public void SetLerpBehaviourState(AnimationBehaviourState lbs)
     {
@@ -255,9 +256,11 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
     {
 
         _behaviourState = AnimationBehaviourState.STOPPED;
-        if ((_Opposite as StayInPoseWithMovementBehaviour)._behaviourState != AnimationBehaviourState.STOPPED)
-            _Opposite.Stop();
-
+        if (IsInterleaved)
+        {
+            if ((_Opposite as StayInPoseWithMovementBehaviour)._behaviourState != AnimationBehaviourState.STOPPED)
+                _Opposite.Stop();
+        }
         //this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 
         animator.speed = 1;

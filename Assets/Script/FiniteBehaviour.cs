@@ -9,6 +9,7 @@ public class FiniteBehaviour : AnimationBehaviour
     /// <summary>
     /// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
     /// </summary>
+    [HideInInspector]
     public bool haCambiadoDeEstado = false;
     private event EventHandler LerpRoundTripEnd;
     /// <summary>

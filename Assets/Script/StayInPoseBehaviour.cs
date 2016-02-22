@@ -8,6 +8,7 @@ using System.Threading;
 public class StayInPoseBehaviour : AnimationBehaviour {
 
     private StayInPoseState stayInPoseState;
+    [HideInInspector]
     public bool haCambiadoDeEstado = false;
     protected override bool HasCentralNode { get { return false; } }
     public void SetLerpBehaviourState(AnimationBehaviourState lbs)
@@ -142,10 +143,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
 
         float DELTA = 0.05f;
-
         DateTime temp = DateTime.Now;
-
-        Debug.Log("bh state = " + _BehaviourState + " stay state = " +  stayInPoseState + "  " + (Time.time - startHoldTime) + "  >= " + _realParams.SecondsInPose);
         if (_BehaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
             if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
@@ -191,10 +189,9 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                     animator.SetTrigger("ChangeLimb");
                 }
                 OnRepetitionEnd();
-
                 if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
-                    _BehaviourState = AnimationBehaviourState.STOPPED;
-                
+                    this.Stop();
+
             }
 
             else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime>= _realParams.SecondsBetweenRepetitions)
@@ -264,7 +261,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
         animator.speed = 1;
         stayInPoseState = StayInPoseState.Resting;
-
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
     }
     void OnDestroy()

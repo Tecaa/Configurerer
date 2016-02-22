@@ -301,7 +301,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
             OnRepetitionReallyStart();
         }
         
-        if (!this.IsCentralNode && this.CentralNode.randomAnimations[0].Movement == this.movement)
+        if (!this.IsCentralNode && this.CentralNode.randomAnimations[0] == this.movement)
             IsRewinding = false;
 
         if (this.IsCentralNode && hasEnteredBefore == false)
