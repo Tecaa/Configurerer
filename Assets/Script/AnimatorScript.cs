@@ -147,8 +147,8 @@ public class AnimatorScript : MonoBehaviour
         */
         
         
-		PrepareExercise(new Exercise(Movement.EquilibrioMonopodal, Laterality.Single, Limb.Right), 
-            new BehaviourParams(1, 2, 0.2f, 8));
+		PrepareExercise(new Exercise(Movement.ExtensiónDeHombrosConFlexiónDeCodosEnBípedo_Bilateral_45  , Laterality.Double, Limb.None), 
+            new BehaviourParams(1, 2, 5, 8));
 
         /**
         PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), Caller.Preview);
