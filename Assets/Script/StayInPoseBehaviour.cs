@@ -112,7 +112,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             this.Stop();
 
         }
-
+        this.animator.speed = this._realParams.ForwardSpeed;
         defaultAnimationLength = stateInfo.length;
         startAnimationTime = Time.time;
     
@@ -135,7 +135,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     float startRestTime;
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        Debug.Log("speed: " + this.animator.speed);
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
         {
             animator.speed = 0;
@@ -156,7 +156,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             }
             if (stayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
             {
-             
+                Debug.Log("forward: " + animator.speed + "current: " + this._realParams.ForwardSpeed);
                 animator.speed = 0;
                 startHoldTime = Time.time;
                 stayInPoseState = StayInPoseState.HoldingOn;
@@ -168,8 +168,9 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             {
                 //DebugLifeware.Log("Para atrás", DebugLifeware.Developer.Marco_Rojas);
                 animator.StartRecording(0);
-                animator.speed = -1;
+                animator.speed = -this._realParams.BackwardSpeed;
                 animator.StopRecording();
+                Debug.Log("backward: " + animator.speed + "current: " + this._realParams.BackwardSpeed);
                 stayInPoseState = StayInPoseState.Leaving;
             }
 
@@ -197,7 +198,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime>= _realParams.SecondsBetweenRepetitions)
             {
                 //DebugLifeware.Log("descansando", DebugLifeware.Developer.Marco_Rojas);
-                animator.speed = 1;
+                this.animator.speed = this._realParams.ForwardSpeed;
                 stayInPoseState = StayInPoseState.GoingTo;
 
             }

@@ -153,8 +153,8 @@ public class AnimatorScript : MonoBehaviour
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
         }, 2, 2, 0.5f));
         ***/
-
-        /*
+        
+		/*
 		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
@@ -163,7 +163,7 @@ public class AnimatorScript : MonoBehaviour
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
         }, 2, 0));
         */
-
+        
         /*
 		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
             new BehaviourParams(new List<Movement>() {
@@ -225,7 +225,7 @@ public class AnimatorScript : MonoBehaviour
                { new Exercise(Movement.Pablo_D, Laterality.Single, Limb.Left) },
            }, 2, 1.5f, 8);
            RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
-        */
+           */
     }
     public void testResume()
     {

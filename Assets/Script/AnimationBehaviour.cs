@@ -527,7 +527,7 @@ public class BehaviourParams //: BehaviourParams
     }
 
     /// <summary>
-    /// Constructor usable en StayInPoseBehaviour y StayInPoseWithMovement?
+    /// Constructor usable en StayInPoseWithMovement
     /// </summary>
     /// <param name="_secondsInPose"></param>
     /// <param name="_secondsBetweenReps"></param>
@@ -535,6 +535,18 @@ public class BehaviourParams //: BehaviourParams
     {
         SecondsBetweenRepetitions = _secondsBetweenReps;
         SecondsInPose = _secondsInPose;
+    }
+    /// <summary>
+    /// Constructor usable en StayInPoseBehaviour
+    /// </summary>
+    /// <param name="_secondsInPose"></param>
+    /// <param name="_secondsBetweenReps"></param>
+    public BehaviourParams(int _secondsInPose, int _secondsBetweenReps, float _forwardSpeed, float _backwardSpeed)
+    {
+        SecondsBetweenRepetitions = _secondsBetweenReps;
+        SecondsInPose = _secondsInPose;
+        ForwardSpeed = _forwardSpeed;
+        BackwardSpeed = _backwardSpeed;
     }
 
     /// <summary>
