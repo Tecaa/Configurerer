@@ -251,13 +251,13 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	}
 
     override public void RunWeb()
-	{
-		if (this.IsInterleaved)
+    {
+        this.initializeRandomAnimations();
+        if (this.IsInterleaved)
 		{
 			this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_DEFAULT);
 		}
 		this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
-        this.initializeRandomAnimations();
 
         this.CentralNode._RealParams = new BehaviourParams();
         this.CentralNode.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;

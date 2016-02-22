@@ -394,15 +394,13 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     protected void initializeRandomAnimations()
     {
-        if (this.randomAnimations == null)
+        this.CentralNode.randomAnimations = new List<Movement>();
+        List<AnimationBehaviour> friends = AnimationBehaviour.getFriendBehaviours(this.movement);
+
+        foreach (AnimationBehaviour a in friends)
         {
-            this.randomAnimations = new List<Movement>();
-            List<AnimationBehaviour> friends = AnimationBehaviour.getFriendBehaviours(this.movement);
-            foreach (AnimationBehaviour a in friends)
-            {
-                //randomAnimations.Add(new Movement(a.movement, a.laterality, a.limb));
-                randomAnimations.Add(a.movement);
-            }
+            //randomAnimations.Add(new Movement(a.movement, a.laterality, a.limb));
+            this.CentralNode.randomAnimations.Add(a.movement);
         }
     }
    
