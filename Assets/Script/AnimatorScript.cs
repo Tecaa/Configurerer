@@ -162,8 +162,9 @@ public class AnimatorScript : MonoBehaviour
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
         }, 2, 2, 0.5f));
         ***/
-
-        /*
+        PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
+            new BehaviourParams(1, 2, 5, 8));
+		/*
 		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
@@ -172,7 +173,7 @@ public class AnimatorScript : MonoBehaviour
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
         }, 2, 0));
         */
-
+        
         /*
 		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
             new BehaviourParams(new List<Movement>() {
@@ -231,6 +232,12 @@ public class AnimatorScript : MonoBehaviour
         //Para correr web sin parametros ***************************************
         //RunExerciseWebWithoutParams();
         //**********************************************************************
+
+        //Para correr en juego (True con instruccion - false sin instruccion)***
+        RunExercise(false);
+        //**********************************************************************
+
+
 
         //PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f, 1.5f, 3, 3));
         /*BehaviourParams p = new BehaviourParams(new List<Exercise>() {

@@ -272,7 +272,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                     encontrado = lb;
                     break;
                 }
-                else if (l == lb.limb)
+                else if (!lb.HasCentralNode && lb.movement == m && l == lb.limb)
                     encontrado = lb;
             }
         }

@@ -51,7 +51,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     }
     override protected void PrepareWebInternal()
     {
-
+        Debug.Log("prepareWebInternal");
         this._BehaviourState = AnimationBehaviourState.PREPARING_WEB;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
@@ -59,7 +59,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     override public void Run()
     {
         endRepTime = null;
-        //Debug.Log("Tirando Run");
+        Debug.Log("Tirando Run");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
@@ -71,7 +71,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     override public void RunWeb()
     {
         endRepTime = null;
-        //Debug.Log("Tirando RunWeb");
+        Debug.Log("Tirando RunWeb");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_DEFAULT);
@@ -83,7 +83,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     {
         endRepTime = null;
 
-        //Debug.Log("Tirando RunWebWithParams");
+        Debug.Log("Tirando RunWebWithParams");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
@@ -100,6 +100,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     private float startAnimationTime;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
+        Debug.Log("OnStateEnter");
         if (this._currentParams == null)
             this._currentParams = new BehaviourParams();
         if(this._realParams == null)
@@ -135,7 +136,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     float startRestTime;
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("speed: " + this.animator.speed);
+        Debug.Log("speed: " + this.animator.speed + " estado: " + this._BehaviourState);
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
         {
             animator.speed = 0;
@@ -253,11 +254,13 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
     public override void Stop()
     {
-
+        //Debug.Log("stop");
         _BehaviourState = AnimationBehaviourState.STOPPED;
-        if ((_Opposite as StayInPoseBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
-            _Opposite.Stop();
-
+        if (this.IsInInstruction)
+        {
+            if ((_Opposite as StayInPoseBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
+                _Opposite.Stop();
+        }
         //this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 
         animator.speed = 1;
