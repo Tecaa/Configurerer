@@ -106,21 +106,30 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));
 
         //Para correr Juego mp*****************************************
-        //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3, 2));
+        //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(3, 2));
+        //***********************************************************
+        //Para correr Juego mp con variacion*****************************************
+        //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda }, 1, 3, 2));
         //***********************************************************
         //Para correr web mp*******************************************
         //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), Caller.Config);
         //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
+        //Para correr web mp con variacion*******************************************
+        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
+        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        //***********************************************************
+        //Para correr Juego IV*****************************************
+        PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
+        //***********************************************************
 
         //Para correr Juego mpx*****************************************
-        //PrepareExercise(new Exercise(Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás, Laterality.Single, Limb.Left), new BehaviourParams(new List<Movement>() {
-        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal},
+        //PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda, Laterality.Single, Limb.Left), new BehaviourParams(new List<Movement>() {
+        //    { Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
         //}, 3, 2));
         //***********************************************************
-        //***********************************************************
         //Para correr web mpx *******************************************
-        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise (Movement.MantenerPosiciónExtrema_EtapaAvanzada_Ninja, Laterality.Single, Limb.Left), Caller.Config);
+        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.RecogiendoYGuardandoConAmbasManos_BrazosArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
         //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
 
@@ -155,7 +164,7 @@ public class AnimatorScript : MonoBehaviour
         ***/
         PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
             new BehaviourParams(1, 2, 5, 8));
-        /*
+		/*
 		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
@@ -164,7 +173,7 @@ public class AnimatorScript : MonoBehaviour
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
         }, 2, 0));
         */
-
+        
         /*
 		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
             new BehaviourParams(new List<Movement>() {
@@ -195,16 +204,28 @@ public class AnimatorScript : MonoBehaviour
         //string s = "{\"Angle\":45,\"ForwardSpeed\":2,\"BackwardSpeed\":2,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
         //RunExerciseWeb(s);
 
+        //Para correr en juego (True con instruccion - false sin instruccion)***
+        RunExercise(true);
+        //**********************************************************************
+
         //Para correr web con parametros****************************************
         //BehaviourParams p = new BehaviourParams(3, 2);
         //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         //RunExerciseWeb(s);
-
         //**********************************************************************
+
         //Para correr web con parametros mpx************************************
         //BehaviourParams p = new BehaviourParams(new List<Movement>() {
-        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_Ninja},
+        //    { Movement.RecogiendoYGuardandoConAmbasManos_BrazosAbajoDerecha},
         //}, 3, 2);
+        //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
+        //RunExerciseWeb(s);
+        //**********************************************************************
+
+        //Para correr web con parametros mp con variacion***********************
+        //BehaviourParams p = new BehaviourParams(new List<Movement>() {
+        //    {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda},
+        //}, 1, 3, 2);
         //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         //RunExerciseWeb(s);
         //**********************************************************************
