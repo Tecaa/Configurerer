@@ -120,8 +120,8 @@ public class AnimatorScript : MonoBehaviour
         //***********************************************************
         //***********************************************************
         //Para correr web mpx *******************************************
-        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise (Movement.MantenerPosiciónExtrema_EtapaAvanzada_Ninja, Laterality.Single, Limb.Left), Caller.Config);
-        PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise (Movement.MantenerPosiciónExtrema_EtapaAvanzada_Ninja, Laterality.Single, Limb.Left), Caller.Config);
+        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
 
         //jExercise ex = new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left);
@@ -153,8 +153,9 @@ public class AnimatorScript : MonoBehaviour
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
         }, 2, 2, 0.5f));
         ***/
-        
-		/*
+        PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
+            new BehaviourParams(1, 2, 5, 8));
+        /*
 		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
@@ -163,7 +164,7 @@ public class AnimatorScript : MonoBehaviour
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
         }, 2, 0));
         */
-        
+
         /*
 		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
             new BehaviourParams(new List<Movement>() {
@@ -208,11 +209,11 @@ public class AnimatorScript : MonoBehaviour
         //RunExerciseWeb(s);
         //**********************************************************************
         //Para correr web sin parametros ***************************************
-        RunExerciseWebWithoutParams();
+        //RunExerciseWebWithoutParams();
         //**********************************************************************
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        //RunExercise(false);
+        RunExercise(false);
         //**********************************************************************
 
 
