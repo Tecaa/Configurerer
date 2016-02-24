@@ -99,7 +99,13 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-
+        PrepareExercise(new Exercise(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, Laterality.Double, Limb.None), 
+            new BehaviourParams(/*new List<Movement>() {
+            { Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda },
+            { Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha},
+            { Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha},
+            { Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda},
+        },*/45, 1,1, 2, 2));
         //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(65, 1f, 1f, 8, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2));
@@ -120,7 +126,7 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
         //Para correr Juego IV*****************************************
-        PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
+        //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
         //***********************************************************
 
         //Para correr Juego mpx*****************************************
@@ -162,8 +168,8 @@ public class AnimatorScript : MonoBehaviour
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
         }, 2, 2, 0.5f));
         ***/
-        PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
-            new BehaviourParams(1, 2, 5, 8));
+        //PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
+          //  new BehaviourParams(1, 2, 5, 8));
 		/*
 		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
