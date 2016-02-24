@@ -422,12 +422,10 @@ public class LerpBehaviour : AnimationBehaviour {
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
         {
             timeSinceCapture = timeSinceCapture - INTERVAL ;
-            //if (exerciseDataGenerator == null)
-            //    exerciseDataGenerator = GameObject.FindObjectOfType<ExerciseDataGenerator>();
-            //TODO: rescatar de base de datos o diccionario
-            //TODO: rescatar captureData
-            //if (this.exerciseDataGenerator != null)
-            //    this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.BoundingBoxBased);
+            /*if (exerciseDataGenerator == null)
+                exerciseDataGenerator = GameObject.FindObjectOfType<Detector.ExerciseDataGenerator>();
+            if (this.exerciseDataGenerator != null)
+                this.exerciseDataGenerator.CaptureData();*/
         }
 
         
@@ -456,7 +454,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
                 break;
         }
-        GameObject.FindGameObjectWithTag("angulotexto").GetComponent<Text>().text = "Angulo " + joint.articulacion.ToString() + " : " + tempAnimationInfo.angle.ToString();
+        //GameObject.FindGameObjectWithTag("angulotexto").GetComponent<Text>().text = "Angulo " + joint.articulacion.ToString() + " : " + tempAnimationInfo.angle.ToString();
 
     }
 
