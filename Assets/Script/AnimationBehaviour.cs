@@ -40,6 +40,50 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     const int MAGIC_NUMBER = 10000;
     [HideInInspector]
 	public uint actualRandomAnimationIndex;
+    private bool _isRepetitionEnd = false;       //Indica si la repeticion ha finalizado
+    public bool IsRepetitionEnd
+    {
+        get
+        {
+            if (IsCentralNode || !this.HasCentralNode)
+                return this._isRepetitionEnd;
+            else
+            {
+                return this.CentralNode.IsRepetitionEnd;
+            }
+        }
+        set
+        {
+            if (IsCentralNode || !this.HasCentralNode)
+                this._isRepetitionEnd = value;
+            else
+            {
+                this.CentralNode.IsRepetitionEnd = value;
+            }
+        }
+    }
+    private bool _isResumen = false;             //Indica si la funcion resumen ha sido llamada
+    public bool IsResumen
+    {
+        get
+        {
+            if (IsCentralNode || !this.HasCentralNode)
+                return this._isResumen;
+            else
+            {
+                return this.CentralNode.IsResumen;
+            }
+        }
+        set
+        {
+            if (IsCentralNode || !this.HasCentralNode)
+                this._isResumen = value;
+            else
+            {
+                this.CentralNode.IsResumen = value;
+            }
+        }
+    }
 
     //[HideInInspector]
     //protected List<AnimationBehaviour> friendsBehaviours;
@@ -162,13 +206,23 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         {
             return;
         }
-        DebugLifeware.Log("OnRepetitionEnd" + " " + this.IsCentralNode, DebugLifeware.Developer.Alfredo_Gallardo | DebugLifeware.Developer.Marco_Rojas);
+        //DebugLifeware.Log("OnRepetitionEnd" + " " + this.IsCentralNode, DebugLifeware.Developer.Alfredo_Gallardo | DebugLifeware.Developer.Marco_Rojas);
         EventHandler eh = RepetitionEnd;
         if (eh != null)
         {
             eh(this, new EventArgs());
         }
-        
+        IsRepetitionEnd = true;
+        //Debug.Log("onRepetitionEnd: " + IsRepetitionEnd + " _isResumen: " + IsResumen);
+        if (IsResumen && !this.HasCentralNode)
+        {
+            //Debug.Log(" onrepetition");
+            ResumeAnimation();
+        }
+        if(IsResumen && this.HasCentralNode)
+        {
+            CentralNode.ResumeAnimation();
+        }
     }
     protected void OnRepetitionReallyStart()
     {
@@ -177,7 +231,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         {
             return;
         }
-        DebugLifeware.Log("OnRepetitionStart after " + (DateTime.Now - endRepTime), DebugLifeware.Developer.Alfredo_Gallardo);
+        //DebugLifeware.Log("OnRepetitionStart after " + (DateTime.Now - endRepTime), DebugLifeware.Developer.Alfredo_Gallardo);
         EventHandler eh = RepetitionReallyStart;
         if (eh != null)
         {
@@ -187,23 +241,31 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     protected AnimationBehaviourState originalABS = AnimationBehaviourState.STOPPED;
     public virtual void ResumeAnimation()
     {
-        if (this.CentralNode != null)
+        IsResumen = true;
+        if (IsRepetitionEnd == true)
         {
-            this.originalABS = this.CentralNode.originalABS;
-            this.CentralNode.endRepTime = DateTime.Now;
-        }
-        else
-            this.endRepTime = DateTime.Now;
+            //Debug.Log("Resume Animation");
+            if (this.CentralNode != null)
+            {
+                this.originalABS = this.CentralNode.originalABS;
+                this.CentralNode.endRepTime = DateTime.Now;
+            }
+            else
+                this.endRepTime = DateTime.Now;
 
-        if (this.IsInterleaved && this.limb == Limb.Left)
-        {
-            animator.SetTrigger("ChangeLimb");
-            this._Opposite.SetBehaviourState(originalABS);
+            if (this.IsInterleaved && this.limb == Limb.Left)
+            {
+                animator.SetTrigger("ChangeLimb");
+                this._Opposite.SetBehaviourState(originalABS);
+            }
+
+            this._BehaviourState = originalABS;
+            if (this.IsInterleaved)
+                this._Opposite.endRepTime = this.endRepTime;
+            IsResumen = false;
         }
-        
-        this._BehaviourState = originalABS;
-        if (this.IsInterleaved)
-            this._Opposite.endRepTime = this.endRepTime;
+        IsRepetitionEnd = false;
+        //Debug.Log("ResumeAnimation: " + IsRepetitionEnd + " _isResumen: " + IsResumen);
     }
         
     public virtual void PauseAnimation(){
@@ -214,7 +276,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         {
             this.CentralNode.originalABS = this._BehaviourState;
         }
-        Debug.Log("pasuse " + _BehaviourState);
+        //Debug.Log("pasuse " + _BehaviourState);
         this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 0;
 
@@ -233,6 +295,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 
     public void Run(bool isInInstructionInput)
     {
+        this.IsRepetitionEnd = false;
         this.IsInInstruction = isInInstructionInput;
         Run();
     }
@@ -407,7 +470,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	
 	protected void SetNextVariation()
 	{
-        Debug.Log("CAMBIANDO ANIMACION");
+        //Debug.Log("CAMBIANDO ANIMACION");
 		++this.CentralNode.actualRandomAnimationIndex;
 		int index = (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count;
 		AnimatorScript.instance.CurrentExercise = 
@@ -448,10 +511,16 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 
 	private bool animationIsRunning()
 	{
-		if (this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
-			return true;
-		else
-			return false;	
+        if (this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
+        {
+            Debug.Log("True: " + this.CentralNode._BehaviourState);
+            return true;
+        }
+        else
+         {
+            Debug.Log("False: " + this.CentralNode._BehaviourState);
+            return false;
+        }
 	}
 
 

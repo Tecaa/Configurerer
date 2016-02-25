@@ -118,6 +118,7 @@ public class FiniteBehaviour : AnimationBehaviour
     {
         if(this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
+            Debug.Log("onrepetition_1");
             OnRepetitionEnd();
             Stop();
         }
@@ -185,7 +186,6 @@ public class FiniteBehaviour : AnimationBehaviour
                     OnLerpRoundTripEnd();
                     if (!IsInterleaved || (IsInterleaved && limb == Limb.Right))
                     {
-                        OnRepetitionEnd();
 
                         if ((!this.IsWeb) && (!this.IsInInstruction) && (!this.IsInInstruction))
                         {
@@ -193,6 +193,8 @@ public class FiniteBehaviour : AnimationBehaviour
                             Debug.Log("pausando animacion");
                             this.PauseAnimation();
                         }
+                        // importante: el orden de llamadas es esencial para el correcto funcionamiento
+                        OnRepetitionEnd();
                     }
                     if (IsInterleaved)
                     {
@@ -236,7 +238,7 @@ public class FiniteBehaviour : AnimationBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       // animator.speed = 1.0f;
+        // animator.speed = 1.0f;
     }
 
     /// <summary>
