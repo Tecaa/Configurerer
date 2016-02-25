@@ -77,7 +77,7 @@ public class AnimatorScript : MonoBehaviour
         CurrentExercise.PropertyChanged += currentExercise_PropertyChanged;
 
         /////////   INICIO CODIGO DE TESTEO //////////
-        Invoke("testPrepare", 1);
+        //Invoke("testPrepare", 1);
 
         //Invoke("testRun", 12);
 
@@ -94,33 +94,48 @@ public class AnimatorScript : MonoBehaviour
     }
     private void testing(object sender, EventArgs e)
     {
-        BehaviourParams p = new BehaviourParams(40, 1, 1, 0, 0);
-        this.RunExerciseWeb(JsonConvert.SerializeObject(p));
+        //BehaviourParams p = new BehaviourParams(40, 1, 1, 0, 0);
+        //this.RunExerciseWeb(JsonConvert.SerializeObject(p));
     }
     public void testPrepare()
     {
-
+        PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), 
+            new BehaviourParams(/*new List<Movement>() {
+            { Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda },
+            { Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha},
+            { Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha},
+            { Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda},
+        },*/2,2, 1,1));
         //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(65, 1f, 1f, 8, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2));
         //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));
 
         //Para correr Juego mp*****************************************
-        //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3, 2));
+        //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(3, 2));
+        //***********************************************************
+        //Para correr Juego mp con variacion*****************************************
+        //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda }, 1, 3, 2));
         //***********************************************************
         //Para correr web mp*******************************************
         //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), Caller.Config);
         //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
+        //Para correr web mp con variacion*******************************************
+        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
+        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        //***********************************************************
+        //Para correr Juego IV*****************************************
+        //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
+        //***********************************************************
 
         //Para correr Juego mpx*****************************************
-        //PrepareExercise(new Exercise(Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás, Laterality.Single, Limb.Left), new BehaviourParams(new List<Movement>() {
-        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal},
+        //PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda, Laterality.Single, Limb.Left), new BehaviourParams(new List<Movement>() {
+        //    { Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
         //}, 3, 2));
         //***********************************************************
-        //***********************************************************
         //Para correr web mpx *******************************************
-        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise (Movement.MantenerPosiciónExtrema_EtapaAvanzada_Ninja, Laterality.Single, Limb.Left), Caller.Config);
+        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.RecogiendoYGuardandoConAmbasManos_BrazosArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
         //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
 
@@ -132,16 +147,16 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
 
 
-        Exercise e = new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda, Laterality.Double, Limb.None);
-        BehaviourParams param = new BehaviourParams(new List<Movement>() {
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda },
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaDerecha },
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoIzquierda },
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha},
-        }, 2, 2f, 2f);
 
-
-        PrepareExercise(e, param);
+        /**
+        PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
+            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
+            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Right) },
+            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
+            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
+        }, 2, 2, 0.5f));**/
 
         /**
         PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
@@ -153,15 +168,17 @@ public class AnimatorScript : MonoBehaviour
             { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
         }, 2, 2, 0.5f));
         ***/
-        //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Left),
-        //   new BehaviourParams(2,2));
-        /*
-		PrepareExercise(new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
-			{ new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha, Laterality.Single, Limb.Left)},
-			{ new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda, Laterality.Single, Limb.Right)},
-			{ new Exercise(Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda, Laterality.Single, Limb.Right)},
-			{ new Exercise(Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda, Laterality.Single, Limb.Left)},
-        }, 2, 1.5f, 2f));
+        //PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
+          //  new BehaviourParams(1, 2, 5, 8));
+		/*
+		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
+            new BehaviourParams(new List<Movement>() {
+			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
+			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda},
+			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha},
+			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
+        }, 2, 0));
+        */
         
         /*
 		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
@@ -193,16 +210,28 @@ public class AnimatorScript : MonoBehaviour
         //string s = "{\"Angle\":45,\"ForwardSpeed\":2,\"BackwardSpeed\":2,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
         //RunExerciseWeb(s);
 
+        //Para correr en juego (True con instruccion - false sin instruccion)***
+        RunExercise(true);
+        //**********************************************************************
+
         //Para correr web con parametros****************************************
         //BehaviourParams p = new BehaviourParams(3, 2);
         //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         //RunExerciseWeb(s);
-
         //**********************************************************************
+
         //Para correr web con parametros mpx************************************
         //BehaviourParams p = new BehaviourParams(new List<Movement>() {
-        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_Ninja},
+        //    { Movement.RecogiendoYGuardandoConAmbasManos_BrazosAbajoDerecha},
         //}, 3, 2);
+        //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
+        //RunExerciseWeb(s);
+        //**********************************************************************
+
+        //Para correr web con parametros mp con variacion***********************
+        //BehaviourParams p = new BehaviourParams(new List<Movement>() {
+        //    {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda},
+        //}, 1, 3, 2);
         //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
         //RunExerciseWeb(s);
         //**********************************************************************
@@ -230,7 +259,6 @@ public class AnimatorScript : MonoBehaviour
     {
         ResumeExercise();
     }
-
     void pruebaRun3()
     {
         //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":30000,\"Laterality\":1,\"Limb\":3}, \"Caller\": 1}");

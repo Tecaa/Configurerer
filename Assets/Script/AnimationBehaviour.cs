@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public abstract class AnimationBehaviour : StateMachineBehaviour {
 
-    //protected ExerciseDataGenerator exerciseDataGenerator;
+    // IMPORATANTE DETECTOR: DESCOMENTAR LÍNEA EN GRAN JUEGO y TAMBIÉN EN LERPBEHAVIOUR.cs EN EXTRACCIpon.
+    //protected Detector.ExerciseDataGenerator exerciseDataGenerator;
 	
 	protected enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
     public event EventHandler RepetitionEnd;
@@ -679,7 +680,7 @@ public class BehaviourParams //: BehaviourParams
     /// <param name="_forwardSpeed"></param>
     /// <param name="_backwardSpeed"></param>
     /// <param name="_secondsBetweenReps"></param>
-    /*
+    
     public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsBetweenReps, int _secondsInPose)
     {
         Angle = _angle;
@@ -687,23 +688,24 @@ public class BehaviourParams //: BehaviourParams
         BackwardSpeed = _backwardSpeed;
         SecondsBetweenRepetitions = _secondsBetweenReps;
         SecondsInPose = _secondsInPose;
-    }*/
+    }
 
     /// <summary>
-    /// Constructor general y para LerpBehaviour
+    /// Constructor general
     /// </summary>
     /// <param name="_angle"></param>
     /// <param name="_forwardSpeed"></param>
     /// <param name="_backwardSpeed"></param>
     /// <param name="_secondsInPose"></param>
     /// <param name="_secondsBetweenReps"></param>
-    public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsInPose, int _secondsBetweenReps)
+    public BehaviourParams(float _angle, float _forwardSpeed, float _backwardSpeed, int _secondsInPose, int _secondsBetweenReps, List<Movement> variations)
     {
         Angle = _angle;
         ForwardSpeed = _forwardSpeed;
         BackwardSpeed = _backwardSpeed;
         SecondsBetweenRepetitions = _secondsBetweenReps;
         SecondsInPose = _secondsInPose;
+        Variations = variations;
     }
 
 

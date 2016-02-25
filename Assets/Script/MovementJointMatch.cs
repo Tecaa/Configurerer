@@ -156,7 +156,7 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeRodillasConRodillo_Bilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeRodillasEnSedente_Bilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
 
-        movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
 
         movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeCaderaEnSupino, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeCaderaEnSupino, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoSagital));
@@ -261,5 +261,12 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.PlantiflexiónDeTobilloSedenteEnCamilla, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.PlantiflexiónDeTobilloSedenteEnCamilla, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.PiernaDerecha, Plano.planos.planoSagital));
 
+
+        movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDiagonalDeHombrosEnSupino_IzquierdaArriba, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
+
+        movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónHorizontalResistidaDeHombros_BípedoBilateral, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoHorizontal));
+
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, Laterality.Double, Limb.None), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoSagital)); // OJO CON EL ÁNGULO ESTÁ MAL
     }
 }
