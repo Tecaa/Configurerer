@@ -304,7 +304,7 @@ public class AnimatorScript : MonoBehaviour
     /// <param name="param"></param>
     public void PrepareExercise(Exercise e, BehaviourParams param)
     {
-        if (param.Variations == null)
+        if (param.Variations == null || param.Variations.Count == 0)
             behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         else
             behaviour = AnimationBehaviour.GetCentralBehaviour(e.Movement, e.Limb);
@@ -314,7 +314,7 @@ public class AnimatorScript : MonoBehaviour
         behaviour.Prepare(param);
         behaviour.RepetitionEnd += behaviour_PrepareEnd;
 
-        if (param.Variations == null)
+        if (param.Variations == null || param.Variations.Count == 0)
             CurrentExercise = e;
         else
             CurrentExercise = new Exercise(behaviour.randomAnimations[0], e.Laterality, e.Limb);
