@@ -23,7 +23,7 @@ public static class DebugLifeware {
         Jorge_Basualdo = 32,
         Pablo_Lopez = 64,
         Mauricio_Carpentier= 128,
-        Oscar_Echeverría = 256,
+        Oscar_Echeverria = 256,
         Felipe_Cid = 512,
         Marco_Rojas = 1024
     }

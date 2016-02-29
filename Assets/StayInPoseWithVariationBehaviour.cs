@@ -218,7 +218,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     private void executionTimerFinish()
     {
         isExecutingMovement = false;
-
         if (_isAnimationRunning)
         {
             finishRepetitionExecution();
@@ -389,17 +388,22 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     private void finishRepetitionExecution()
     {
         exerciceMovement = -1;
-        OnRepetitionEnd();
         this.PauseAnimation();
         clockBehaviour.stopExecutionTimer();
+        OnRepetitionEnd();
     }
 
 
 
     public override void ResumeAnimation()
     {
-        base.ResumeAnimation();
-        clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);
+        IsResumen = true;
+        if (IsRepetitionEnd == true)
+        {
+            base.ResumeAnimation();
+            clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);
+            IsResumen = false;
+        }
     }
 
 
@@ -412,7 +416,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         {
             this.CentralNode.originalABS = this._BehaviourState;
         }
-
         this._BehaviourState = AnimationBehaviourState.STOPPED;
         
         if (IsInterleaved)

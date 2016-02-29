@@ -144,13 +144,13 @@ ModelImporter:
       name: "093_D_120\xB0"
       takeName: Take 001
       firstFrame: 12
-      lastFrame: 213
+      lastFrame: 98
       wrapMode: 0
       orientationOffsetY: 90
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
@@ -270,13 +270,13 @@ ModelImporter:
       name: "093_I_120\xB0"
       takeName: Take 001
       firstFrame: 12
-      lastFrame: 213
+      lastFrame: 98
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1

@@ -77,7 +77,7 @@ public class AnimatorScript : MonoBehaviour
         CurrentExercise.PropertyChanged += currentExercise_PropertyChanged;
 
         /////////   INICIO CODIGO DE TESTEO //////////
-        Invoke("testPrepare", 1);
+        //Invoke("testPrepare", 1);
 
         //Invoke("testRun", 12);
 
@@ -94,18 +94,18 @@ public class AnimatorScript : MonoBehaviour
     }
     private void testing(object sender, EventArgs e)
     {
-        BehaviourParams p = new BehaviourParams(40, 1, 1, 0, 0);
-        this.RunExerciseWeb(JsonConvert.SerializeObject(p));
+        //BehaviourParams p = new BehaviourParams(40, 1, 1, 0, 0);
+        //this.RunExerciseWeb(JsonConvert.SerializeObject(p));
     }
     public void testPrepare()
     {
-        PrepareExercise(new Exercise(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, Laterality.Double, Limb.None), 
+        PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), 
             new BehaviourParams(/*new List<Movement>() {
             { Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda },
             { Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha},
             { Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha},
             { Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda},
-        },*/45, 1,1, 2, 2));
+        },*/2,2, 1,1));
         //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(65, 1f, 1f, 8, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2));
@@ -304,7 +304,7 @@ public class AnimatorScript : MonoBehaviour
     /// <param name="param"></param>
     public void PrepareExercise(Exercise e, BehaviourParams param)
     {
-        if (param.Variations == null)
+        if (param.Variations == null || param.Variations.Count == 0)
             behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         else
             behaviour = AnimationBehaviour.GetCentralBehaviour(e.Movement, e.Limb);
@@ -314,7 +314,7 @@ public class AnimatorScript : MonoBehaviour
         behaviour.Prepare(param);
         behaviour.RepetitionEnd += behaviour_PrepareEnd;
 
-        if (param.Variations == null)
+        if (param.Variations == null || param.Variations.Count == 0)
             CurrentExercise = e;
         else
             CurrentExercise = new Exercise(behaviour.randomAnimations[0], e.Laterality, e.Limb);

@@ -295,7 +295,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	}
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {   
+    {
         if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS && !IsCentralNode && !IsWeb)
         {
             OnRepetitionReallyStart();
@@ -334,6 +334,10 @@ public class StayInPoseXtreme : AnimationBehaviour {
             animator.speed = 1f;
 
         }
+        if (IsCentralNode)
+            Debug.Log("entre central ");
+        else
+            Debug.Log("entre ");
 
     }
 
@@ -343,6 +347,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
         clockBehaviour.Update();
+
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
 		{
 			animator.speed = 0;
@@ -397,11 +402,11 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     _BehaviourState = AnimationBehaviourState.STOPPED;
 
-                OnRepetitionEnd();
 
             }
 		}
-	}
+
+    }
 	
 	
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -446,7 +451,14 @@ public class StayInPoseXtreme : AnimationBehaviour {
                 this.ResumeAnimation();
             }
         }
-	}
+
+        if (!IsCentralNode)
+        {
+            OnRepetitionEnd();
+            Debug.Log("me fui ");
+        }
+            
+    }
 
     private float SecondsBetweenRepetitions;
     public float secondsBetweenRepetitions
@@ -465,12 +477,17 @@ public class StayInPoseXtreme : AnimationBehaviour {
         }
     }
 
-
     public override void ResumeAnimation()
     {
-        base.ResumeAnimation();
-        clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);
-        animator.speed = 1;
+        //Debug.Log("resume here");
+        //Debug.Log("ResumeAnimation: " + IsRepetitionEnd + " _isResumen: " + IsResumen);
+        IsResumen = true;
+        if (IsRepetitionEnd == true)
+        {
+            base.ResumeAnimation();
+            clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);
+            animator.speed = 1;
+        }
     }
 
     protected override void OnRepetitionEnd()
