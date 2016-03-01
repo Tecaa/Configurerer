@@ -506,7 +506,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	{
 		animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
 		this.CentralNode._BehaviourState = AnimationBehaviourState.STOPPED;
-		
+        this.animator.speed = 1;
 	}
 	
 	void OnDestroy()

@@ -99,13 +99,13 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-        PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), 
-            new BehaviourParams(/*new List<Movement>() {
-            { Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda },
-            { Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha},
-            { Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha},
-            { Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda},
-        },*/2,2, 1,1));
+        PrepareExercise(new Exercise(Movement.MantenerPosiciónExtrema_EtapaInicial_CuerdaFlojaBrazoDerecho, Laterality.Double, Limb.None), 
+            new BehaviourParams(new List<Movement>() {
+            { Movement.MantenerPosiciónExtrema_EtapaInicial_CuerdaFloja },
+            { Movement.MantenerPosiciónExtrema_EtapaInicial_CuerdaFlojaBrazoDerecho},
+            { Movement.MantenerPosiciónExtrema_EtapaInicial_CuerdaFlojaBrazoIzquierdo},
+            { Movement.MantenerPosiciónExtrema_EtapaInicial_FlexiónDeRodillasBrazosHorizontal},
+        },2,2));
         //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(65, 1f, 1f, 8, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2));
