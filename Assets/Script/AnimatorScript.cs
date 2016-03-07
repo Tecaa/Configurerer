@@ -99,8 +99,22 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-        PrepareExercise(new Exercise(Movement.ExtensiónDeHombroConFlexiónDeCodoEnBípedo_Unilateral_45, Laterality.Single, Limb.Left), 
-            new BehaviourParams(30, 1, 1,2,2));
+        PrepareExercise(new Exercise(Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente, Laterality.Single, Limb.Left),
+            new BehaviourParams(new List<Movement>(){
+                Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente,
+                Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlLado,
+                Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAtrás,
+            }, 1, 1, 2));
+
+        //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None),
+        //    new BehaviourParams(new List<Movement>(){
+        //        Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha,
+        //        Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoIzquierda,
+        //        Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaDerecha,
+        //        Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda,
+        //    }, 1, 1, 2));
+
+
         //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(65, 1f, 1f, 8, 3));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2));
@@ -164,8 +178,8 @@ public class AnimatorScript : MonoBehaviour
         }, 2, 2, 0.5f));
         ***/
         //PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
-          //  new BehaviourParams(1, 2, 5, 8));
-		/*
+        //  new BehaviourParams(1, 2, 5, 8));
+        /*
 		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
@@ -174,7 +188,7 @@ public class AnimatorScript : MonoBehaviour
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
         }, 2, 0));
         */
-        
+
         /*
 		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
             new BehaviourParams(new List<Movement>() {
