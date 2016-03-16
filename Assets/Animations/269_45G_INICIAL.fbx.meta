@@ -143,9 +143,9 @@ ModelImporter:
       name: "269_45\xB0"
       takeName: Take 001
       firstFrame: 35
-      lastFrame: 69
+      lastFrame: 107
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: 45
       level: 0
       cycleOffset: 0
       loop: 0
