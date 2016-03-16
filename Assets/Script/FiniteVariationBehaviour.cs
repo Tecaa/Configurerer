@@ -151,6 +151,13 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        {
+            if (this.IsCentralNode)
+                animator.speed = 0;
+            return;
+        }
+
         if (this._BehaviourState == AnimationBehaviourState.PREPARING_WEB || this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
             OnRepetitionEnd();
@@ -175,11 +182,13 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timeSinceCapture += Time.deltaTime;
-        if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
-            animator.speed = 0;
+            if (!animator.IsInTransition(0))
+                animator.speed = 0;
             return;
         }
+
         const float INTERVAL = 0.1f;
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
         {

@@ -353,7 +353,8 @@ public class LerpBehaviour : AnimationBehaviour {
         clockBehaviour.Update();
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
-            animator.speed = 0;
+            if (!animator.IsInTransition(0))
+                animator.speed = 0;
             return;
         }
 
@@ -601,8 +602,8 @@ public class LerpBehaviour : AnimationBehaviour {
                         }
                         else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                         {
-                            _BehaviourState = AnimationBehaviourState.STOPPED;
-                            //Stop();
+                            //_BehaviourState = AnimationBehaviourState.STOPPED;
+                            Stop();
                             OnRepetitionEnd();
                             //TODO: Recolectar datos y entregarlos a jorge
                         }
