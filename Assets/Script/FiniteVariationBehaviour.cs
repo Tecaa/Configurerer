@@ -211,13 +211,13 @@ public class FiniteVariationBehaviour : AnimationBehaviour
             && (this.CentralNode.endRepTime == null || new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) <= now - this.CentralNode.endRepTime))
         {
 
-            if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
+            if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
                 OnRepetitionReallyStart();
-                beginRep = true;
+                BeginRep = true;
             }
 
             //Debug.Log("ha cambiado de estado " + haCambiadoDeEstado);
@@ -245,7 +245,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     {
         if (!IsCentralNode)
         {
-            beginRep = false;
+            BeginRep = false;
             if (this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
             {
                 OnLerpRoundTripEnd();

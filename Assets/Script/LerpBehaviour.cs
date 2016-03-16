@@ -369,13 +369,13 @@ public class LerpBehaviour : AnimationBehaviour {
         if (_BehaviourState != AnimationBehaviourState.STOPPED && ReadyToLerp
             && (endRepTime == null || new TimeSpan(0, 0, (int)_currentParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
-            if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) && 
+            if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) && 
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WEB && 
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS && 
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
                 OnRepetitionReallyStart();
-                beginRep = true;
+                BeginRep = true;
             }
             //if(_LerpBehaviourState == LerpBehaviourState.STOPPED)
             float timeSinceStarted = Time.time - timeStartedLerping;
@@ -574,7 +574,7 @@ public class LerpBehaviour : AnimationBehaviour {
                     {
                         _currentLerpState = LerpState.Forward;
                         _lastLerpState = LerpState.Forward;
-                        beginRep = false;
+                        BeginRep = false;
                         if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
                         {
                             try

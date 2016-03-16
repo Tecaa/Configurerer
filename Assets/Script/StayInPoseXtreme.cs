@@ -109,18 +109,18 @@ public class StayInPoseXtreme : AnimationBehaviour {
     //
 
 
-    public ClockBehaviour _ClockBehaviour;
+    public ClockBehaviour _clockBehaviour;
     public ClockBehaviour clockBehaviour
     {
         get
         {
             if (this.IsCentralNode)
             {
-                return this._ClockBehaviour;
+                return this._clockBehaviour;
             }
             else
             {
-                return CentralNode._ClockBehaviour;
+                return CentralNode._clockBehaviour;
             }
 
         }
@@ -128,11 +128,11 @@ public class StayInPoseXtreme : AnimationBehaviour {
         {
             if (this.IsCentralNode)
             {
-                this._ClockBehaviour = value;
+                this._clockBehaviour = value;
             }
             else
             {
-                CentralNode._ClockBehaviour = value;
+                CentralNode._clockBehaviour = value;
             }
         }
     }
@@ -248,7 +248,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
 		this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
         this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
         this._StayInPoseState = StayInPoseState.GoingTo;
-        Debug.Log(this._BehaviourState + " " + this.IsCentralNode +  " " + this.IsInInstruction + "  " + this.CentralNode.limb + "  " + this.limb);
 		this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 		this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
 	}
@@ -316,7 +315,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
         if (this.IsCentralNode && hasEnteredBefore == false)
         {
-            Debug.Log("instanciamos el reloj");
             hasEnteredBefore = true;
 
             clockBehaviour = new ClockBehaviour();
@@ -368,13 +366,13 @@ public class StayInPoseXtreme : AnimationBehaviour {
 		DateTime temp = DateTime.Now;
         if (this._BehaviourState != AnimationBehaviourState.STOPPED && !IsCentralNode)
 		{
-            if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
+            if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
 			    this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
 			    this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
 			    this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
 			{
 				OnRepetitionReallyStart();
-				beginRep = true;
+				BeginRep = true;
 			}
 
             if (this.CentralNode._StayInPoseState == StayInPoseState.GoingTo && stateInfo.normalizedTime - DELTA >= 1)
@@ -393,12 +391,11 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				animator.speed = -1;
 				animator.StopRecording();
                 this.CentralNode._StayInPoseState = StayInPoseState.Leaving;
-			}
+            }
 			else if (this.CentralNode._StayInPoseState == StayInPoseState.Leaving && 
                 stateInfo.normalizedTime - DELTA <= 0)
 			{
-
-                beginRep = false;
+                BeginRep = false;
 				animator.speed = 1;
                 this.CentralNode._StayInPoseState = StayInPoseState.GoingTo;
 				startRestTime = Time.time;
@@ -412,7 +409,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     _BehaviourState = AnimationBehaviourState.STOPPED;
 
-                OnRepetitionEnd();
+                //OnRepetitionEnd();
 
             }
 		}
@@ -425,7 +422,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
     {
         if (!IsCentralNode)
 		{
-			beginRep = false;
+			BeginRep = false;
 			if (this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
 			{
 				OnLerpRoundTripEnd();
@@ -433,6 +430,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
                 if (!IsRewinding && (!IsInterleaved || (IsInterleaved && limb == Limb.Right) ) )
 				{
 					this.PauseAnimation();
+                    OnRepetitionEnd();
                 }
                 if (IsInterleaved)
 				{
@@ -443,9 +441,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
                     animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                 }
                     
-				{
-					
-				}
 				if (this._BehaviourState == AnimationBehaviourState.STOPPED)
 				{
 					this.CentralNode.endRepTime = null;
@@ -458,7 +453,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 			}
             if ((this.IsWeb) || (this.IsInInstruction) && !IsRewinding)
             {
-                Debug.Log("2-ISWEB: [" + this.IsWeb + "] isInInsruction [" + this.IsInInstruction + "]" + "is rewinding [" + IsRewinding + "]" );
+               // Debug.Log("2-ISWEB: [" + this.IsWeb + "] isInInsruction [" + this.IsInInstruction + "]" + "is rewinding [" + IsRewinding + "]" );
                 this.ResumeAnimation();
             }
         }
@@ -483,9 +478,12 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     public override void ResumeAnimation()
     {
-            base.ResumeAnimation();
+        if (this.IsRepetitionEnd)
+        {
             clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);
             animator.speed = 1;
+        }
+        base.ResumeAnimation();
     }
 
     protected override void OnRepetitionEnd()

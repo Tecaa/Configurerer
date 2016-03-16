@@ -25,8 +25,29 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     private bool _isInterleaved;
     [HideInInspector]
     public DateTime? endRepTime = null;
+    private bool _beginRep;
     [HideInInspector]
-    public bool beginRep = false;
+    public bool BeginRep
+    {
+        get
+        {
+            if (IsCentralNode || !this.HasCentralNode)
+                return this._beginRep;
+            else
+            {
+                return this.CentralNode._beginRep;
+            }
+        }
+        set
+        {
+            if (IsCentralNode || !this.HasCentralNode)
+                this._beginRep = value;
+            else
+            {
+                this.CentralNode._beginRep = value;
+            }
+        }
+    }
     protected  AnimationBehaviour _centralNode;
     public AnimationBehaviour CentralNode
     {
@@ -220,7 +241,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             //Debug.Log(" onrepetition");
             ResumeAnimation();
         }
-        if(IsResumen && this.HasCentralNode)
+        if (IsResumen && this.HasCentralNode)
         {
             CentralNode.ResumeAnimation();
         }
@@ -232,7 +253,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         {
             return;
         }
-        //DebugLifeware.Log("OnRepetitionStart after " + (DateTime.Now - endRepTime), DebugLifeware.Developer.Alfredo_Gallardo);
         EventHandler eh = RepetitionReallyStart;
         if (eh != null)
         {
@@ -298,7 +318,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     {
         this.IsRepetitionEnd = false;
         this.IsInInstruction = isInInstructionInput;
-        this.beginRep = false;
+        this.BeginRep = false;
         Run();
     }
 

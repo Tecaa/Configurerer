@@ -170,17 +170,17 @@ public class FiniteBehaviour : AnimationBehaviour
     && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
 
-            if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
+            if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
                 OnRepetitionReallyStart();
-                beginRep = true;
+                BeginRep = true;
             }
             if (stateInfo.normalizedTime >= 1.0f && haCambiadoDeEstado)
             {
-                beginRep = false;
+                BeginRep = false;
                 if (this._behaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
                     OnLerpRoundTripEnd();

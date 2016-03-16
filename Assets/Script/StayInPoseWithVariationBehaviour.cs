@@ -328,7 +328,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 	{
 		if (!IsCentralNode)
 		{
-			beginRep = false;
+			BeginRep = false;
 
 			if ( _isAnimationRunning == true )
 			{

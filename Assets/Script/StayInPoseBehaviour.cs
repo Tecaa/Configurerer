@@ -146,13 +146,13 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         DateTime temp = DateTime.Now;
         if (_BehaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
-            if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
+            if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
                 OnRepetitionReallyStart();
-                beginRep = true;
+                BeginRep = true;
             }
 
             if (stayInPoseState == StayInPoseState.GoingTo &&  stateInfo.normalizedTime + DELTA >= 1)
@@ -174,7 +174,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
             else if (stayInPoseState == StayInPoseState.Leaving && stateInfo.normalizedTime - DELTA <= 0 && haCambiadoDeEstado)
             {
-                beginRep = false;
+                BeginRep = false;
                 animator.speed = 0;
                 stayInPoseState = StayInPoseState.Resting;
                 startRestTime = Time.time;

@@ -105,15 +105,21 @@ public class AnimatorScript : MonoBehaviour
         //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlLado,
         //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAtrás,
         //    }, 1, 1, 2));
-
+        /*
         PrepareExercise(new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha, Laterality.Double, Limb.None),
             new BehaviourParams(new List<Movement>(){
                 Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha,
                 Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda,
                 Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha,
                 Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda,
-            }, 3, 1, 1));
-
+            }, 3, 1, 1));*/
+        PrepareExercise(new Exercise(Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal, Laterality.Single, Limb.Right),
+       new BehaviourParams(new List<Movement>(){
+                Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
+                Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar,
+                Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás,
+                Movement.MantenerPosiciónExtrema_EtapaAvanzada_PosturaDelÁrbol,
+       }, 3, 1, 5));
 
         //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(65, 1f, 1f, 2, 6));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(2, 1f, 1f));
@@ -167,7 +173,7 @@ public class AnimatorScript : MonoBehaviour
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha},
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
         }, 2, 0));*/
-        
+
 
         /*
 		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
@@ -297,8 +303,7 @@ public class AnimatorScript : MonoBehaviour
             behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         else
             behaviour = AnimationBehaviour.GetCentralBehaviour(e.Movement, e.Limb);
-        DebugLifeware.Log(e.Movement + " " + e.Limb + "  " + e.Laterality + " " + behaviour.GetType(), DebugLifeware.Developer.Marco_Rojas);
-		DebugLifeware.Log (Newtonsoft.Json.JsonConvert.SerializeObject(param), DebugLifeware.Developer.Marco_Rojas);
+
 
         behaviour.Prepare(param);
         behaviour.RepetitionEnd += behaviour_PrepareEnd;
@@ -365,7 +370,8 @@ public class AnimatorScript : MonoBehaviour
 
     public void RunExercise(bool isInInstruction)
     {
-        //DebugLifeware.Log("Comienza el run", DebugLifeware.Developer.Marco_Rojas);
+
+        Debug.Log("RUN " + isInInstruction);
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.Run(isInInstruction);
         RewindExercise();
@@ -382,6 +388,7 @@ public class AnimatorScript : MonoBehaviour
 
     public void ResumeExercise()
     {
+        Debug.Log("RESUME");
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.ResumeAnimation();
     }
@@ -436,6 +443,7 @@ public class AnimatorScript : MonoBehaviour
     
     public void StopExercise()
     {
+        Debug.Log("STOP");
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
 
         if (behaviour == null)

@@ -50,7 +50,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
         }
-        beginRep = false;
+        BeginRep = false;
 
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
     }
@@ -130,14 +130,14 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         if (_BehaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
 
-            if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
+            if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
 
                 OnRepetitionReallyStart();
-                beginRep = true;
+                BeginRep = true;
                 animator.speed = 1;
                 startHoldTime = Time.time;
                 stayInPoseState = StayInPoseState.HoldingOn;
@@ -150,7 +150,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
                 animator.speed = 0;
                 //startHoldTime = 0;
                 stayInPoseState = StayInPoseState.Resting;
-                beginRep = false;
+                BeginRep = false;
                 if ((!this.IsWeb) && (!this.IsInInstruction) && this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     this.PauseAnimation();
                 else if((this.IsWeb) || (this.IsInInstruction) && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
