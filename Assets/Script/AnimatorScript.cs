@@ -99,25 +99,25 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-        PrepareExercise(new Exercise(Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente, Laterality.Single, Limb.Left),
-            new BehaviourParams(new List<Movement>(){
-                Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente,
-                Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlLado,
-                Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAtrás,
-            }, 1, 1, 2));
-
-        //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None),
+        //PrepareExercise(new Exercise(Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente, Laterality.Single, Limb.Left),
         //    new BehaviourParams(new List<Movement>(){
-        //        Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha,
-        //        Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoIzquierda,
-        //        Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaDerecha,
-        //        Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda,
+        //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente,
+        //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlLado,
+        //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAtrás,
         //    }, 1, 1, 2));
 
+        PrepareExercise(new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha, Laterality.Double, Limb.None),
+            new BehaviourParams(new List<Movement>(){
+                Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha,
+                Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda,
+                Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha,
+                Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda,
+            }, 3, 1, 1));
 
-        //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(65, 1f, 1f, 8, 3));
-        //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(60, 1f, 1f, 1));
-        //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2));
+
+        //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(65, 1f, 1f, 2, 6));
+        //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(2, 1f, 1f));
+        //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2,1 ,1));
         //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));
 
         //Para correr Juego mp*****************************************
@@ -157,26 +157,6 @@ public class AnimatorScript : MonoBehaviour
 
 
 
-        /**
-        PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
-            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Right) },
-            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
-            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
-        }, 2, 2, 0.5f));**/
-
-        /**
-        PrepareExercise(new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left), new BehaviourParams(new List<Exercise>() {
-            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Left) },
-            { new Exercise(Movement.PruebaC, Laterality.Single, Limb.Right) },
-            { new Exercise(Movement.PruebaA, Laterality.Single, Limb.Right) },
-            { new Exercise(Movement.PruebaB, Laterality.Single, Limb.Right) },
-        }, 2, 2, 0.5f));
-        ***/
         //PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
         //  new BehaviourParams(1, 2, 5, 8));
         /*
@@ -186,8 +166,8 @@ public class AnimatorScript : MonoBehaviour
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda},
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha},
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
-        }, 2, 0));
-        */
+        }, 2, 0));*/
+        
 
         /*
 		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
@@ -196,7 +176,7 @@ public class AnimatorScript : MonoBehaviour
             { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaDerecha },
             { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda },
             { Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha},
-        }, 2, 1.5f, 8));*/
+        }, 2, 1.5f, 4));*/
 
         /**
         PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), Caller.Preview);
@@ -220,7 +200,7 @@ public class AnimatorScript : MonoBehaviour
         //RunExerciseWeb(s);
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        RunExercise(true);
+        //RunExercise(true);
         //**********************************************************************
 
         //Para correr web con parametros****************************************
@@ -334,7 +314,7 @@ public class AnimatorScript : MonoBehaviour
 
         //yield return new WaitForSeconds(DELAY);
         RewindExercise();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0);//0.1f);
         behaviour.InitialPose();
     }
 

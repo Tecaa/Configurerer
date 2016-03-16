@@ -160,6 +160,9 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 	public override void Run ()
 	{
 		this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
+        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+        clockBehaviour.stopExecutionTimer();
+        clockBehaviour.stopTimeBetweenRepetitionsTimer();
 	}
 
 	public override void RunWeb ()
@@ -174,7 +177,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 	{
         
 
-        if (_behaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
+        if (_BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
         {
             animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
             clockBehaviour.stopExecutionTimer();
@@ -277,6 +280,13 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
+
+        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        {
+            if (this.IsCentralNode)
+                animator.speed = 0;
+            return;
+        }
         IsRewinding = false;
         if (this.IsCentralNode && hasEnteredBefore == false)
         {
@@ -355,7 +365,8 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
-            animator.speed = 0;
+            if (!animator.IsInTransition(0))
+                animator.speed = 0;
             return;
         }
 

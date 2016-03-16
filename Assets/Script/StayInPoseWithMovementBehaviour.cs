@@ -50,8 +50,9 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
         }
+        beginRep = false;
 
-        this._behaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
+        this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
     }
 
     override public void RunWeb()
@@ -63,7 +64,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_DEFAULT);
         }
 
-        this._behaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
+        this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
     }
     override public void RunWeb(BehaviourParams stayInParams)
     {
@@ -117,16 +118,16 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
-
-        if (this._behaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
+        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
-            animator.speed = 0;
+            if (!animator.IsInTransition(0))
+                animator.speed = 0;
             return;
         }
 
         DateTime temp = DateTime.Now;
 
-        if (_behaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
+        if (_BehaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
 
             if (!beginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&

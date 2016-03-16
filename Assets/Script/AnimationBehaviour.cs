@@ -620,7 +620,7 @@ public class BehaviourParams //: BehaviourParams
     }
 
     /// <summary>
-    /// Constructor para FiniteBehaviour?
+    /// Constructor para FiniteBehaviour
     /// </summary>
     /// <param name="_secondsBetweenReps"></param>
     /// <param name="_forwardSpeed"></param>

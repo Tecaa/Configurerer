@@ -146,9 +146,10 @@ public class FiniteBehaviour : AnimationBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timeSinceCapture += Time.deltaTime;
-        if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
-            animator.speed = 0;
+            if (!animator.IsInTransition(0))
+                animator.speed = 0;
             return;
         }
         const float INTERVAL = 0.1f;

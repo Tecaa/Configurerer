@@ -245,6 +245,8 @@ public class StayInPoseXtreme : AnimationBehaviour {
 			this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
 		}
 		this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
+        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+        this._StayInPoseState = StayInPoseState.GoingTo;
         Debug.Log(this._BehaviourState + " " + this.IsCentralNode +  " " + this.IsInInstruction + "  " + this.CentralNode.limb + "  " + this.limb);
 		this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 		this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
@@ -296,6 +298,13 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        {
+            if (this.IsCentralNode)
+                animator.speed = 0;
+            return;
+        }
+
         if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS && !IsCentralNode && !IsWeb)
         {
             OnRepetitionReallyStart();
@@ -348,12 +357,12 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	{
         clockBehaviour.Update();
 
-        if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
-		{
-			animator.speed = 0;
-			return;
-		}
-		
+        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        {
+            if (!animator.IsInTransition(0))
+                animator.speed = 0;
+            return;
+        }
 		float DELTA = 0.05f;
 		DateTime temp = DateTime.Now;
         if (this._BehaviourState != AnimationBehaviourState.STOPPED && !IsCentralNode)

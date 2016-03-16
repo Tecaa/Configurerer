@@ -36,13 +36,10 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
     override public void Prepare(BehaviourParams sp)
     {
-        Debug.Log("ANTES PREPARE" + _BehaviourState);
         this._RealParams = sp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
-
-        Debug.Log("ANTES PREPARE" + _BehaviourState);
     }
 
     private void _Opposite_RepetitionEnd(object sender, EventArgs e)
@@ -136,10 +133,10 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     float startRestTime;
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("speed: " + this.animator.speed + " estado: " + this._BehaviourState);
-        if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
+        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
-            animator.speed = 0;
+            if (!animator.IsInTransition(0))
+                animator.speed = 0;
             return;
         }
 
@@ -157,7 +154,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             }
             if (stayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
             {
-                Debug.Log("forward: " + animator.speed + "current: " + this._realParams.ForwardSpeed);
                 animator.speed = 0;
                 startHoldTime = Time.time;
                 stayInPoseState = StayInPoseState.HoldingOn;
