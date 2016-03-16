@@ -5,7 +5,7 @@ using System.Collections;
 public class ClockBehaviour {
 
     float timeSinceStart = 0, lastTimeSinceStart=0;
-    const float INTERVAL = 0.1f, CICLE = 4F;
+    const float INTERVAL = 0f, CICLE = 4F;
     public float executionTimeCounter = 0, executionTimeDuration=-1;
     public float timeBetweenRepetitionsTimeCounter = 0, timeBetweenRepetitionsTimeDuration = -1;
 
@@ -18,18 +18,18 @@ public class ClockBehaviour {
     {
 
         timeSinceStart = timeSinceStart + Time.deltaTime;
-
-        if(timeSinceStart - lastTimeSinceStart >= INTERVAL)
+        float diff = timeSinceStart - lastTimeSinceStart;
+        if (diff >= INTERVAL)
         {
 
             lastTimeSinceStart = timeSinceStart;
             if(executionTimeDuration != -1)
             {
-                executionTimeCounter = executionTimeCounter + INTERVAL;
+                executionTimeCounter = executionTimeCounter + diff;
             }
             if (timeBetweenRepetitionsTimeDuration != -1)
             {
-                timeBetweenRepetitionsTimeCounter = timeBetweenRepetitionsTimeCounter + INTERVAL;
+                timeBetweenRepetitionsTimeCounter = timeBetweenRepetitionsTimeCounter + diff;
             }
 
         }

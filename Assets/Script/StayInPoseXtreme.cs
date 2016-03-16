@@ -198,6 +198,8 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     private void executionTimerFinish()
     {
+
+        Debug.Log("terminando pausa : " + DateTime.Now);
         //Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
         //Debug.Log("FIN manteniendo pose pose ");
         this.CentralNode.holdingPose = true;
