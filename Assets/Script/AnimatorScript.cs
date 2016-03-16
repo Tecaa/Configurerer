@@ -283,7 +283,7 @@ public class AnimatorScript : MonoBehaviour
         }
     }
 
-    AnimationBehaviour behaviour;
+    public AnimationBehaviour behaviour;
 
    
     /// <summary>
@@ -369,7 +369,9 @@ public class AnimatorScript : MonoBehaviour
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.Run(isInInstruction);
         RewindExercise();
+        behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
         behaviour.RepetitionEnd += behaviour_RepetitionEnd;
+        behaviour.RepetitionReallyStart -= behaviour_RepetitionReallyStart;
         behaviour.RepetitionReallyStart += behaviour_RepetitionReallyStart;
     }
 
@@ -392,7 +394,7 @@ public class AnimatorScript : MonoBehaviour
 
     void behaviour_PrepareEnd(object sender, EventArgs e)
     {
-//        GoToIddle();
+        //        GoToIddle();
         //DebugLifeware.Log("Preparación terminada", DebugLifeware.Developer.Marco_Rojas);
         behaviour = sender as AnimationBehaviour;
         behaviour.RepetitionEnd -= behaviour_PrepareEnd;
@@ -484,12 +486,13 @@ public class AnimatorScript : MonoBehaviour
             AnimatorScript.instance.OnRepetitionEnd -= AnimatorScript_OnRepetitionEnd;
         StopAllCoroutines();
         CurrentExercise.PropertyChanged -= currentExercise_PropertyChanged;
-
-        behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
-        behaviour.RepetitionEnd -= behaviour_PrepareEnd;
-        behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
-        behaviour.RepetitionReallyStart -= behaviour_RepetitionReallyStart;
-        
+        if (behaviour != null)
+        {
+            behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
+            behaviour.RepetitionEnd -= behaviour_PrepareEnd;
+            behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
+            behaviour.RepetitionReallyStart -= behaviour_RepetitionReallyStart;
+        }
         Destroy(instance);
         Destroy(this);
     }

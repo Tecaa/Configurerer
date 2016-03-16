@@ -118,7 +118,6 @@ public class FiniteBehaviour : AnimationBehaviour
     {
         if(this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
-            Debug.Log("onrepetition_1");
             OnRepetitionEnd();
             Stop();
         }
@@ -190,8 +189,7 @@ public class FiniteBehaviour : AnimationBehaviour
 
                         if ((!this.IsWeb) && (!this.IsInInstruction) && (!this.IsInInstruction))
                         {
-                            Debug.Log("isWeb [" + this.IsWeb + "]esInsutrccion [" + this.IsInInstruction + "]");
-                            Debug.Log("pausando animacion");
+
                             this.PauseAnimation();
                         }
                         // importante: el orden de llamadas es esencial para el correcto funcionamiento

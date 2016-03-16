@@ -298,6 +298,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     {
         this.IsRepetitionEnd = false;
         this.IsInInstruction = isInInstructionInput;
+        this.beginRep = false;
         Run();
     }
 
@@ -514,12 +515,12 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	{
         if (this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
         {
-            Debug.Log("True: " + this.CentralNode._BehaviourState);
+           // Debug.Log("True: " + this.CentralNode._BehaviourState);
             return true;
         }
         else
          {
-            Debug.Log("False: " + this.CentralNode._BehaviourState);
+           // Debug.Log("False: " + this.CentralNode._BehaviourState);
             return false;
         }
 	}

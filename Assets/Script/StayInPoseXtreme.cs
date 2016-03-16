@@ -239,6 +239,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	}
 	override public void Run()
 	{
+        AnimatorScript.instance.CurrentExercise.Movement = this.CentralNode.randomAnimations[0];
 		this.CentralNode.endRepTime = null;
 		if (this.IsInterleaved)
 		{
@@ -307,7 +308,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
         if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS && !IsCentralNode && !IsWeb)
         {
-            OnRepetitionReallyStart();
+            this.CentralNode.OnRepetitionReallyStart();
         }
         
         if (!this.IsCentralNode && this.CentralNode.randomAnimations[0] == this.movement)
@@ -342,11 +343,11 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
             animator.speed = 1f;
 
-        }
+        }/*
         if (IsCentralNode)
             Debug.Log("entre central ");
         else
-            Debug.Log("entre ");
+            Debug.Log("entre ");*/
 
     }
 
@@ -376,9 +377,8 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				beginRep = true;
 			}
 
-            if (this.CentralNode._StayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
+            if (this.CentralNode._StayInPoseState == StayInPoseState.GoingTo && stateInfo.normalizedTime - DELTA >= 1)
 			{
-                Debug.Log("se cumplio la condicion" +  " " + this.CentralNode.limb);
                 animator.speed = 0;
 				startHoldTime = Time.time;
                 clockBehaviour.executeRepetitionTime(this.CentralNode._RealParams.SecondsInPose);
@@ -394,7 +394,8 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				animator.StopRecording();
                 this.CentralNode._StayInPoseState = StayInPoseState.Leaving;
 			}
-			else if (this.CentralNode._StayInPoseState == StayInPoseState.Leaving && Math.Abs(stateInfo.normalizedTime - 0) <= DELTA)
+			else if (this.CentralNode._StayInPoseState == StayInPoseState.Leaving && 
+                stateInfo.normalizedTime - DELTA <= 0)
 			{
 
                 beginRep = false;
@@ -411,6 +412,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 				if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     _BehaviourState = AnimationBehaviourState.STOPPED;
 
+                OnRepetitionEnd();
 
             }
 		}
@@ -460,13 +462,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
                 this.ResumeAnimation();
             }
         }
-
-        if (!IsCentralNode)
-        {
-            OnRepetitionEnd();
-            Debug.Log("me fui ");
-        }
-            
     }
 
     private float SecondsBetweenRepetitions;
@@ -488,15 +483,9 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     public override void ResumeAnimation()
     {
-        //Debug.Log("resume here");
-        //Debug.Log("ResumeAnimation: " + IsRepetitionEnd + " _isResumen: " + IsResumen);
-        IsResumen = true;
-        if (IsRepetitionEnd == true)
-        {
             base.ResumeAnimation();
             clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);
             animator.speed = 1;
-        }
     }
 
     protected override void OnRepetitionEnd()

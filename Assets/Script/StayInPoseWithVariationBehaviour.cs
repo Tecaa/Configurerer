@@ -399,9 +399,9 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     private void finishRepetitionExecution()
     {
         exerciceMovement = -1;
+        OnRepetitionEnd();
         this.PauseAnimation();
         clockBehaviour.stopExecutionTimer();
-        OnRepetitionEnd();
     }
 
 

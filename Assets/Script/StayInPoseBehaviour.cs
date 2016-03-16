@@ -10,6 +10,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     private StayInPoseState stayInPoseState;
     [HideInInspector]
     public bool haCambiadoDeEstado = false;
+    private float timeSinceCapture = 0;
     protected override bool HasCentralNode { get { return false; } }
     public void SetLerpBehaviourState(AnimationBehaviourState lbs)
     {
@@ -97,7 +98,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     private float startAnimationTime;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
     {
-        Debug.Log("OnStateEnter");
+
         if (this._currentParams == null)
             this._currentParams = new BehaviourParams();
         if(this._realParams == null)
@@ -133,7 +134,8 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     float startRestTime;
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
+        timeSinceCapture += Time.deltaTime;
+        if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
         {
             if (!animator.IsInTransition(0))
                 animator.speed = 0;
@@ -152,7 +154,8 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                 OnRepetitionReallyStart();
                 beginRep = true;
             }
-            if (stayInPoseState == StayInPoseState.GoingTo &&  Math.Abs(stateInfo.normalizedTime - 1) <= DELTA)
+
+            if (stayInPoseState == StayInPoseState.GoingTo &&  stateInfo.normalizedTime + DELTA >= 1)
             {
                 animator.speed = 0;
                 startHoldTime = Time.time;
@@ -163,15 +166,13 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             //Si ya pasó el tiempo en el ángulo máximo
             else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _realParams.SecondsInPose)
             {
-                //DebugLifeware.Log("Para atrás", DebugLifeware.Developer.Marco_Rojas);
                 animator.StartRecording(0);
                 animator.speed = -this._realParams.BackwardSpeed;
                 animator.StopRecording();
-                Debug.Log("backward: " + animator.speed + "current: " + this._realParams.BackwardSpeed);
                 stayInPoseState = StayInPoseState.Leaving;
             }
 
-            else if (stayInPoseState == StayInPoseState.Leaving && Math.Abs(stateInfo.normalizedTime - 0) <= DELTA && haCambiadoDeEstado)
+            else if (stayInPoseState == StayInPoseState.Leaving && stateInfo.normalizedTime - DELTA <= 0 && haCambiadoDeEstado)
             {
                 beginRep = false;
                 animator.speed = 0;
@@ -182,7 +183,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                     this.PauseAnimation();
                 if (IsInterleaved && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
-                    //DebugLifeware.Log("cambiando limb", DebugLifeware.Developer.Marco_Rojas);
                     haCambiadoDeEstado = false;
                     animator.SetTrigger("ChangeLimb");
                 }
@@ -194,12 +194,10 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
             else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime>= _realParams.SecondsBetweenRepetitions)
             {
-                //DebugLifeware.Log("descansando", DebugLifeware.Developer.Marco_Rojas);
                 this.animator.speed = this._realParams.ForwardSpeed;
                 stayInPoseState = StayInPoseState.GoingTo;
 
             }
-            //DebugLifeware.Log("termino", DebugLifeware.Developer.Marco_Rojas);
         }
         
     }
@@ -252,7 +250,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     {
         //Debug.Log("stop");
         _BehaviourState = AnimationBehaviourState.STOPPED;
-        if (this.IsInInstruction)
+        if (this.IsInterleaved)
         {
             if ((_Opposite as StayInPoseBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
                 _Opposite.Stop();

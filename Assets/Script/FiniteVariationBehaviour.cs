@@ -252,6 +252,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 if (!IsInterleaved || (IsInterleaved && limb == Limb.Right))
                 {
                     SetNextVariation();
+                    OnRepetitionEnd();
 
                     if ((!this.IsWeb) && (!this.IsInInstruction))
                     {
@@ -277,8 +278,6 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 OnRepetitionEnd();
                 Stop();
             }
-
-            OnRepetitionEnd();
         }
     }
     protected override void OnRepetitionEnd()
