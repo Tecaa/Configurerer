@@ -329,6 +329,11 @@ public class AnimatorScript : MonoBehaviour
         StartCoroutine(InitialPoseDelayed());
     }
 
+    public void ResetVariations()
+    {
+        if (this.behaviour != null && this.behaviour.CentralNode != null)
+            this.behaviour.CentralNode.actualRandomAnimationIndex = 0;
+    }
     public class PrepareExerciseWebParams
     {
         public Exercise Exercise { get; set; }
@@ -388,7 +393,6 @@ public class AnimatorScript : MonoBehaviour
 
     public void ResumeExercise()
     {
-        Debug.Log("RESUME");
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.ResumeAnimation();
     }

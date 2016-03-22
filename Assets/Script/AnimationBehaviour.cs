@@ -62,6 +62,8 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     const int MAGIC_NUMBER = 10000;
     [HideInInspector]
 	public uint actualRandomAnimationIndex;
+    [HideInInspector]
+    public uint savedRandomAnimationIndex;
     private bool _isRepetitionEnd = false;       //Indica si la repeticion ha finalizado
     public bool IsRepetitionEnd
     {
@@ -319,6 +321,13 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         this.IsRepetitionEnd = false;
         this.IsInInstruction = isInInstructionInput;
         this.BeginRep = false;
+        if (this.HasCentralNode)
+        {
+            if (IsInInstruction)
+                this.CentralNode.savedRandomAnimationIndex = this.CentralNode.actualRandomAnimationIndex;
+            else
+                this.CentralNode.actualRandomAnimationIndex = this.CentralNode.savedRandomAnimationIndex;
+        }
         Run();
     }
 
@@ -492,12 +501,13 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	
 	protected void SetNextVariation()
 	{
-        //Debug.Log("CAMBIANDO ANIMACION");
 		++this.CentralNode.actualRandomAnimationIndex;
 		int index = (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count;
 		AnimatorScript.instance.CurrentExercise = 
             new Exercise(this.CentralNode.randomAnimations[index], this.CentralNode.laterality, this.CentralNode.limb);
-	}
+
+        Debug.Log("Next Variation " + this.CentralNode.actualRandomAnimationIndex + " " + this.CentralNode.randomAnimations[(int)this.CentralNode.actualRandomAnimationIndex]);
+    }
 	
 	protected List<Movement> GetRandomAnimations(List<Movement> exs)
 	{
