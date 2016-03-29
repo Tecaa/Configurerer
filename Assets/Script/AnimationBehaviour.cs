@@ -240,11 +240,12 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         //Debug.Log("onRepetitionEnd: " + IsRepetitionEnd + " _isResumen: " + IsResumen);
         if (IsResumen && !this.HasCentralNode)
         {
-            //Debug.Log(" onrepetition");
+            Debug.Log(" RESUMIENDO DESDE 1: " + this.IsResumen + " " + !this.HasCentralNode);
             ResumeAnimation();
         }
         if (IsResumen && this.HasCentralNode)
         {
+            Debug.Log(" RESUMIENDO DESDE 2: " + this.IsResumen + " " + this.HasCentralNode);
             CentralNode.ResumeAnimation();
         }
     }
@@ -319,15 +320,21 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     public void Run(bool isInInstructionInput)
     {
         this.IsRepetitionEnd = false;
+        bool oldIsInInstruction = this.IsInInstruction;
         this.IsInInstruction = isInInstructionInput;
         this.BeginRep = false;
+        this.IsResumen = false;
+        Debug.Log("::::::::::::::::::::. " + this.CentralNode.savedRandomAnimationIndex);
+        Debug.Log("::::::::::::::::::::. " + this.CentralNode.actualRandomAnimationIndex);
         if (this.HasCentralNode)
         {
-            if (IsInInstruction)
+            if (!oldIsInInstruction && IsInInstruction)
                 this.CentralNode.savedRandomAnimationIndex = this.CentralNode.actualRandomAnimationIndex;
-            else
+            else if (oldIsInInstruction && !IsInInstruction)
                 this.CentralNode.actualRandomAnimationIndex = this.CentralNode.savedRandomAnimationIndex;
         }
+        Debug.Log(this.CentralNode.savedRandomAnimationIndex);
+        Debug.Log(this.CentralNode.actualRandomAnimationIndex);
         Run();
     }
 
@@ -506,7 +513,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 		AnimatorScript.instance.CurrentExercise = 
             new Exercise(this.CentralNode.randomAnimations[index], this.CentralNode.laterality, this.CentralNode.limb);
 
-        Debug.Log("Next Variation " + this.CentralNode.actualRandomAnimationIndex + " " + this.CentralNode.randomAnimations[(int)this.CentralNode.actualRandomAnimationIndex]);
+        Debug.Log("Next Variation " + this.CentralNode.actualRandomAnimationIndex + " " + this.CentralNode.randomAnimations[index]);
     }
 	
 	protected List<Movement> GetRandomAnimations(List<Movement> exs)

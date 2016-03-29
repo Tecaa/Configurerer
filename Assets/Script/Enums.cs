@@ -20,20 +20,7 @@ public enum Caller
     Config
 }
 public enum Movement
-{/*
-    PruebaA = 640000,
-    PruebaB = 640001,
-    PruebaC = 640002,
-    PruebaMantenerPose = 8000000,*/
-    Milton_A = 2000000,
-    Milton_B = 2000001,
-    Milton_C = 2000002,
-    Milton_D = 2000003,
-    Pablo_A = 900000,
-    Pablo_B = 900001,
-    Pablo_C = 900002,
-    Pablo_D = 900003,
-
+{
     Iddle = 0,
     AbducciónDeCaderaEnDecúbitoLateral = 10000,
     AducciónResistidaEnPlanoEscapular = 20000,
@@ -47,7 +34,6 @@ public enum Movement
     DesplazamientoLateralConSalto_25 = 40003,
     ElevaciónDeHombroEnPlanoEscapularConBastón = 50000,
     ElevaciónEnPuntaDePies_Nada = 60000,
-    ElevaciónEnPuntaDePies_Step = 60001,
     ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral = 70000,
     ElevaciónResistidaDeHombrosEnPlanoEscapular_Bilateral = 80000,
     ElongaciónBandaIliotibial = 90000,
@@ -173,7 +159,6 @@ public enum Movement
     RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha = 840001,
     RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda = 840002,
     RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha = 840003,
-
 
 }
 

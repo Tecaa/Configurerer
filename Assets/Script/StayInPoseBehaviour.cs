@@ -141,7 +141,16 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                 animator.speed = 0;
             return;
         }
-
+        /*
+        const float INTERVAL = 0.1f;
+        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
+        {
+            timeSinceCapture = timeSinceCapture - INTERVAL;
+            if (exerciseDataGenerator == null)
+                exerciseDataGenerator = GameObject.FindObjectOfType<Detector.ExerciseDataGenerator>();
+            if (this.exerciseDataGenerator != null)
+                this.exerciseDataGenerator.CaptureData();
+        }*/
         float DELTA = 0.05f;
         DateTime temp = DateTime.Now;
         if (_BehaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
