@@ -93,6 +93,7 @@ namespace Assets
             
             if (MovementJointMatch.movementJointMatch.ContainsKey(k))
             {
+                //Debug.Log("MOVEMENT LIMB KEY " + MovementJointMatch.movementJointMatch[k].jointType);
                 ArticulacionType type = MovementJointMatch.movementJointMatch[k].jointType;
                 if (type == articulacion)
                 {

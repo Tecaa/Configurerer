@@ -324,8 +324,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         this.IsInInstruction = isInInstructionInput;
         this.BeginRep = false;
         this.IsResumen = false;
-        Debug.Log("::::::::::::::::::::. " + this.CentralNode.savedRandomAnimationIndex);
-        Debug.Log("::::::::::::::::::::. " + this.CentralNode.actualRandomAnimationIndex);
         if (this.HasCentralNode)
         {
             if (!oldIsInInstruction && IsInInstruction)
@@ -333,8 +331,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             else if (oldIsInInstruction && !IsInInstruction)
                 this.CentralNode.actualRandomAnimationIndex = this.CentralNode.savedRandomAnimationIndex;
         }
-        Debug.Log(this.CentralNode.savedRandomAnimationIndex);
-        Debug.Log(this.CentralNode.actualRandomAnimationIndex);
         Run();
     }
 
