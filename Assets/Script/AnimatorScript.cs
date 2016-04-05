@@ -113,16 +113,16 @@ public class AnimatorScript : MonoBehaviour
                 Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha,
                 Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda,
             }, 3, 1, 1));*/
-        /*
-    PrepareExercise(new Exercise(Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal, Laterality.Single, Limb.Right),
-   new BehaviourParams(new List<Movement>(){
-            Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
-            Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar,
-            Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás,
-            Movement.MantenerPosiciónExtrema_EtapaAvanzada_PosturaDelÁrbol,
-   }, 3, 1, 5));*/
-
-        PrepareExercise(new Exercise(Movement.AbducciónDeCaderaEnDecúbitoLateral, Laterality.Single, Limb.Left), new BehaviourParams(45, 1f, 1f, 2, 6));
+            /*
+        PrepareExercise(new Exercise(Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal, Laterality.Single, Limb.Right),
+       new BehaviourParams(new List<Movement>(){
+                Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
+                Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar,
+                Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás,
+                Movement.MantenerPosiciónExtrema_EtapaAvanzada_PosturaDelÁrbol,
+       }, 3, 1, 5));
+        */
+        PrepareExercise(new Exercise(Movement.ExtensiónDeRodillaEnSedente_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(45, 1f, 1f, 0, 0));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(2, 1f, 1f));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2,1 ,1));
         //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));

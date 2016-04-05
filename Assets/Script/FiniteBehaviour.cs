@@ -66,6 +66,7 @@ public class FiniteBehaviour : AnimationBehaviour
         BehaviourParams lp = (BehaviourParams)bp;
         this._RealParams = lp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+        timeSinceCapture = 0;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
 
@@ -143,8 +144,7 @@ public class FiniteBehaviour : AnimationBehaviour
 
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        timeSinceCapture += Time.deltaTime;
+    {        
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (!animator.IsInTransition(0))
@@ -152,16 +152,18 @@ public class FiniteBehaviour : AnimationBehaviour
             return;
         }
         const float INTERVAL = 0.1f;
-        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
+        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
-            timeSinceCapture = timeSinceCapture - INTERVAL;
-            //if (exerciseDataGenerator == null)
-            //    exerciseDataGenerator = GameObject.FindObjectOfType<ExerciseDataGenerator>();
-            //TODO: rescatar de base de datos o diccionario
-            //TODO: rescatar captureData
-            //DebugLifeware.Log("grabando frame ", DebugLifeware.Developer.Marco_Rojas);
-            //if (this.exerciseDataGenerator != null)
-            //    this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.BoundingBoxBased);
+            timeSinceCapture += Time.deltaTime;
+            /*
+            if (timeSinceCapture > INTERVAL)
+            {
+                timeSinceCapture = timeSinceCapture - INTERVAL;
+                if (exerciseDataGenerator == null)
+                    exerciseDataGenerator = GameObject.FindObjectOfType<Detector.ExerciseDataGenerator>();
+                if (this.exerciseDataGenerator != null)
+                    this.exerciseDataGenerator.CaptureData();
+            }*/
         }
 
         DateTime temp = DateTime.Now;

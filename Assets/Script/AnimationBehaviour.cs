@@ -191,7 +191,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     
 
-    private bool isInInstruction = false;
+    private bool isInInstruction = true;
     public bool IsInInstruction
     {
         get
@@ -509,7 +509,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 		AnimatorScript.instance.CurrentExercise = 
             new Exercise(this.CentralNode.randomAnimations[index], this.CentralNode.laterality, this.CentralNode.limb);
 
-        Debug.Log("Next Variation " + this.CentralNode.actualRandomAnimationIndex + " " + this.CentralNode.randomAnimations[index]);
+        Debug.Log("Next Variation " + index + " " + this.CentralNode.randomAnimations[index]);
     }
 	
 	protected List<Movement> GetRandomAnimations(List<Movement> exs)

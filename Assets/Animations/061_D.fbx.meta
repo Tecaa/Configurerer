@@ -145,8 +145,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 061_D_0
       takeName: Take 001
-      firstFrame: 86
-      lastFrame: 151
+      firstFrame: 16
+      lastFrame: 76
       wrapMode: 0
       orientationOffsetY: 45
       level: .00999999978
@@ -271,8 +271,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 061_D_90
       takeName: Take 001
-      firstFrame: 115
-      lastFrame: 151
+      firstFrame: 16
+      lastFrame: 51
       wrapMode: 0
       orientationOffsetY: 45
       level: .00999999978
@@ -397,8 +397,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 061_I_0
       takeName: Take 001
-      firstFrame: 86
-      lastFrame: 151
+      firstFrame: 16
+      lastFrame: 76
       wrapMode: 0
       orientationOffsetY: 45
       level: .00999999978
@@ -523,8 +523,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 061_I_90
       takeName: Take 001
-      firstFrame: 115
-      lastFrame: 151
+      firstFrame: 16
+      lastFrame: 51
       wrapMode: 0
       orientationOffsetY: 45
       level: .00999999978

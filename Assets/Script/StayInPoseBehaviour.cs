@@ -97,8 +97,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     private float defaultAnimationLength;
     private float startAnimationTime;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
-    {
-
+    {        
         if (this._currentParams == null)
             this._currentParams = new BehaviourParams();
         if(this._realParams == null)
@@ -128,7 +127,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             (this._Opposite as StayInPoseBehaviour).endRepTime = endRepTime;
         }
     }
-
+    const float INTERVAL = 0.1f;
     //private bool ReadyToLerp = false;
     float startHoldTime;
     float startRestTime;
@@ -141,16 +140,17 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                 animator.speed = 0;
             return;
         }
-        /*
-        const float INTERVAL = 0.1f;
+
+        
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
         {
             timeSinceCapture = timeSinceCapture - INTERVAL;
+            /*
             if (exerciseDataGenerator == null)
                 exerciseDataGenerator = GameObject.FindObjectOfType<Detector.ExerciseDataGenerator>();
             if (this.exerciseDataGenerator != null)
-                this.exerciseDataGenerator.CaptureData();
-        }*/
+                this.exerciseDataGenerator.CaptureData();*/
+        }
         float DELTA = 0.05f;
         DateTime temp = DateTime.Now;
         if (_BehaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))

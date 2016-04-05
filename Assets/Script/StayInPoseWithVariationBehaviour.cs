@@ -150,7 +150,11 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 		this.CentralNode._RealParams = lp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
 		this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
-	}
+
+        int i = 0;
+        foreach (Movement x in this.CentralNode.randomAnimations)
+            Debug.Log(i++ + " " + x);
+    }
 
 	protected override void PrepareWebInternal ()
 	{
@@ -159,7 +163,10 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
 	public override void Run ()
 	{
-		this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
+        Debug.Log("Run : " + (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count + " " + this.CentralNode.randomAnimations[(int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count]);
+        AnimatorScript.instance.CurrentExercise.Movement = this.CentralNode.randomAnimations[(int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count];
+
+        this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
         this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
         clockBehaviour.stopExecutionTimer();
         clockBehaviour.stopTimeBetweenRepetitionsTimer();
@@ -369,6 +376,9 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
                 animator.speed = 0;
             return;
         }
+
+        //if (!this.IsCentralNode && this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+        //    exerciceMovement = -1;
 
         if (_isAnimationPreparing || _isAnimationStopped)
             return;

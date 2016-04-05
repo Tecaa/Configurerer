@@ -311,6 +311,7 @@ public class LerpBehaviour : AnimationBehaviour {
             {
                 //OnRepetitionEnd();
                 _BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+                timeSinceCapture = 0;
                 this.StartLerp();
             }
 
@@ -343,7 +344,7 @@ public class LerpBehaviour : AnimationBehaviour {
             (this._Opposite as LerpBehaviour).endRepTime = endRepTime;
         }
     }
-
+    const float INTERVAL = 0.1f;
     private bool ReadyToLerp = false;
     private bool lastReadyToLerp = false;
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -357,10 +358,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 animator.speed = 0;
             return;
         }
-
-        timeSinceCapture += Time.deltaTime;
-
-
+                
         #region Interpolate
         //Si no estamos en estado Stopped 
         //Y estamos preparados para hacer Lerp
@@ -419,14 +417,20 @@ public class LerpBehaviour : AnimationBehaviour {
             animator.speed = 0;
         }
 
-        const float INTERVAL = 0.1f;
-        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
+
+        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
-            timeSinceCapture = timeSinceCapture - INTERVAL ;
-            /*if (exerciseDataGenerator == null)
-                exerciseDataGenerator = GameObject.FindObjectOfType<Detector.ExerciseDataGenerator>();
-            if (this.exerciseDataGenerator != null)
-                this.exerciseDataGenerator.CaptureData();*/
+            timeSinceCapture += Time.deltaTime;
+            
+            if (timeSinceCapture > INTERVAL)
+            {
+                timeSinceCapture = timeSinceCapture - INTERVAL;
+                /*
+                if (exerciseDataGenerator == null)
+                    exerciseDataGenerator = GameObject.FindObjectOfType<Detector.ExerciseDataGenerator>();
+                if (this.exerciseDataGenerator != null)
+                    this.exerciseDataGenerator.CaptureData();*/
+            }
         }
 
         
