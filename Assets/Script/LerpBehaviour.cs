@@ -421,7 +421,6 @@ public class LerpBehaviour : AnimationBehaviour {
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
             timeSinceCapture += Time.deltaTime;
-            
             if (timeSinceCapture > INTERVAL)
             {
                 timeSinceCapture = timeSinceCapture - INTERVAL;

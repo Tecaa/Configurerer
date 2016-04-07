@@ -265,13 +265,14 @@ public class StayInPoseXtreme : AnimationBehaviour {
 		}
 		this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
 
+        this.CentralNode._StayInPoseState = StayInPoseState.GoingTo;
+        this.CentralNode.endRepTime = null;
         this.CentralNode._RealParams = new BehaviourParams();
         this.CentralNode.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 		this.CentralNode.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
 	}
 	override public void RunWeb(BehaviourParams bp)
 	{
-
         if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
         {
             animator.speed = 1;
@@ -289,6 +290,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
         }
         else
         {
+            this.CentralNode._StayInPoseState = StayInPoseState.GoingTo;
             BehaviourParams p = (BehaviourParams)bp;
             this.CentralNode.endRepTime = null;
             this.CentralNode._RealParams = p;
@@ -511,6 +513,8 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	/// </summary>
 	override public void Stop()
 	{
+        clockBehaviour.stopExecutionTimer();
+        clockBehaviour.stopTimeBetweenRepetitionsTimer();
         IsResumen = false;
 		animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
 		this.CentralNode._BehaviourState = AnimationBehaviourState.STOPPED;

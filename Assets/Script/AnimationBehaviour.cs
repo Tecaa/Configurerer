@@ -225,11 +225,12 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     protected virtual void OnRepetitionEnd()
     {
+        Debug.Log("REPETITION ENDDDDDDDDDDDDDDDDDDDDDD");
         //TODO: Fix rapido pero que debe arreglarse ya que el evento se lanza aún cuando se está en modo web.
-        if(this.isWeb && (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB))
-        {
-            return;
-        }
+        //if(this.isWeb && (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB))
+        //{
+        //    return;
+        //}
         //DebugLifeware.Log("OnRepetitionEnd" + " " + this.IsCentralNode, DebugLifeware.Developer.Alfredo_Gallardo | DebugLifeware.Developer.Marco_Rojas);
         EventHandler eh = RepetitionEnd;
         if (eh != null)
@@ -622,7 +623,7 @@ public class BehaviourParams //: BehaviourParams
     public float Angle, ForwardSpeed = 1, BackwardSpeed = 1;
     public const float DEFAULT_TIME = 1.0f;
     public int SecondsBetweenRepetitions = 1;
-    public int SecondsInPose = 1;
+    public int SecondsInPose = 2;
     public List<Movement> Variations;
 
     public BehaviourParams()

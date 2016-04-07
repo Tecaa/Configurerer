@@ -79,6 +79,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     }
     override public void RunWeb(BehaviourParams stayInParams)
     {
+        animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
         endRepTime = null;
 
         Debug.Log("Tirando RunWebWithParams");
@@ -91,6 +92,8 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 	
 
         this._RealParams = stayInParams;
+        stayInPoseState = StayInPoseState.GoingTo;
+        this.animator.speed = this._RealParams.ForwardSpeed;
     }
     
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
