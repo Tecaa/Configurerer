@@ -298,6 +298,7 @@ public class AnimatorScript : MonoBehaviour
     /// <param name="param"></param>
     public void PrepareExercise(Exercise e, BehaviourParams param)
     {
+        Debug.Log("Exercise: " + e);
         if (param.Variations == null || param.Variations.Count == 0)
             behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         else
@@ -367,7 +368,7 @@ public class AnimatorScript : MonoBehaviour
             return;
         }
         behaviour.RepetitionEnd += behaviour_PrepareEndWeb;
-        timeSinceStartPrepareWeb = Time.time;  //trabajando
+        timeSinceStartPrepareWeb = Time.time;  
         behaviour.PrepareWeb();
         CurrentExercise = e;    
     }
