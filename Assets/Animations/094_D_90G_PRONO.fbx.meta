@@ -143,11 +143,11 @@ ModelImporter:
     - serializedVersion: 16
       name: "094_D_90\xB0_PRONO"
       takeName: Take 001
-      firstFrame: 16
+      firstFrame: 0
       lastFrame: 208
       wrapMode: 0
       orientationOffsetY: 90
-      level: -.100000001
+      level: -.600000024
       cycleOffset: 0
       loop: 0
       loopTime: 1
@@ -269,11 +269,11 @@ ModelImporter:
     - serializedVersion: 16
       name: "094_I_90\xB0_PRONO"
       takeName: Take 001
-      firstFrame: 16
+      firstFrame: 0
       lastFrame: 208
       wrapMode: 0
       orientationOffsetY: 90
-      level: -.100000001
+      level: -.600000024
       cycleOffset: 0
       loop: 0
       loopTime: 1

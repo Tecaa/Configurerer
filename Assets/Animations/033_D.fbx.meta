@@ -168,7 +168,7 @@ ModelImporter:
       name: 033_I
       takeName: Armature|Armature|Take 001|BaseLayer
       firstFrame: 0
-      lastFrame: 19
+      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: -.0199999996
@@ -318,7 +318,7 @@ ModelImporter:
       name: 033_D
       takeName: Armature|Armature|Take 001|BaseLayer
       firstFrame: 0
-      lastFrame: 19
+      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: -.0199999996

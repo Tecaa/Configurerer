@@ -142,10 +142,10 @@ ModelImporter:
     - serializedVersion: 16
       name: "042_45\xB0"
       takeName: Take 001
-      firstFrame: 54
-      lastFrame: 124
+      firstFrame: 185
+      lastFrame: 255
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: 45
       level: 0
       cycleOffset: 0
       loop: 0

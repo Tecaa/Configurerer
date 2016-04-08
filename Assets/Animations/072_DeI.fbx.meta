@@ -143,11 +143,11 @@ ModelImporter:
     - serializedVersion: 16
       name: 072_D
       takeName: Take 001
-      firstFrame: 1
-      lastFrame: 74
+      firstFrame: 13
+      lastFrame: 70
       wrapMode: 0
       orientationOffsetY: 90
-      level: -.529999971
+      level: -.579999983
       cycleOffset: 0
       loop: 0
       loopTime: 0
@@ -269,11 +269,11 @@ ModelImporter:
     - serializedVersion: 16
       name: 072_I
       takeName: Take 001
-      firstFrame: 1
-      lastFrame: 74
+      firstFrame: 13
+      lastFrame: 70
       wrapMode: 0
       orientationOffsetY: 90
-      level: -.529999971
+      level: -.579999983
       cycleOffset: 0
       loop: 0
       loopTime: 0

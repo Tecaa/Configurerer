@@ -143,10 +143,10 @@ ModelImporter:
       name: 301
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 148
+      lastFrame: 135
       wrapMode: 0
       orientationOffsetY: 0
-      level: -.119999997
+      level: -.150000006
       cycleOffset: 0
       loop: 0
       loopTime: 0

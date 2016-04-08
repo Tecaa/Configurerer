@@ -144,10 +144,10 @@ ModelImporter:
       name: 097_D
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 80
+      lastFrame: 82
       wrapMode: 0
       orientationOffsetY: 90
-      level: -.449999988
+      level: -.5
       cycleOffset: 0
       loop: 0
       loopTime: 0
@@ -270,10 +270,10 @@ ModelImporter:
       name: 097_I
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 80
+      lastFrame: 82
       wrapMode: 0
-      orientationOffsetY: 0
-      level: -.449999988
+      orientationOffsetY: 90
+      level: -.5
       cycleOffset: 0
       loop: 0
       loopTime: 0
@@ -281,7 +281,7 @@ ModelImporter:
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
-      keepOriginalOrientation: 1
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
       heightFromFeet: 0

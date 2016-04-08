@@ -298,8 +298,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 022_D_B
       takeName: Take 001
-      firstFrame: 177
-      lastFrame: 318
+      firstFrame: 195
+      lastFrame: 306
       wrapMode: 0
       orientationOffsetY: -45
       level: 0
@@ -551,7 +551,7 @@ ModelImporter:
       name: 022_D_D
       takeName: Take 001
       firstFrame: 433
-      lastFrame: 554
+      lastFrame: 538
       wrapMode: 0
       orientationOffsetY: -45
       level: 0
@@ -802,8 +802,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 022_I_B
       takeName: Take 001
-      firstFrame: 177
-      lastFrame: 318
+      firstFrame: 195
+      lastFrame: 307
       wrapMode: 0
       orientationOffsetY: -45
       level: 0
@@ -1055,7 +1055,7 @@ ModelImporter:
       name: 022_I_D
       takeName: Take 001
       firstFrame: 433
-      lastFrame: 554
+      lastFrame: 538
       wrapMode: 0
       orientationOffsetY: -45
       level: 0
@@ -1181,7 +1181,7 @@ ModelImporter:
       name: 022_D_Comun
       takeName: Take 001
       firstFrame: 31
-      lastFrame: 85
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: -45
       level: 0
@@ -1433,7 +1433,7 @@ ModelImporter:
       name: 022_I_Comun
       takeName: Take 001
       firstFrame: 31
-      lastFrame: 85
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: -45
       level: 0
