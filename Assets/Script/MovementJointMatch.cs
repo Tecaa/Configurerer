@@ -50,8 +50,8 @@ public static class MovementJointMatch
 
 
         
-        movementJointMatch.Add(new MovementLimbKey(Movement.AbducciónDeCaderaEnDecúbitoLateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoHorizontal));
-        movementJointMatch.Add(new MovementLimbKey(Movement.AbducciónDeCaderaEnDecúbitoLateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoHorizontal));
+        movementJointMatch.Add(new MovementLimbKey(Movement.AbducciónDeCaderaEnDecúbitoLateral, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.AbducciónDeCaderaEnDecúbitoLateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoHorizontalAcostado));
         
 
         movementJointMatch.Add(new MovementLimbKey(Movement.AducciónResistidaEnPlanoEscapular, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoFrontal));
@@ -112,8 +112,8 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaLateral, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.RodillaDerecha, Plano.planos.planoSagital));
 
         
-        movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeCaderaEnProno, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoHorizontalAcostado));
-        movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeCaderaEnProno, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeCaderaEnProno, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeCaderaEnProno, Laterality.Single, Limb.Right), new JointTypePlanoResult(ArticulacionType.PiernaDerecha, Plano.planos.planoHorizontalAcostado));
         
 
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDeHombroConEstabilizaciónEscapular_Unilateral_45, Laterality.Single, Limb.Left), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoSagital));
