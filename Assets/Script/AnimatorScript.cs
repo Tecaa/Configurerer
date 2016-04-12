@@ -144,6 +144,8 @@ public class AnimatorScript : MonoBehaviour
         //***********************************************************
         //Para correr Juego IV*****************************************
         PrepareExercise(new Exercise(Movement.ExtensiónDeRodillaEnSedente_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
+        //PrepareExercise(new Exercise(Movement.PrensaDePiernas_45, Laterality.Single, Limb.Left), new BehaviourParams(2, 1, 1f, 1f));
+
         //***********************************************************
 
         //Para correr Juego mpx*****************************************
@@ -208,7 +210,7 @@ public class AnimatorScript : MonoBehaviour
         //RunExerciseWeb(s);
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        //RunExercise(true);
+        RunExercise(false);
         //**********************************************************************
 
         //Para correr web con parametros****************************************
