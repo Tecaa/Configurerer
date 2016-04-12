@@ -135,15 +135,15 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda }, 1, 3, 2));
         //***********************************************************
         //Para correr web mp*******************************************
-        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.MantenerPosiciónExtrema_EtapaAvanzada_PosturaDelÁrbol, Laterality.Single, Limb.Left), Caller.Config);
-        PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.ExtensiónDeRodillaEnSedente_Unilateral, Laterality.Single, Limb.Left), Caller.Config);
+        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
         //Para correr web mp con variacion*******************************************
         //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
         //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
         //Para correr Juego IV*****************************************
-        //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
+        PrepareExercise(new Exercise(Movement.ExtensiónDeRodillaEnSedente_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
         //***********************************************************
 
         //Para correr Juego mpx*****************************************
@@ -218,13 +218,13 @@ public class AnimatorScript : MonoBehaviour
         //**********************************************************************
 
         //Para correr web con parametros mpx************************************
-        BehaviourParams p = new BehaviourParams(new List<Movement>() {
-            { Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal},
-            { Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar},
-            { Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás},
-        }, 1, 1f, 0);
-        string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
-        RunExerciseWeb(s);
+        //BehaviourParams p = new BehaviourParams(new List<Movement>() {
+        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal},
+        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar},
+        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás},
+        //}, 1, 1f, 0);
+        //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
+        //RunExerciseWeb(s);
         //**********************************************************************
 
         //Para correr web con parametros mp con variacion***********************
