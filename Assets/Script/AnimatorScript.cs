@@ -123,6 +123,7 @@ public class AnimatorScript : MonoBehaviour
                 Movement.MantenerPosiciónExtrema_EtapaAvanzada_PosturaDelÁrbol,
        }, 3, 1, 5));
         */
+
         //PrepareExercise(new Exercise(Movement.FlexiónHorizontalResistidaDeHombros_BípedoBilateral, Laterality.Double, Limb.None), new BehaviourParams(45, 1f, 1f, 0, 1));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(2, 1f, 1f));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2,1 ,1));
@@ -143,7 +144,8 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
         //Para correr Juego IV*****************************************
-        PrepareExercise(new Exercise(Movement.ExtensiónDeRodillaEnSedente_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
+        PrepareExercise(new Exercise(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, Laterality.Double, Limb.None),
+            new BehaviourParams(10, 1f, 1f, 2 ,1 ));
         //PrepareExercise(new Exercise(Movement.PrensaDePiernas_45, Laterality.Single, Limb.Left), new BehaviourParams(2, 1, 1f, 1f));
 
         //***********************************************************
@@ -300,6 +302,7 @@ public class AnimatorScript : MonoBehaviour
     /// <param name="param"></param>
     public void PrepareExercise(Exercise e, BehaviourParams param)
     {
+        param.Angle = AngleFixer.FixAngle(param.Angle, e.Movement);
         Debug.Log("Exercise: " + e);
         if (param.Variations == null || param.Variations.Count == 0)
             behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
@@ -310,7 +313,7 @@ public class AnimatorScript : MonoBehaviour
         {
             Debug.LogError("No se encontró la máquina de estado. (Ejercicio = " + e.Movement + " "
                 + (int)e.Movement + ") (Limb = " + e.Limb + ") (Laterality = " + e.Laterality + 
-                "). Posiblemente se deba a una mala combinación de esos parámetros o el MoniAnimatorController se bugeo");
+                "). Posiblemente se deba a una mala combinación de esos parámetros o el MonitoAnimatorController se bugeo");
             return;
         }
 
@@ -442,7 +445,7 @@ public class AnimatorScript : MonoBehaviour
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
 
         behaviour.Stop();
-
+        p.Angle = AngleFixer.FixAngle(p.Angle, CurrentExercise.Movement);
         StartCoroutine(RunWebInSeconds(0.4f, p));
 
     }
