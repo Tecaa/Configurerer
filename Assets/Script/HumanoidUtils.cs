@@ -130,7 +130,6 @@ namespace Assets
             {
                 x.Update();
             }
-
             if (this.drawPlanes)
             {
                 planosMovimiento.Draw(Color.red, Plano.planos.planoFrontal);

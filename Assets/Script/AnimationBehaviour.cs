@@ -225,7 +225,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     protected virtual void OnRepetitionEnd()
     {
-        Debug.Log("REPETITION ENDDDDDDDDDDDDDDDDDDDDDD");
         //TODO: Fix rapido pero que debe arreglarse ya que el evento se lanza aún cuando se está en modo web.
         //if(this.isWeb && (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB))
         //{

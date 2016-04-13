@@ -91,7 +91,6 @@ public class AnimatorScript : MonoBehaviour
         anim.SetInteger(AnimatorParams.Limb, (int)_currentExercise.Limb);
         anim.SetInteger(AnimatorParams.Laterality, (int)((Laterality)_currentExercise.Laterality));
         anim.SetInteger(AnimatorParams.Movement, (int)_currentExercise.Movement);
-    
     }
     private void testing(object sender, EventArgs e)
     {
@@ -136,7 +135,7 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda }, 1, 3, 2));
         //***********************************************************
         //Para correr web mp*******************************************
-        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.ExtensiónDeRodillaEnSedente_Unilateral, Laterality.Single, Limb.Left), Caller.Config);
+        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), Caller.Config);
         //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
         //Para correr web mp con variacion*******************************************
@@ -144,10 +143,7 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
         //Para correr Juego IV*****************************************
-        PrepareExercise(new Exercise(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, Laterality.Double, Limb.None),
-            new BehaviourParams(10, 1f, 1f, 2 ,1 ));
-        //PrepareExercise(new Exercise(Movement.PrensaDePiernas_45, Laterality.Single, Limb.Left), new BehaviourParams(2, 1, 1f, 1f));
-
+        //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
         //***********************************************************
 
         //Para correr Juego mpx*****************************************
@@ -392,8 +388,6 @@ public class AnimatorScript : MonoBehaviour
 
     public void RunExercise(bool isInInstruction)
     {
-
- //       Debug.Log("RUN " + isInInstruction);
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
         behaviour.Run(isInInstruction);
         RewindExercise();
