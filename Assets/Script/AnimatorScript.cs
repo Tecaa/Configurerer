@@ -135,8 +135,8 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda }, 1, 3, 2));
         //***********************************************************
         //Para correr web mp*******************************************
-        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), Caller.Config);
-        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EstocadaFrontalCorta, Laterality.Single, Limb.Right), Caller.Config);
+        PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
         //Para correr web mp con variacion*******************************************
         //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
@@ -208,7 +208,7 @@ public class AnimatorScript : MonoBehaviour
         //RunExerciseWeb(s);
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        RunExercise(false);
+        //RunExercise(false);
         //**********************************************************************
 
         //Para correr web con parametros****************************************
@@ -235,7 +235,7 @@ public class AnimatorScript : MonoBehaviour
         //RunExerciseWeb(s);
         //**********************************************************************
         //Para correr web sin parametros ***************************************
-        //RunExerciseWebWithoutParams();
+        RunExerciseWebWithoutParams();
         //**********************************************************************
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
