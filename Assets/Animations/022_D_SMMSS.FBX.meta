@@ -157,7 +157,7 @@ ModelImporter:
       name: 022_D
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 48
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: -45
       level: 0
@@ -283,7 +283,7 @@ ModelImporter:
       name: 022_I
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 48
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: -45
       level: 0
