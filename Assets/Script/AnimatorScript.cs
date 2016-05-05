@@ -135,8 +135,8 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda }, 1, 3, 2));
         //***********************************************************
         //Para correr web mp*******************************************
-        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Laterality.Single, Limb.Right), Caller.Config);
-        PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Laterality.Single, Limb.Right), Caller.Config);
+        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
         //Para correr web mp con variacion*******************************************
         //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
@@ -167,14 +167,14 @@ public class AnimatorScript : MonoBehaviour
 
         //PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
         //  new BehaviourParams(1, 2, 5, 8));
-        /*
+        
 		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda},
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha},
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
-        }, 2, 0));*/
+        }, 2, 0));
 
 
         /*
@@ -228,14 +228,14 @@ public class AnimatorScript : MonoBehaviour
         //**********************************************************************
 
         //Para correr web con parametros mp con variacion***********************
-        //BehaviourParams p = new BehaviourParams(new List<Movement>() {
-        //    {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda},
-        //}, 1, 3, 2);
-        //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
-        //RunExerciseWeb(s);
+        BehaviourParams p = new BehaviourParams(new List<Movement>() {
+            {Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
+        }, 1, 3, 2);
+        string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
+        RunExerciseWeb(s);
         //**********************************************************************
         //Para correr web sin parametros ***************************************
-        RunExerciseWebWithoutParams();
+        //RunExerciseWebWithoutParams();
         //**********************************************************************
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
