@@ -27,6 +27,7 @@ public static class AngleFixer {
         AddFix(Movement.ExtensiónDiagonalDeHombrosEnSupino_IzquierdaArriba, 0, 60, 78, 7.4f);
         AddFix(Movement.ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba, 0, 60, 78, 7.4f);
         AddFix(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, -45, 70, -57, -185.5f);
+        AddFix(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, 33, 180, 33, 177);
     }
     public static float FixAngle(float angleToFix, Movement movement)
     {
