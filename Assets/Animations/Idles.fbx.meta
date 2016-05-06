@@ -480,7 +480,7 @@ ModelImporter:
     7400008: _97_TO_100_a_U1_M_P_idle_NeutralTO45IdleTONeutralIdle__Fb_p45_No_0_PJ_2
     7400010: _88B_a_U1_M_P_idle_ReadyToNeutral_R_Fb_p0_No_0_PJ_0
     7400012: _117_to_120_a_U1_M_P_idle2Strafe_AllAngles__Fb_p45-180_No_0_PJ_1
-    7400014: IdleShort
+    7400014: IDLE_0
     7400016: __preview__Idle
     7400020: Idle
     11100000: //RootNode
@@ -533,7 +533,7 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: IdleShort
+      name: IDLE_0
       takeName: Idle
       firstFrame: 130
       lastFrame: 253
@@ -549,7 +549,7 @@ ModelImporter:
       loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000

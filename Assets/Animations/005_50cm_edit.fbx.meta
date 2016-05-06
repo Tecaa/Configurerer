@@ -167,8 +167,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 005 Desplazamiento lateral con paso 050cm
       takeName: Take 001
-      firstFrame: 4
-      lastFrame: 103
+      firstFrame: 1
+      lastFrame: 113
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

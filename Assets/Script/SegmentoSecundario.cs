@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets
 {
@@ -77,7 +78,23 @@ namespace Assets
             var rotationUp =  Vector3.Angle(hombro.transform.up, pecho.transform.up);*/
 
             base.Update();
+            MovementLimbKey k = new MovementLimbKey(AnimatorScript.instance.CurrentExercise.Movement, AnimatorScript.instance.CurrentExercise.Laterality, AnimatorScript.instance.CurrentExercise.Limb);
 
+            if (MovementJointMatch.movementJointMatch.ContainsKey(k))
+            {
+                //Debug.Log("MOVEMENT LIMB KEY " + MovementJointMatch.movementJointMatch[k].jointType);
+                ArticulacionType type = MovementJointMatch.movementJointMatch[k].jointType;
+                if (type == articulacion)
+                {
+                    GameObject.FindGameObjectWithTag("anguloFrontal").GetComponent<Text>().text = "Angulo Frontal : " + AngleFrontal;
+
+                    GameObject.FindGameObjectWithTag("anguloHorizontal").GetComponent<Text>().text = "Angulo Horizontal : " + AngleHorizontal;
+
+                    GameObject.FindGameObjectWithTag("anguloSagital").GetComponent<Text>().text = "Angulo Sagital : " + AngleSagital;
+
+                    GameObject.FindGameObjectWithTag("anguloHorizontalAcostado").GetComponent<Text>().text = "Angulo Horizontal Acostado : " + AngleHorizontalAcostado;
+                }
+            }
         }
     }
 }

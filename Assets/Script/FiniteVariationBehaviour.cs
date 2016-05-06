@@ -94,10 +94,14 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     {
         this._RealParams = bp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+        timeSinceCapture = 0;
         this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
 
+        int i = 0;
+        foreach (Movement x in this.CentralNode.randomAnimations)
+            Debug.Log(i++ + " " + x);
     }
 
     
@@ -111,13 +115,16 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     }
     override public void Run()
     {
+        Debug.Log("Run : " + (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count + " " + this.CentralNode.randomAnimations[(int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count]);
+        AnimatorScript.instance.CurrentExercise.Movement = this.CentralNode.randomAnimations[(int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count];
+
         this.CentralNode.endRepTime = null;
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
         }
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-
+        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
         //Debug.Log("cambiando a " + _BehaviourState + " " + this.IsCentralNode + "  " + this.GetInstanceID());
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
@@ -180,8 +187,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        timeSinceCapture += Time.deltaTime;
+    {        
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (!animator.IsInTransition(0))
@@ -190,16 +196,20 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         }
 
         const float INTERVAL = 0.1f;
-        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
+        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
-            timeSinceCapture = timeSinceCapture - INTERVAL;
-            //if (exerciseDataGenerator == null)
-            //    exerciseDataGenerator = GameObject.FindObjectOfType<ExerciseDataGenerator>();
-            //TODO: rescatar de base de datos o diccionario
-            //TODO: rescatar captureData
-            //DebugLifeware.Log("grabando frame ", DebugLifeware.Developer.Marco_Rojas);
-            //if (this.exerciseDataGenerator != null)
-            //    this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.BoundingBoxBased);
+            timeSinceCapture += Time.deltaTime;
+            if (timeSinceCapture > INTERVAL)
+            {
+                timeSinceCapture = timeSinceCapture - INTERVAL;
+                //if (exerciseDataGenerator == null)
+                //    exerciseDataGenerator = GameObject.FindObjectOfType<ExerciseDataGenerator>();
+                //TODO: rescatar de base de datos o diccionario
+                //TODO: rescatar captureData
+                //DebugLifeware.Log("grabando frame ", DebugLifeware.Developer.Marco_Rojas);
+                //if (this.exerciseDataGenerator != null)
+                //    this.exerciseDataGenerator.captureData(ActionDetector.ActionDetector.DetectionMode.BoundingBoxBased);
+            }
         }
 
         DateTime now = DateTime.Now;
@@ -251,7 +261,6 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 OnLerpRoundTripEnd();
                 if (!IsInterleaved || (IsInterleaved && limb == Limb.Right))
                 {
-                    SetNextVariation();
                     OnRepetitionEnd();
 
                     if ((!this.IsWeb) && (!this.IsInInstruction))
@@ -259,6 +268,9 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                         Debug.Log("isWeb [" + this.IsWeb + "]esInsutrccion [" + this.IsInInstruction + "]");
                         this.PauseAnimation();
                     }
+
+                    if (IsInInstruction)
+                        SetNextVariation();
                 }
                 if (IsInterleaved)
                 {
@@ -282,6 +294,8 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     }
     protected override void OnRepetitionEnd()
     {
+
+        animator.SetInteger(AnimatorParams.Movement, -1);
         if (!IsCentralNode)
             this.CentralNode.OnRepetitionEnd();
         else
@@ -298,6 +312,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;*/
         //this._BehaviourState = AnimationBehaviourState.STOPPED;
+        IsResumen = false;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
         
         this.CentralNode._BehaviourState = AnimationBehaviourState.STOPPED;
@@ -305,7 +320,15 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         animator.speed = 1;
 
     }
-
+    public override void ResumeAnimation()
+    {
+        // ResumeAnimation en esta maquina de estado solo se llama cuando !IsInInstruction
+        Debug.Log("resume hijo " + IsRepetitionEnd);
+        if (IsRepetitionEnd)
+            SetNextVariation();
+        
+        base.ResumeAnimation();
+    }
     void OnDestroy()
     {
         if (this.IsInterleaved)

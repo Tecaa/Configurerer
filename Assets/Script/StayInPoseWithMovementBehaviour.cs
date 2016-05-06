@@ -27,6 +27,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
     {
         this._RealParams = sp;
         this._behaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+       // this.stayInPoseState = StayInPoseState.HoldingOn;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
     }
@@ -127,7 +128,16 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
         DateTime temp = DateTime.Now;
 
-        if (_BehaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
+        if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
+        {
+            animator.speed = 0;
+            stayInPoseState = StayInPoseState.Resting;
+            BeginRep = false;
+            this.Stop();
+            OnRepetitionEnd();
+        }
+
+        else if (_BehaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
 
             if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
@@ -157,10 +167,11 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
                 {
                     endRepTime = DateTime.Now;
                 }
+                /*
                 if(this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
                 {
                     this.Stop();
-                }
+                }*/
                 OnRepetitionEnd();
             }
 

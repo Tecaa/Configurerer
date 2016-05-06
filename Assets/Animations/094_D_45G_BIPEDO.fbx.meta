@@ -143,8 +143,8 @@ ModelImporter:
     - serializedVersion: 16
       name: "094_D_45\xB0_BIPEDO"
       takeName: Take 001
-      firstFrame: 3
-      lastFrame: 204
+      firstFrame: 20
+      lastFrame: 201
       wrapMode: 0
       orientationOffsetY: 90
       level: 0
@@ -269,8 +269,8 @@ ModelImporter:
     - serializedVersion: 16
       name: "094_I_45\xB0_BIPEDO"
       takeName: Take 001
-      firstFrame: 3
-      lastFrame: 204
+      firstFrame: 20
+      lastFrame: 201
       wrapMode: 0
       orientationOffsetY: 90
       level: 0

@@ -167,7 +167,7 @@ ModelImporter:
     - serializedVersion: 16
       name: 006 Desplazamiento lateral con salto 025cm
       takeName: Take 001
-      firstFrame: 28
+      firstFrame: 26
       lastFrame: 161
       wrapMode: 0
       orientationOffsetY: 0

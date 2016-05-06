@@ -190,7 +190,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     }
     
 
-    private bool isInInstruction = false;
+    private bool isInInstruction = true;
     public bool IsInInstruction
     {
         get
@@ -225,10 +225,10 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     protected virtual void OnRepetitionEnd()
     {
         //TODO: Fix rapido pero que debe arreglarse ya que el evento se lanza aún cuando se está en modo web.
-        if(this.isWeb && (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB))
-        {
-            return;
-        }
+        //if(this.isWeb && (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB))
+        //{
+        //    return;
+        //}
         //DebugLifeware.Log("OnRepetitionEnd" + " " + this.IsCentralNode, DebugLifeware.Developer.Alfredo_Gallardo | DebugLifeware.Developer.Marco_Rojas);
         EventHandler eh = RepetitionEnd;
         if (eh != null)
@@ -508,7 +508,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 		AnimatorScript.instance.CurrentExercise = 
             new Exercise(this.CentralNode.randomAnimations[index], this.CentralNode.limb);
 
-        Debug.Log("Next Variation " + this.CentralNode.actualRandomAnimationIndex + " " + this.CentralNode.randomAnimations[index]);
+        Debug.Log("Next Variation " + index + " " + this.CentralNode.randomAnimations[index]);
     }
 	
 	protected List<Movement> GetRandomAnimations(List<Movement> exs)
@@ -621,7 +621,7 @@ public class BehaviourParams //: BehaviourParams
     public float Angle, ForwardSpeed = 1, BackwardSpeed = 1;
     public const float DEFAULT_TIME = 1.0f;
     public int SecondsBetweenRepetitions = 1;
-    public int SecondsInPose = 1;
+    public int SecondsInPose = 2;
     public List<Movement> Variations;
 
     public BehaviourParams()

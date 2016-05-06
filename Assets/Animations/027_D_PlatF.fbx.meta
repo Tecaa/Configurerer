@@ -147,8 +147,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 027_D
       takeName: Take 001
-      firstFrame: 58
-      lastFrame: 181
+      firstFrame: 79
+      lastFrame: 157
       wrapMode: 0
       orientationOffsetY: -45
       level: 0
@@ -273,8 +273,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 027_I
       takeName: Take 001
-      firstFrame: 58
-      lastFrame: 181
+      firstFrame: 79
+      lastFrame: 157
       wrapMode: 0
       orientationOffsetY: -45
       level: 0

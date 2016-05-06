@@ -169,9 +169,9 @@ ModelImporter:
       name: 111_D
       takeName: Take 001
       firstFrame: 347
-      lastFrame: 401
+      lastFrame: 398
       wrapMode: 0
-      orientationOffsetY: 360
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -295,7 +295,7 @@ ModelImporter:
       name: 111_I
       takeName: Take 001
       firstFrame: 347
-      lastFrame: 400
+      lastFrame: 401
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

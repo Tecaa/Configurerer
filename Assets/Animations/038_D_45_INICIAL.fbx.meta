@@ -143,10 +143,10 @@ ModelImporter:
     - serializedVersion: 16
       name: "038_D_45\xB0"
       takeName: Take 001
-      firstFrame: 26
-      lastFrame: 79
+      firstFrame: 152
+      lastFrame: 197
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: 45
       level: 0
       cycleOffset: 0
       loop: 0
@@ -269,10 +269,10 @@ ModelImporter:
     - serializedVersion: 16
       name: "038_I_45\xB0"
       takeName: Take 001
-      firstFrame: 26
-      lastFrame: 79
+      firstFrame: 152
+      lastFrame: 197
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: 45
       level: 0
       cycleOffset: 0
       loop: 0

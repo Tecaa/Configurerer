@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StayInPoseXtreme : AnimationBehaviour {
 
-	private StayInPoseState stayInPoseState;
+    private StayInPoseState stayInPoseState;
     private StayInPoseState _StayInPoseState
     {
         get
@@ -30,13 +30,13 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     protected override bool HasCentralNode { get { return true; } }
     private bool holdingPose = false;
-	/// <summary>
-	/// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
-	/// </summary>
-	[HideInInspector]
-	private event EventHandler LerpRoundTripEnd;
+    /// <summary>
+    /// Esta variable se utiliza para comprobar si es primera vez que se entra al este behaviour
+    /// </summary>
+    [HideInInspector]
+    private event EventHandler LerpRoundTripEnd;
     private bool hasEnteredBefore = false;
-    
+
     private bool _isRewinding = false;
     private bool IsRewinding
     {
@@ -58,51 +58,51 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
         }
     }
-    
+
     public new StayInPoseXtreme CentralNode
-	{
-		get
-		{
-			if (_centralNode == null)
-				_centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement, this.limb);
-			return (StayInPoseXtreme)_centralNode;
-		}
-	}
-	/// <summary>
-	/// Se utiliza para enviar datos a ExerciseDataGenerator en intervalos de tiempo determinados.
-	/// El tiempo que ha pasado desde que se hizo la última captura de datos.
-	/// </summary>
-	private float timeSinceCapture = 0;
-	protected void OnLerpRoundTripEnd()
-	{
-		
-		if (!IsCentralNode)
-		{
-			this.CentralNode.OnLerpRoundTripEnd();
-		}
-		else
-		{
-			EventHandler eh = LerpRoundTripEnd;
-			if (eh != null)
-			{
-				eh(this, new EventArgs());
-			}
-		}
-	}
-	
-	void LerpBehaviour_LerpRoundTripEnd(object sender, EventArgs e)
-	{
-		if (_BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
-		{
-			this.CentralNode.endRepTime = DateTime.Now;
-			
-		}
-	}
-	
-	public BehaviourParams GetParams()
-	{
-		return this._currentParams;
-	}
+    {
+        get
+        {
+            if (_centralNode == null)
+                _centralNode = AnimationBehaviour.GetCentralBehaviour(this.movement, this.limb);
+            return (StayInPoseXtreme)_centralNode;
+        }
+    }
+    /// <summary>
+    /// Se utiliza para enviar datos a ExerciseDataGenerator en intervalos de tiempo determinados.
+    /// El tiempo que ha pasado desde que se hizo la última captura de datos.
+    /// </summary>
+    private float timeSinceCapture = 0;
+    protected void OnLerpRoundTripEnd()
+    {
+
+        if (!IsCentralNode)
+        {
+            this.CentralNode.OnLerpRoundTripEnd();
+        }
+        else
+        {
+            EventHandler eh = LerpRoundTripEnd;
+            if (eh != null)
+            {
+                eh(this, new EventArgs());
+            }
+        }
+    }
+
+    void LerpBehaviour_LerpRoundTripEnd(object sender, EventArgs e)
+    {
+        if (_BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
+        {
+            this.CentralNode.endRepTime = DateTime.Now;
+
+        }
+    }
+
+    public BehaviourParams GetParams()
+    {
+        return this._currentParams;
+    }
 
     //
     //==== Controlar tiempos de repeticiones
@@ -162,33 +162,33 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     //===== FIN RELOJ
     protected override AnimationBehaviourState _BehaviourState
-	{
-		get
-		{
-			
-			if (this.IsCentralNode)
-				return this._behaviourState;
-			else
-				return this.CentralNode._BehaviourState;
-		}
-		set
-		{
-			if (this.IsCentralNode)
-				this._behaviourState = value;
-			else
-				this.CentralNode._BehaviourState = value;
-			switch (value)
-			{
-			case AnimationBehaviourState.RUNNING_DEFAULT:
+    {
+        get
+        {
 
-			case AnimationBehaviourState.RUNNING_WITH_PARAMS:
-				animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
-				break;
-			case AnimationBehaviourState.PREPARING_WITH_PARAMS:
-				break;
-			}
-		}
-	}
+            if (this.IsCentralNode)
+                return this._behaviourState;
+            else
+                return this.CentralNode._BehaviourState;
+        }
+        set
+        {
+            if (this.IsCentralNode)
+                this._behaviourState = value;
+            else
+                this.CentralNode._BehaviourState = value;
+            switch (value)
+            {
+                case AnimationBehaviourState.RUNNING_DEFAULT:
+
+                case AnimationBehaviourState.RUNNING_WITH_PARAMS:
+                    animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+                    break;
+                case AnimationBehaviourState.PREPARING_WITH_PARAMS:
+                    break;
+            }
+        }
+    }
 
     private void executionTimerStart()
     {
@@ -198,14 +198,12 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     private void executionTimerFinish()
     {
-
-        Debug.Log("terminando pausa : " + DateTime.Now);
-        //Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
+ //       Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
         //Debug.Log("FIN manteniendo pose pose ");
         this.CentralNode.holdingPose = true;
         clockBehaviour.stopExecutionTimer();
     }
-    
+
 
     /**
     Cuando se acaba el tiempo de pausa entre repeticiones
@@ -214,7 +212,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
     {
         clockBehaviour.stopTimeBetweenRepetitionsTimer();
         //Debug.Log("termina pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
-        SetNextVariation();
+
     }
 
     private void pauseBetweenRepetitionsStart()
@@ -223,13 +221,15 @@ public class StayInPoseXtreme : AnimationBehaviour {
     }
 
     override public void Prepare(BehaviourParams bp)
-	{
-		BehaviourParams lp = (BehaviourParams)bp;
-		this.CentralNode._RealParams = lp;
-		this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
-		this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
-	}
-	
+    {
+        BehaviourParams lp = (BehaviourParams)bp;
+        this.CentralNode._RealParams = lp;
+        this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+        this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
+        int i = 0;
+        foreach (Movement x in this.CentralNode.randomAnimations)
+            Debug.Log(i++ + " " +  x);
+	}	
 	
 	private void _Opposite_RepetitionEnd(object sender, EventArgs e)
 	{
@@ -241,7 +241,9 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	}
 	override public void Run()
 	{
-        AnimatorScript.instance.CurrentExercise.Movement = this.CentralNode.randomAnimations[0];
+        //if (this.CentralNode.actualRandomAnimationIndex == 0)
+        Debug.Log("Run : " + (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count + " " + this.CentralNode.randomAnimations[(int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count]);
+        AnimatorScript.instance.CurrentExercise.Movement = this.CentralNode.randomAnimations[(int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count];
 		this.CentralNode.endRepTime = null;
 		if (this.IsInterleaved)
 		{
@@ -263,13 +265,14 @@ public class StayInPoseXtreme : AnimationBehaviour {
 		}
 		this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
 
+        this.CentralNode._StayInPoseState = StayInPoseState.GoingTo;
+        this.CentralNode.endRepTime = null;
         this.CentralNode._RealParams = new BehaviourParams();
         this.CentralNode.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 		this.CentralNode.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
 	}
 	override public void RunWeb(BehaviourParams bp)
 	{
-
         if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
         {
             animator.speed = 1;
@@ -287,6 +290,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
         }
         else
         {
+            this.CentralNode._StayInPoseState = StayInPoseState.GoingTo;
             BehaviourParams p = (BehaviourParams)bp;
             this.CentralNode.endRepTime = null;
             this.CentralNode._RealParams = p;
@@ -423,39 +427,46 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (!IsCentralNode)
-		{
-			BeginRep = false;
-			if (this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
-			{
-				OnLerpRoundTripEnd();
-                
-                if (!IsRewinding && (!IsInterleaved || (IsInterleaved && limb == Limb.Right) ) )
-				{
-					this.PauseAnimation();
+        {
+            BeginRep = false;
+            if (this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
+            {
+                OnLerpRoundTripEnd();
+
+                if (!IsRewinding && (!IsInterleaved || (IsInterleaved && limb == Limb.Right)))
+                {
+                    this.PauseAnimation();
                     OnRepetitionEnd();
+                    SetNextVariation();
                 }
                 if (IsInterleaved)
-				{
-					animator.SetTrigger("ChangeLimb");
-				}
+                {
+                    animator.SetTrigger("ChangeLimb");
+                }
                 if (!IsInterleaved && ((this.IsWeb) || (this.IsInInstruction) && !IsRewinding))
                 {
                     animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                 }
-                    
-				if (this._BehaviourState == AnimationBehaviourState.STOPPED)
-				{
-					this.CentralNode.endRepTime = null;
-				}
-			}
-			else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
-			{
+
+                if (this._BehaviourState == AnimationBehaviourState.STOPPED)
+                {
+                    this.CentralNode.endRepTime = null;
+                }
+            }
+            else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
+            {
                 OnRepetitionEnd();
-				Stop();
-			}
+                Stop();
+            }
+            else if (this._BehaviourState == AnimationBehaviourState.STOPPED) 
+            {
+                //Salida forzada de la repetición, aumentar indice
+                Debug.Log("aumentando contador forzoso " + this.CentralNode.IsInInstruction);
+                ++this.CentralNode.actualRandomAnimationIndex;
+            }
             if ((this.IsWeb) || (this.IsInInstruction) && !IsRewinding)
             {
-               // Debug.Log("2-ISWEB: [" + this.IsWeb + "] isInInsruction [" + this.IsInInstruction + "]" + "is rewinding [" + IsRewinding + "]" );
+//                Debug.Log("2-ISWEB: [" + this.IsWeb + "] isInInsruction [" + this.IsInInstruction + "]" + "is rewinding [" + IsRewinding + "]" );
                 this.ResumeAnimation();
             }
         }
@@ -502,6 +513,9 @@ public class StayInPoseXtreme : AnimationBehaviour {
 	/// </summary>
 	override public void Stop()
 	{
+        clockBehaviour.stopExecutionTimer();
+        clockBehaviour.stopTimeBetweenRepetitionsTimer();
+        IsResumen = false;
 		animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
 		this.CentralNode._BehaviourState = AnimationBehaviourState.STOPPED;
         this.animator.speed = 1;
