@@ -8,10 +8,9 @@ using Newtonsoft.Json;
 public class Exercise : INotifyPropertyChanged
 {
     public Exercise() { }
-    public Exercise(Movement m, Laterality e, Limb l)
+    public Exercise(Movement m, Limb l)
     {
         this.movement = m;
-        this.laterality = e;
         this.limb = l;
     }
     private Movement movement;
@@ -28,19 +27,6 @@ public class Exercise : INotifyPropertyChanged
         }
     }
 
-    private Laterality laterality;
-    public Laterality Laterality
-    {
-        get
-        {
-            return laterality;
-        }
-        set
-        {
-            laterality = value;
-            OnPropertyChanged(AnimatorParams.Laterality);
-        }
-    }
 
     private Limb limb;
     public Limb Limb
@@ -82,17 +68,17 @@ public class Exercise : INotifyPropertyChanged
     public override bool Equals(object obj)
     {
         Exercise e = obj as Exercise;
-        return (this.Movement == e.Movement && this.Laterality == e.Laterality && this.Limb == e.Limb);
+        return (this.Movement == e.Movement &&  this.Limb == e.Limb);
     }
 
     public bool Equals(Exercise e)
     {
-        return (this.Movement == e.Movement && this.Laterality == e.Laterality && this.Limb == e.Limb);
+        return (this.Movement == e.Movement && this.Limb == e.Limb);
     }
 
     public override int GetHashCode()
     {
-        return String.Format("{0}{1}{2}", (int)this.Movement, (int)this.Laterality, (int)this.Limb).GetHashCode();
+        return String.Format("{0}{1}", (int)this.Movement, (int)this.Limb).GetHashCode();
     }
 }
 public class Coverage
@@ -118,26 +104,12 @@ public class Coverage
         }
     }
 
-    private Laterality execution;
-    public Laterality Execution
-    {
-        get
-        {
-            return execution;
-        }
-        set
-        {
-            execution = value;
-        }
-    }
+
     public Coverage(Movement m)
     {
         this.movement = m;
     }
-    public Coverage(Movement m, Laterality e) : this(m)
-    {
-        this.execution = e;
-    }
+
     /*
     public static Dictionary<int, Coverage> ByCoverageId = new Dictionary<int, Coverage>()
     {

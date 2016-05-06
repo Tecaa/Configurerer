@@ -88,7 +88,6 @@ public class AnimatorScript : MonoBehaviour
     public void RewindExercise()
     {
         anim.SetInteger(AnimatorParams.Limb, (int)_currentExercise.Limb);
-        anim.SetInteger(AnimatorParams.Laterality, (int)((Laterality)_currentExercise.Laterality));
         anim.SetInteger(AnimatorParams.Movement, (int)_currentExercise.Movement);
     
     }
@@ -122,7 +121,7 @@ public class AnimatorScript : MonoBehaviour
             Movement.MantenerPosiciónExtrema_EtapaAvanzada_PosturaDelÁrbol,
    }, 3, 1, 5));*/
 
-        PrepareExercise(new Exercise(Movement.AbducciónDeCaderaEnDecúbitoLateral, Laterality.Single, Limb.Left), new BehaviourParams(45, 1f, 1f, 2, 6));
+        PrepareExercise(new Exercise(Movement.ExtensiónDeHombrosConEstabilizaciónEscapular_Bilateral_60, Limb.None), new BehaviourParams(70, 1f, 1f, 2, 6));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(2, 1f, 1f));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2,1 ,1));
         //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));
@@ -280,10 +279,6 @@ public class AnimatorScript : MonoBehaviour
                 anim.SetInteger(AnimatorParams.Movement, (int)exercise.Movement);
                 break;
 
-            case AnimatorParams.Laterality:
-                anim.SetInteger(AnimatorParams.Laterality, (int)exercise.Laterality);
-                break;
-
             case AnimatorParams.Limb:
                 anim.SetInteger(AnimatorParams.Limb, (int)exercise.Limb);
                 break;
@@ -312,7 +307,7 @@ public class AnimatorScript : MonoBehaviour
         if (param.Variations == null || param.Variations.Count == 0)
             CurrentExercise = e;
         else
-            CurrentExercise = new Exercise(behaviour.randomAnimations[0], e.Laterality, e.Limb);
+            CurrentExercise = new Exercise(behaviour.randomAnimations[0], e.Limb);
     }
 
     private IEnumerator InitialPoseDelayed()
@@ -433,7 +428,7 @@ public class AnimatorScript : MonoBehaviour
         if (rep.Variations == null)
             RewindExercise();
         else //if (behaviour.GetType() != typeof(StayInPoseWithVariationBehaviour))
-            CurrentExercise = new Exercise(behaviour.randomAnimations[0], CurrentExercise.Laterality, CurrentExercise.Limb);
+            CurrentExercise = new Exercise(behaviour.randomAnimations[0], CurrentExercise.Limb);
 
 
 
@@ -468,7 +463,7 @@ public class AnimatorScript : MonoBehaviour
     /// </summary>
     private void AnimatorScript_OnRepetitionEnd(object sender, System.EventArgs e)
     {
-        if ((CurrentExercise.Laterality == Laterality.Single) && (CurrentExercise.Limb == Limb.Interleaved))
+        if (/*(CurrentExercise.Laterality == Laterality.Single) &&*/ (CurrentExercise.Limb == Limb.Interleaved))
         {
            // ChangeLimb();
         }

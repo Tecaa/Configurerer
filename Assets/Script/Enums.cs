@@ -162,12 +162,6 @@ public enum Movement
 
 }
 
-public enum Laterality
-{
-    Single,
-    Double
-}
-
 public enum     Limb
 {
     Left = 0,
@@ -209,12 +203,10 @@ public struct AnimationInfo
 public struct MovementLimbKey
 {
     Movement movement;
-    Laterality execution;
     Limb limb;
-    public MovementLimbKey(Movement m, Laterality e, Limb l)
+    public MovementLimbKey(Movement m, Limb l)
     {
         movement = m;
-        execution = e;
         limb = l;
     }
 }

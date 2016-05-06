@@ -253,7 +253,7 @@ public class LerpBehaviour : AnimationBehaviour {
     /// <returns></returns>
     private void SaveTimesAngle(AnimatorStateInfo animatorState) //ref List<AnimationInfo> aInfo)
     {
-        JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, laterality, limb)];
+        JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, limb)];
         ArticulacionClass joint = AnimatorScript.instance.utils.getArticulacion(tempJointTypePlanoResult.jointType);
         AnimationInfo tempAnimationInfo = new AnimationInfo();
         float time = animatorState.normalizedTime * animatorState.length;
@@ -299,7 +299,7 @@ public class LerpBehaviour : AnimationBehaviour {
         defaultAnimationLength = stateInfo.length;
        
         //Está la animación en caché
-        if(PreparedExercises.tryGetPreparedExercise(new Exercise(movement, laterality, limb), out this._timeAndAngles, stateInfo.length))
+        if(PreparedExercises.tryGetPreparedExercise(new Exercise(movement, limb), out this._timeAndAngles, stateInfo.length))
         {
             //Repetición de preparación
             if (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB)
@@ -436,7 +436,7 @@ public class LerpBehaviour : AnimationBehaviour {
         lastReadyToLerp = ReadyToLerp;
 
 
-        JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, laterality, limb)];
+        JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, limb)];
         ArticulacionClass joint = AnimatorScript.instance.utils.getArticulacion(tempJointTypePlanoResult.jointType);
         AnimationInfo tempAnimationInfo = new AnimationInfo();
         float time = stateInfo.normalizedTime; //* stateInfo.length;
@@ -580,7 +580,7 @@ public class LerpBehaviour : AnimationBehaviour {
                             try
                             {
                                 DebugLifeware.Log("se intentara savear", DebugLifeware.Developer.Marco_Rojas);
-                                PreparedExercises.InsertPreparedExercise(new Exercise(movement, laterality, limb), _timeAndAngles);
+                                PreparedExercises.InsertPreparedExercise(new Exercise(movement, limb), _timeAndAngles);
                             }
                             catch
                             {

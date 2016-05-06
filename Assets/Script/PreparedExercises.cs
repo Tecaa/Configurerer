@@ -29,7 +29,6 @@ public class PreparedExercises {
        float TIME_ERROR = 0.1f;
        animationInfo = null;
        //TODO: Evaluar borrar esta correccion cuando se tenga claridad de todos los ejercicios
-       e.Laterality = Laterality.Single;
        e.Limb = Limb.Left;
 
 
@@ -61,7 +60,6 @@ public class PreparedExercises {
     public static void InsertPreparedExercise(Exercise e, List<AnimationInfo> animationInfo)
     {
         //TODO: Evaluar borrar esta correccion cuando se tenga claridad de todos los ejercicios
-        e.Laterality = Laterality.Single;
         e.Limb = Limb.Left;
         if (!_preparedExercises.ContainsKey(e))
         {

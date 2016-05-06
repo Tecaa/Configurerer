@@ -17,7 +17,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     public event EventHandler RepetitionReallyStart;
     public Movement movement;
     public Limb limb;
-    public Laterality laterality;
     [HideInInspector]
     public Animator animator;
     [HideInInspector]
@@ -507,7 +506,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 		++this.CentralNode.actualRandomAnimationIndex;
 		int index = (int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count;
 		AnimatorScript.instance.CurrentExercise = 
-            new Exercise(this.CentralNode.randomAnimations[index], this.CentralNode.laterality, this.CentralNode.limb);
+            new Exercise(this.CentralNode.randomAnimations[index], this.CentralNode.limb);
 
         Debug.Log("Next Variation " + this.CentralNode.actualRandomAnimationIndex + " " + this.CentralNode.randomAnimations[index]);
     }
