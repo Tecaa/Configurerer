@@ -164,9 +164,9 @@ public class AnimatorScript : MonoBehaviour
 
 
 
-        //PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
-        //  new BehaviourParams(1, 2, 5, 8));
-        
+        PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Limb.Left),
+          new BehaviourParams(70f, 1f, 1f, 2, 2));
+        /*
 		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
@@ -174,7 +174,7 @@ public class AnimatorScript : MonoBehaviour
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha},
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
         }, 2, 0));
-
+        */
 
         /*
 		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
@@ -227,18 +227,18 @@ public class AnimatorScript : MonoBehaviour
         //**********************************************************************
 
         //Para correr web con parametros mp con variacion***********************
-        BehaviourParams p = new BehaviourParams(new List<Movement>() {
+        /*BehaviourParams p = new BehaviourParams(new List<Movement>() {
             {Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
         }, 1, 3, 2);
         string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
-        RunExerciseWeb(s);
+        RunExerciseWeb(s);*/
         //**********************************************************************
         //Para correr web sin parametros ***************************************
         //RunExerciseWebWithoutParams();
         //**********************************************************************
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        //RunExercise(true);
+        RunExercise(true);
         //**********************************************************************
 
 
