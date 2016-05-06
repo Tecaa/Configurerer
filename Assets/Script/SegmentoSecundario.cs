@@ -78,7 +78,7 @@ namespace Assets
             var rotationUp =  Vector3.Angle(hombro.transform.up, pecho.transform.up);*/
 
             base.Update();
-            MovementLimbKey k = new MovementLimbKey(AnimatorScript.instance.CurrentExercise.Movement, AnimatorScript.instance.CurrentExercise.Laterality, AnimatorScript.instance.CurrentExercise.Limb);
+            MovementLimbKey k = new MovementLimbKey(AnimatorScript.instance.CurrentExercise.Movement, AnimatorScript.instance.CurrentExercise.Limb);
 
             if (MovementJointMatch.movementJointMatch.ContainsKey(k))
             {

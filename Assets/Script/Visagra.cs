@@ -24,7 +24,7 @@ namespace Assets
             AngleSagital = Vector3.Angle(vectorInicial, vectorFinal) * -1 + 180;
 
             base.Update();
-            MovementLimbKey k = new MovementLimbKey(AnimatorScript.instance.CurrentExercise.Movement, AnimatorScript.instance.CurrentExercise.Laterality, AnimatorScript.instance.CurrentExercise.Limb);
+            MovementLimbKey k = new MovementLimbKey(AnimatorScript.instance.CurrentExercise.Movement, AnimatorScript.instance.CurrentExercise.Limb);
 
             if (MovementJointMatch.movementJointMatch.ContainsKey(k))
             {

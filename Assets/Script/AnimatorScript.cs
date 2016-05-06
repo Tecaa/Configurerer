@@ -167,7 +167,7 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.ElevaciónEnPuntaDePies_Step, Laterality.Double, Limb.None),
         //  new BehaviourParams(1, 2, 5, 8));
         
-		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Laterality.Single, Limb.Right), 
+		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
 			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda},
@@ -303,7 +303,7 @@ public class AnimatorScript : MonoBehaviour
         if (behaviour == null)
         {
             Debug.LogError("No se encontró la máquina de estado. (Ejercicio = " + e.Movement + " "
-                + (int)e.Movement + ") (Limb = " + e.Limb + ") (Laterality = " + e.Laterality + 
+                + (int)e.Movement + ") (Limb = " + e.Limb +
                 "). Posiblemente se deba a una mala combinación de esos parámetros o el MonitoAnimatorController se bugeo");
             return;
         }
