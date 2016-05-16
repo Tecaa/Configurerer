@@ -12,7 +12,7 @@ public static class AngleFixer {
     }
     private static void FillDictionaries()
     {
-        AddFix(Movement.FlexiónDeCaderaEnSupino, 0, 60, -4, -61);
+        AddFix(Movement.FlexiónDeCaderaEnSupino, 60, 0, 61, -4);
         AddFix(Movement.ExtensiónDeRodillaEnSedente_Unilateral, 90, 0, 90, 6.3f);
         AddFix(Movement.ExtensiónDeRodillasEnSedente_Bilateral, 90, 0, 90, 8.8f);
         AddFix(Movement.ExtensiónHorizontalDeHombrosEnSupino, 0, 60, 81, 37);
@@ -26,8 +26,9 @@ public static class AngleFixer {
         AddFix(Movement.SentadillaConBalónSuizo, 0, 90, 36, 88);
         AddFix(Movement.ExtensiónDiagonalDeHombrosEnSupino_IzquierdaArriba, 0, 60, 78, 7.4f);
         AddFix(Movement.ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba, 0, 60, 78, 7.4f);
-        AddFix(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, -45, 70, -57, -185.5f);
-        AddFix(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, 33, 180, 33, 177);
+        AddFix(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, -45, 70, 57, 185.5f);
+        AddFix(Movement.RotaciónExternaDeHombrosEnSupino_Bilateral, 0, 90, 84, -2);
+        // AddFix(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, 33, 180, 33, 177);
     }
     public static float FixAngle(float angleToFix, Movement movement)
     {
