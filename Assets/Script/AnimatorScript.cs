@@ -122,7 +122,7 @@ public class AnimatorScript : MonoBehaviour
        }, 3, 1, 5));
         */
 
-        PrepareExercise(new Exercise(Movement.ExtensiónDeHombrosConEstabilizaciónEscapular_Bilateral_60, Limb.None), new BehaviourParams(70, 1f, 1f, 2, 6));
+        //PrepareExercise(new Exercise(Movement.ExtensiónDeHombrosConEstabilizaciónEscapular_Bilateral_60, Limb.None), new BehaviourParams(70, 1f, 1f, 2, 6));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(2, 1f, 1f));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2,1 ,1));
         //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));
@@ -159,13 +159,14 @@ public class AnimatorScript : MonoBehaviour
         //BehaviourParams bp = new BehaviourParams(5, 2);
         //PrepareExercise(ex, bp);
 
-        //PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(ex, Caller.Preview);
-        //PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
+        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba, Limb.None),
+            Caller.Preview);
+        PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
 
 
 
-        PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Limb.Left),
-          new BehaviourParams(70f, 1f, 1f, 2, 2));
+        /*PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Limb.Left),
+          new BehaviourParams(70f, 1f, 1f, 2, 2));*/
         /*
 		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Limb.Right), 
             new BehaviourParams(new List<Movement>() {
@@ -234,11 +235,11 @@ public class AnimatorScript : MonoBehaviour
         RunExerciseWeb(s);*/
         //**********************************************************************
         //Para correr web sin parametros ***************************************
-        //RunExerciseWebWithoutParams();
+        RunExerciseWebWithoutParams();
         //**********************************************************************
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        RunExercise(true);
+        //RunExercise(true);
         //**********************************************************************
 
 
@@ -263,7 +264,7 @@ public class AnimatorScript : MonoBehaviour
     void Awake()
     {
         //TODO: No olvidar borrar, elimina el caché de los ejercicios ya preparados
-        PlayerPrefs.SetString("ExerciseCache", null);
+        //PlayerPrefs.SetString("ExerciseCache", null);
     }
     // Update is called once per frame
 
