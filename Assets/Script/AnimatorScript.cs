@@ -159,7 +159,7 @@ public class AnimatorScript : MonoBehaviour
         //BehaviourParams bp = new BehaviourParams(5, 2);
         //PrepareExercise(ex, bp);
 
-        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba, Limb.None),
+        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha, Limb.None),
             Caller.Preview);
         PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
 
