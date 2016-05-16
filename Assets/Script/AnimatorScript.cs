@@ -159,7 +159,7 @@ public class AnimatorScript : MonoBehaviour
         //BehaviourParams bp = new BehaviourParams(5, 2);
         //PrepareExercise(ex, bp);
 
-        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha, Limb.None),
+        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.FlexiónDeCaderaEnSupino, Limb.Left),
             Caller.Preview);
         PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
 
@@ -212,9 +212,9 @@ public class AnimatorScript : MonoBehaviour
         //**********************************************************************
 
         //Para correr web con parametros****************************************
-        //BehaviourParams p = new BehaviourParams(3, 2);
-        //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
-        //RunExerciseWeb(s);
+        BehaviourParams p = new BehaviourParams(3, 2);
+        string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
+        RunExerciseWeb(s);
         //**********************************************************************
 
         //Para correr web con parametros mpx************************************
@@ -235,7 +235,7 @@ public class AnimatorScript : MonoBehaviour
         RunExerciseWeb(s);*/
         //**********************************************************************
         //Para correr web sin parametros ***************************************
-        RunExerciseWebWithoutParams();
+        //RunExerciseWebWithoutParams();
         //**********************************************************************
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
@@ -264,7 +264,7 @@ public class AnimatorScript : MonoBehaviour
     void Awake()
     {
         //TODO: No olvidar borrar, elimina el caché de los ejercicios ya preparados
-        //PlayerPrefs.SetString("ExerciseCache", null);
+        PlayerPrefs.SetString("ExerciseCache", null);
     }
     // Update is called once per frame
 

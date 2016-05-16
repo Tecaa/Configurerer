@@ -12,7 +12,7 @@ public static class AngleFixer {
     }
     private static void FillDictionaries()
     {
-        AddFix(Movement.FlexiónDeCaderaEnSupino, 60, 0, 61, -4);
+        AddFix(Movement.FlexiónDeCaderaEnSupino, 60, 0, 64, 8);
         AddFix(Movement.ExtensiónDeRodillaEnSedente_Unilateral, 90, 0, 90, 6.3f);
         AddFix(Movement.ExtensiónDeRodillasEnSedente_Bilateral, 90, 0, 90, 8.8f);
         AddFix(Movement.ExtensiónHorizontalDeHombrosEnSupino, 0, 60, 81, 37);

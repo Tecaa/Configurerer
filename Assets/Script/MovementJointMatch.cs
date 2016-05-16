@@ -158,8 +158,8 @@ public static class MovementJointMatch
 
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónHorizontalDeHombrosEnSupino, Limb.None), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
 
-        movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeCaderaEnSupino, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoSagital));
-        movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeCaderaEnSupino, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoSagital));
+        movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeCaderaEnSupino, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoHorizontalAcostado));
+        movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeCaderaEnSupino, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoHorizontalAcostado));
         
 
         movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónDeCodoEnBípedo_Unilateral_0, Limb.Left), new JointTypePlanoResult(ArticulacionType.CodoIzquierdo, Plano.planos.planoSagital));
