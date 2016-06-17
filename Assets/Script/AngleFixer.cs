@@ -24,6 +24,7 @@ public static class AngleFixer {
         AddFix(Movement.RotaciónInternaDeHombroEnSupinoConBastónT_Unilateral, 0, 60, 79, 32);
         AddFix(Movement.RotaciónInternaDeHombrosEnSupino_Bilateral, 0, 60, 80, 30);
         AddFix(Movement.SentadillaConBalónSuizo, 0, 90, 36, 88);
+        AddFix(Movement.EstocadaFrontalLarga, -50, 100, 0, 100);
         AddFix(Movement.ExtensiónDiagonalDeHombrosEnSupino_IzquierdaArriba, 0, 60, 78, 7.4f);
         AddFix(Movement.ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba, 0, 60, 78, 7.4f);
         AddFix(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, -45, 70, 57, 185.5f);

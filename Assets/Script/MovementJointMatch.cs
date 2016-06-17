@@ -96,8 +96,8 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaFrontalCortaConTorsiónDeTronco_90, Limb.Left), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaFrontalCortaConTorsiónDeTronco_90, Limb.Right), new JointTypePlanoResult(ArticulacionType.RodillaDerecha, Plano.planos.planoSagital));
 
-        movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaFrontalLarga, Limb.Left), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
-        movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaFrontalLarga, Limb.Right), new JointTypePlanoResult(ArticulacionType.RodillaDerecha, Plano.planos.planoSagital));
+        movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaFrontalLarga, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoSagital));
+        movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaFrontalLarga, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoSagital));
 
         movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaFrontalLargaConTorsiónDeTronco_45, Limb.Left), new JointTypePlanoResult(ArticulacionType.RodillaIzquierda, Plano.planos.planoSagital));
         movementJointMatch.Add(new MovementLimbKey(Movement.EstocadaFrontalLargaConTorsiónDeTronco_45, Limb.Right), new JointTypePlanoResult(ArticulacionType.RodillaDerecha, Plano.planos.planoSagital));
