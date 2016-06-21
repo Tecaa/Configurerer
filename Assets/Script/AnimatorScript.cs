@@ -122,7 +122,7 @@ public class AnimatorScript : MonoBehaviour
        }, 3, 1, 5));
         */
 
-        //PrepareExercise(new Exercise(Movement.ExtensiónDeHombrosConEstabilizaciónEscapular_Bilateral_60, Limb.None), new BehaviourParams(70, 1f, 1f, 2, 6));
+        PrepareExercise(new Exercise(Movement.EstocadaFrontalLarga, Limb.Left), new BehaviourParams(90, 1f, 1f, 2, 6));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(2, 1f, 1f));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2,1 ,1));
         //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));
@@ -158,10 +158,10 @@ public class AnimatorScript : MonoBehaviour
         //jExercise ex = new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left);
         //BehaviourParams bp = new BehaviourParams(5, 2);
         //PrepareExercise(ex, bp);
-
+        /*
         PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.FlexiónDeCaderaEnSupino, Limb.Left),
             Caller.Preview);
-        PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));
+        PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));*/
 
 
 
@@ -208,13 +208,13 @@ public class AnimatorScript : MonoBehaviour
         //RunExerciseWeb(s);
 
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        //RunExercise(false);
+        RunExercise(false);
         //**********************************************************************
 
         //Para correr web con parametros****************************************
-        BehaviourParams p = new BehaviourParams(3, 2);
-        string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
-        RunExerciseWeb(s);
+        //BehaviourParams p = new BehaviourParams(3, 2);
+        //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
+        //RunExerciseWeb(s);
         //**********************************************************************
 
         //Para correr web con parametros mpx************************************
