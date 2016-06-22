@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Assets;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine.UI;
 
 // Require these components when using this script
 [RequireComponent(typeof(Animator))]
@@ -98,6 +99,13 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
+        float forwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text);
+        float backwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text);
+        int secondsBR = Convert.ToInt32(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text);
+        int secondsInP = Convert.ToInt32(GameObject.Find("PAUSA SERIES/Text").GetComponent<Text>().text);
+        float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
+
+
         //PrepareExercise(new Exercise(Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente, Laterality.Single, Limb.Left),
         //    new BehaviourParams(new List<Movement>(){
         //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente,
@@ -112,17 +120,16 @@ public class AnimatorScript : MonoBehaviour
                 Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha,
                 Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda,
             }, 3, 1, 1));*/
-            /*
-        PrepareExercise(new Exercise(Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal, Laterality.Single, Limb.Right),
-       new BehaviourParams(new List<Movement>(){
-                Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
-                Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar,
-                Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás,
-                Movement.MantenerPosiciónExtrema_EtapaAvanzada_PosturaDelÁrbol,
-       }, 3, 1, 5));
-        */
-
-        PrepareExercise(new Exercise(Movement.EstocadaFrontalLarga, Limb.Left), new BehaviourParams(90, 1f, 1f, 2, 6));
+        /*
+    PrepareExercise(new Exercise(Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal, Laterality.Single, Limb.Right),
+   new BehaviourParams(new List<Movement>(){
+            Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
+            Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar,
+            Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás,
+            Movement.MantenerPosiciónExtrema_EtapaAvanzada_PosturaDelÁrbol,
+   }, 3, 1, 5));
+    */
+        //PrepareExercise(new Exercise(Movement.EstocadaFrontalLarga, Limb.Left), new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBR, secondsInP));
         //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(2, 1f, 1f));
         //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2,1 ,1));
         //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));
@@ -151,8 +158,8 @@ public class AnimatorScript : MonoBehaviour
         //}, 3, 2));
         //***********************************************************
         //Para correr web mpx *******************************************
-        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.RecogiendoYGuardandoConAmbasManos_BrazosArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
-        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Limb.Left), Caller.Config);
+        PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
 
         //jExercise ex = new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left);
@@ -198,17 +205,24 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testRun()
     {
-        /*
-        BehaviourParams param = new BehaviourParams(60, 1.5f, 1.5f, 3, 3);
+        float forwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text);
+        float backwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text);
+        int secondsBR = Convert.ToInt32(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text);
+        int secondsInP = Convert.ToInt32(GameObject.Find("PAUSA SERIES/Text").GetComponent<Text>().text);
+        float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
+        
+        BehaviourParams param = new BehaviourParams(60, forwardSpeed, backwardSpeed, secondsBR, secondsInP, new List<Movement>()
+        {
+            Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha,
+            Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda,
+            Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha,
+            Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda,
+        });
+
         RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
-        */
-
-
-        //string s = "{\"Angle\":45,\"ForwardSpeed\":2,\"BackwardSpeed\":2,\"SecondsInPose\":3,\"SecondsBetweenRepetitions\":2}";
-        //RunExerciseWeb(s);
-
+        
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        RunExercise(false);
+        //RunExercise(false);
         //**********************************************************************
 
         //Para correr web con parametros****************************************
