@@ -158,7 +158,7 @@ public class AnimatorScript : MonoBehaviour
         //}, 3, 2));
         //***********************************************************
         //Para correr web mpx *******************************************
-        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Limb.Left), Caller.Config);
+        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.FlexiónDeHombrosEnBípedoConBastón_Bilateral, Limb.None), Caller.Config);
         PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
 
@@ -211,13 +211,7 @@ public class AnimatorScript : MonoBehaviour
         int secondsInP = Convert.ToInt32(GameObject.Find("PAUSA SERIES/Text").GetComponent<Text>().text);
         float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
         
-        BehaviourParams param = new BehaviourParams(60, forwardSpeed, backwardSpeed, secondsBR, secondsInP, new List<Movement>()
-        {
-            Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha,
-            Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda,
-            Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha,
-            Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda,
-        });
+        BehaviourParams param = new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBR, secondsInP);
 
         RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
         
@@ -362,6 +356,7 @@ public class AnimatorScript : MonoBehaviour
             this.Caller = c;
         }
     }
+
     float timeSinceStartPrepareWeb;
     public void PrepareExerciseWeb(string s)
     {
@@ -455,24 +450,19 @@ public class AnimatorScript : MonoBehaviour
     }
     private IEnumerator RunWebInSeconds(float time, BehaviourParams p)
     {
-        Debug.Log("waiting");
         yield return new WaitForSeconds(time);
         behaviour.RunWeb(p);
-        Debug.Log("Running");
 
         if (p.Variations == null)
             RewindExercise();
-        else //if (behaviour.GetType() != typeof(StayInPoseWithVariationBehaviour))
+        else
             CurrentExercise = new Exercise(behaviour.randomAnimations[0], CurrentExercise.Limb);
-
     }
     private IEnumerator RunWebInSeconds(float time)
     {
         yield return new WaitForSeconds(time);
         behaviour.RunWeb();
-        
         RewindExercise();
-
     }
 
     public void RunExerciseWebWithoutParams()
@@ -484,7 +474,6 @@ public class AnimatorScript : MonoBehaviour
     
     public void StopExercise()
     {
-        Debug.Log("STOP");
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
 
         if (behaviour == null)
@@ -527,9 +516,7 @@ public class AnimatorScript : MonoBehaviour
     }
     IEnumerator RaiseEvent(EventHandler<PrepareEventArgs> eh, PrepareStatus status, float delay)
     {
-        Debug.Log("pre raise");
         yield return new WaitForSeconds(delay);
-        Debug.Log("post raise");
         if (eh != null)
         {
             eh(this, new PrepareEventArgs(status, this.prepareCaller));
