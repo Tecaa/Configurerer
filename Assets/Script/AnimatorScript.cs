@@ -101,8 +101,8 @@ public class AnimatorScript : MonoBehaviour
     {
         float forwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text);
         float backwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text);
-        int secondsBR = Convert.ToInt32(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text);
-        int secondsInP = Convert.ToInt32(GameObject.Find("PAUSA SERIES/Text").GetComponent<Text>().text);
+        int secondsBE = Convert.ToInt32(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text);
+        int secondsBR = Convert.ToInt32(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text);
         float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
 
 
@@ -207,11 +207,11 @@ public class AnimatorScript : MonoBehaviour
     {
         float forwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text);
         float backwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text);
-        int secondsBR = Convert.ToInt32(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text);
-        int secondsInP = Convert.ToInt32(GameObject.Find("PAUSA SERIES/Text").GetComponent<Text>().text);
+        int secondsBE = Convert.ToInt32(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text);
+        int secondsBR = Convert.ToInt32(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text);
         float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
         
-        BehaviourParams param = new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBR, secondsInP);
+        BehaviourParams param = new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR);
 
         RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
         
