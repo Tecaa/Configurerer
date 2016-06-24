@@ -158,7 +158,7 @@ public class AnimatorScript : MonoBehaviour
         //}, 3, 2));
         //***********************************************************
         //Para correr web mpx *******************************************
-        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.FlexiónDeHombrosEnBípedoConBastón_Bilateral, Limb.None), Caller.Config);
+        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.RotaciónInternaDeHombroEnSupinoConBastónT_Unilateral, Limb.Left), Caller.Config);
         PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
 
