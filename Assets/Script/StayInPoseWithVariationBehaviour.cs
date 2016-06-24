@@ -93,7 +93,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
             {
                 CentralNode.IsExecutingMovement = value;
             }
-
         }
     }
 
@@ -178,6 +177,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         this.CentralNode._RealParams = new BehaviourParams();
         this.initializeRandomAnimations();
         this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
+        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
     }
 
 	public override void RunWeb (BehaviourParams lerpParams)
@@ -201,6 +201,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
             this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
         }
 
+        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
 
 
 
@@ -249,7 +250,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         clockBehaviour.stopTimeBetweenRepetitionsTimer();
 
         SetNextVariation();
-        animator.speed = 1;
+        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
 
     }
 
@@ -295,6 +296,9 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
             return;
         }
         IsRewinding = false;
+        if (this.IsCentralNode && this.exerciceMovement == -1)
+            OnRepetitionEnd();
+
         if (this.IsCentralNode && hasEnteredBefore == false)
         {
             hasEnteredBefore = true;
@@ -347,13 +351,11 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
                
 			}
 
-
 		}
 		else
 		{
 
-
-            if( exerciceMovement > 0)
+            if ( exerciceMovement > 0)
             {
                     startNewExecution();
             }
@@ -409,7 +411,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     private void finishRepetitionExecution()
     {
         exerciceMovement = -1;
-        OnRepetitionEnd();
         this.PauseAnimation();
         clockBehaviour.stopExecutionTimer();
     }
@@ -419,7 +420,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
     public override void ResumeAnimation()
     {
         IsResumen = true;
-        if (IsRepetitionEnd == true)
+        if (IsRepetitionEnd)
         {
             base.ResumeAnimation();
             clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);

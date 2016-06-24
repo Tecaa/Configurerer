@@ -305,7 +305,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (this.IsCentralNode)
