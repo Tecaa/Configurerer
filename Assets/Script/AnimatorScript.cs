@@ -302,6 +302,7 @@ public class AnimatorScript : MonoBehaviour
     /// <param name="param"></param>
     public void PrepareExercise(Exercise e, BehaviourParams param)
     {
+
         param.Angle = AngleFixer.FixAngle(param.Angle, e.Movement);
         Debug.Log("Exercise: " + e);
         if (param.Variations == null || param.Variations.Count == 0)
@@ -444,6 +445,7 @@ public class AnimatorScript : MonoBehaviour
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
 
         behaviour.Stop();
+        Debug.Log("qweqwe2 " + p.Angle + "  " + CurrentExercise.Movement + " " + AngleFixer.FixAngle(p.Angle, CurrentExercise.Movement));
         p.Angle = AngleFixer.FixAngle(p.Angle, CurrentExercise.Movement);
         StartCoroutine(RunWebInSeconds(0.4f, p));
 
