@@ -54,6 +54,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         BeginRep = false;
 
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
+        this.animator.speed = this._RealParams.ForwardSpeed;
     }
 
     override public void RunWeb()
@@ -66,6 +67,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         }
 
         this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
+        this.animator.speed = this._RealParams.ForwardSpeed;
     }
     override public void RunWeb(BehaviourParams stayInParams)
     {
@@ -81,6 +83,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 	
 
         this._RealParams = stayInParams;
+        this.animator.speed = this._RealParams.ForwardSpeed;
     }
     
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -148,7 +151,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
                 OnRepetitionReallyStart();
                 BeginRep = true;
-                animator.speed = 1;
+                animator.speed = this._RealParams.ForwardSpeed;
                 startHoldTime = Time.time;
                 stayInPoseState = StayInPoseState.HoldingOn;
             }
@@ -223,7 +226,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        animator.speed = 1.0f;
+        animator.speed = this._RealParams.ForwardSpeed;
 	}
 
 	
@@ -275,7 +278,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         }
         //this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 
-        animator.speed = 1;
+        animator.speed = this._RealParams.ForwardSpeed;
 
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
     }
