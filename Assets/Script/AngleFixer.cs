@@ -36,12 +36,11 @@ public static class AngleFixer {
         if (matches.ContainsKey(movement))
         {
             AngleMatch m = matches[movement];
-            Debug.Log(m.RealInitialAngle + (m.RealFinalAngle - m.RealInitialAngle) * (angleToFix - m.DreamedInitialAngle) / (m.DreamedFinalAngle - m.DreamedInitialAngle));
+         //   Debug.Log(m.RealInitialAngle + (m.RealFinalAngle - m.RealInitialAngle) * (angleToFix - m.DreamedInitialAngle) / (m.DreamedFinalAngle - m.DreamedInitialAngle));
             return m.RealInitialAngle + (m.RealFinalAngle - m.RealInitialAngle) * (angleToFix - m.DreamedInitialAngle) / (m.DreamedFinalAngle - m.DreamedInitialAngle);
         }
         else
         {
-            Debug.Log(angleToFix);
             return angleToFix;
         }
     }

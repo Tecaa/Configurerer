@@ -190,9 +190,11 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     {        
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
-            if (!animator.IsInTransition(0))
+            if (!animator.IsInTransition(0) && this.IsCentralNode)
+            {
                 animator.speed = 0;
-            return;
+            }
+                return;
         }
 
         const float INTERVAL = 0.1f;
@@ -215,7 +217,9 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         DateTime now = DateTime.Now;
         if (this.CentralNode.endRepTime != null && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT &&
             new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) > now - this.CentralNode.endRepTime)
+        {
             animator.speed = 0;
+        }
 
         if ((_BehaviourState != AnimationBehaviourState.STOPPED && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
             && (this.CentralNode.endRepTime == null || new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) <= now - this.CentralNode.endRepTime))
@@ -226,7 +230,8 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
-                OnRepetitionReallyStart();
+                Debug.Log("supuesto really start");
+                this.CentralNode.OnRepetitionReallyStart();
                 BeginRep = true;
             }
 
@@ -312,13 +317,13 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;*/
         //this._BehaviourState = AnimationBehaviourState.STOPPED;
+        this.CentralNode.endRepTime = null;
         IsResumen = false;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
         
         this.CentralNode._BehaviourState = AnimationBehaviourState.STOPPED;
         //Debug.Log("2Cambiando a " + this._BehaviourState + " "  + this.IsCentralNode  + " "  + this.GetInstanceID());
         animator.speed = 1;
-
     }
     public override void ResumeAnimation()
     {

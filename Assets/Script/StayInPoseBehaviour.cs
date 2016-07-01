@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Threading;
 
 public class StayInPoseBehaviour : AnimationBehaviour {
-
     private StayInPoseState stayInPoseState;
     [HideInInspector]
     public bool haCambiadoDeEstado = false;
@@ -14,7 +13,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     protected override bool HasCentralNode { get { return false; } }
     public void SetLerpBehaviourState(AnimationBehaviourState lbs)
     {
-        Debug.LogWarning("SetLerpBehaviour : " + lbs);
         this._BehaviourState = lbs;
     }
     //public DateTime? endRepTime = null;
@@ -176,10 +174,10 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             }
 
             //Si ya pasó el tiempo en el ángulo máximo
-            else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _realParams.SecondsInPose)
+            else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _RealParams.SecondsInPose)
             {
                 animator.StartRecording(0);
-                animator.speed = -this._realParams.BackwardSpeed;
+                animator.speed = -this._RealParams.BackwardSpeed;
                 animator.StopRecording();
                 stayInPoseState = StayInPoseState.Leaving;
             }
@@ -260,7 +258,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
     public override void Stop()
     {
-        //Debug.Log("stop");
         _BehaviourState = AnimationBehaviourState.STOPPED;
         if (this.IsInterleaved)
         {

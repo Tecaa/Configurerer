@@ -77,25 +77,17 @@ public class AnimatorScript : MonoBehaviour
     void Start()
     {
         CurrentExercise.PropertyChanged += currentExercise_PropertyChanged;
+    }
 
-        /////////   INICIO CODIGO DE TESTEO //////////
-        //Invoke("testPrepare", 1);
-
-        //Invoke("testRun", 12);
-
-//        AnimatorScript.OnPrepareExerciseEnd += testing;
-        /////////   FIN CODIGO DE TESTEO    //////////
+    public void SetIdle(int pose)
+    {
+        anim.SetInteger("Idle", pose);
     }
 
     public void RewindExercise()
     {
         anim.SetInteger(AnimatorParams.Limb, (int)_currentExercise.Limb);
         anim.SetInteger(AnimatorParams.Movement, (int)_currentExercise.Movement);
-    }
-    private void testing(object sender, EventArgs e)
-    {
-        //BehaviourParams p = new BehaviourParams(40, 1, 1, 0, 0);
-        //this.RunExerciseWeb(JsonConvert.SerializeObject(p));
     }
     public void testPrepare()
     {
@@ -158,8 +150,8 @@ public class AnimatorScript : MonoBehaviour
         //}, 3, 2));
         //***********************************************************
         //Para correr web mpx *******************************************
-        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.RotaciónInternaDeHombroEnSupinoConBastónT_Unilateral, Limb.Left), Caller.Config);
-        PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.RecogiendoYGuardandoConAmbasManos_BrazosArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
+        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
 
         //jExercise ex = new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left);
@@ -272,7 +264,8 @@ public class AnimatorScript : MonoBehaviour
     void Awake()
     {
         //TODO: No olvidar borrar, elimina el caché de los ejercicios ya preparados
-        PlayerPrefs.SetString("ExerciseCache", null);
+        if (Debug_Config.GetInstance().DISABLE_PREPARE_CACHE)
+            PlayerPrefs.SetString("ExerciseCache", null);
     }
     // Update is called once per frame
 
@@ -304,7 +297,6 @@ public class AnimatorScript : MonoBehaviour
     {
 
         param.Angle = AngleFixer.FixAngle(param.Angle, e.Movement);
-        Debug.Log("Exercise: " + e);
         if (param.Variations == null || param.Variations.Count == 0)
             behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         else
@@ -313,8 +305,8 @@ public class AnimatorScript : MonoBehaviour
         if (behaviour == null)
         {
             Debug.LogError("No se encontró la máquina de estado. (Ejercicio = " + e.Movement + " "
-                + (int)e.Movement + ") (Limb = " + e.Limb +
-                "). Posiblemente se deba a una mala combinación de esos parámetros o el MonitoAnimatorController se bugeo");
+                + (int)e.Movement + ") (Limb = " + e.Limb + ")" +
+                "). Posiblemente se deba a una mala combinación de esos parámetros o el MonitoAnimatorController se bugeó");
             return;
         }
 
@@ -357,7 +349,6 @@ public class AnimatorScript : MonoBehaviour
             this.Caller = c;
         }
     }
-
     float timeSinceStartPrepareWeb;
     public void PrepareExerciseWeb(string s)
     {
@@ -445,7 +436,6 @@ public class AnimatorScript : MonoBehaviour
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
 
         behaviour.Stop();
-        Debug.Log("qweqwe2 " + p.Angle + "  " + CurrentExercise.Movement + " " + AngleFixer.FixAngle(p.Angle, CurrentExercise.Movement));
         p.Angle = AngleFixer.FixAngle(p.Angle, CurrentExercise.Movement);
         StartCoroutine(RunWebInSeconds(0.4f, p));
 

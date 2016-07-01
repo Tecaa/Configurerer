@@ -236,15 +236,13 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             eh(this, new EventArgs());
         }
         IsRepetitionEnd = true;
-        //Debug.Log("onRepetitionEnd: " + IsRepetitionEnd + " _isResumen: " + IsResumen);
+
         if (IsResumen && !this.HasCentralNode)
         {
-            Debug.Log(" RESUMIENDO DESDE 1: " + this.IsResumen + " " + !this.HasCentralNode);
             ResumeAnimation();
         }
         if (IsResumen && this.HasCentralNode)
         {
-            Debug.Log(" RESUMIENDO DESDE 2: " + this.IsResumen + " " + this.HasCentralNode);
             CentralNode.ResumeAnimation();
         }
     }
@@ -281,7 +279,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 animator.SetTrigger("ChangeLimb");
                 this._Opposite.SetBehaviourState(originalABS);
             }
-
             this._BehaviourState = originalABS;
             if (this.IsInterleaved)
                 this._Opposite.endRepTime = this.endRepTime;
@@ -299,7 +296,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         {
             this.CentralNode.originalABS = this._BehaviourState;
         }
-        //Debug.Log("pasuse " + _BehaviourState);
         this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 0;
 
@@ -547,11 +543,10 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	{
         if (this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS || this.CentralNode._BehaviourState == AnimationBehaviourState.RUNNING_DEFAULT)
         {
-           // Debug.Log("True: " + this.CentralNode._BehaviourState);
             return true;
         }
         else
-         {
+        {
            // Debug.Log("False: " + this.CentralNode._BehaviourState);
             return false;
         }
