@@ -264,7 +264,7 @@ public class AnimatorScript : MonoBehaviour
     void Awake()
     {
         //TODO: No olvidar borrar, elimina el caché de los ejercicios ya preparados
-        if (Debug_Config.GetInstance().DISABLE_PREPARE_CACHE)
+        
             PlayerPrefs.SetString("ExerciseCache", null);
     }
     // Update is called once per frame
