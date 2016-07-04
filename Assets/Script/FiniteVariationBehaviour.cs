@@ -125,7 +125,6 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         }
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
         this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
-        //Debug.Log("cambiando a " + _BehaviourState + " " + this.IsCentralNode + "  " + this.GetInstanceID());
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
     }
@@ -230,7 +229,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
-                Debug.Log("supuesto really start");
+                Debug.Log("supuesto really start" + "  "+ stateInfo.normalizedTime + " " + animator.speed);
                 this.CentralNode.OnRepetitionReallyStart();
                 BeginRep = true;
             }
@@ -266,7 +265,6 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 OnLerpRoundTripEnd();
                 if (!IsInterleaved || (IsInterleaved && limb == Limb.Right))
                 {
-                    OnRepetitionEnd();
 
                     if ((!this.IsWeb) && (!this.IsInInstruction))
                     {
@@ -274,6 +272,8 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                         this.PauseAnimation();
                     }
 
+                    Debug.Log("repetition endddddddd");
+                    OnRepetitionEnd();
                     if (IsInInstruction)
                         SetNextVariation();
                 }
@@ -302,9 +302,13 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
         animator.SetInteger(AnimatorParams.Movement, -1);
         if (!IsCentralNode)
+        {
             this.CentralNode.OnRepetitionEnd();
+        }
         else
+        {
             base.OnRepetitionEnd();
+        }
     }
     /// <summary>
     /// Detiene la interpolación que actualmente se está ejecutando

@@ -98,7 +98,13 @@ public class AnimatorScript : MonoBehaviour
         float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
 
 
-        //PrepareExercise(new Exercise(Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente, Laterality.Single, Limb.Left),
+        PrepareExercise(new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha, Limb.None), new BehaviourParams(new List<Movement>()
+        {
+            Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha,
+            Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda,
+            Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha,
+            Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda
+        }, 3, 1f, 1f));
         //    new BehaviourParams(new List<Movement>(){
         //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente,
         //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlLado,
@@ -205,10 +211,10 @@ public class AnimatorScript : MonoBehaviour
         
         BehaviourParams param = new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR);
 
-        RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
+        //RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
         
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        //RunExercise(false);
+        RunExercise(false);
         //**********************************************************************
 
         //Para correr web con parametros****************************************
