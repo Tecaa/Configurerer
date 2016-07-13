@@ -265,7 +265,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         IsResumen = true;
         if (IsRepetitionEnd == true)
         {
-            Debug.Log("Resume Animation xxx");
+            //Debug.Log("Resume Animation");
             if (this.CentralNode != null)
             {
                 this.originalABS = this.CentralNode.originalABS;

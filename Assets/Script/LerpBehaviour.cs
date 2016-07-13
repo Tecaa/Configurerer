@@ -122,14 +122,14 @@ public class LerpBehaviour : AnimationBehaviour {
 
     private void executionTimerStart()
     {
-        Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
+        //Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
         //Debug.Log(" INICIO manteniendo pose pose ");
         this.holdingPose = true;
     }
 
     private void executionTimerFinish()
     {
-        Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
+        //Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
         //Debug.Log("FIN manteniendo pose pose ");
         this.holdingPose = false;
         clockBehaviour.stopExecutionTimer();
