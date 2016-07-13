@@ -98,13 +98,8 @@ public class AnimatorScript : MonoBehaviour
         float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
 
 
-        PrepareExercise(new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha, Limb.None), new BehaviourParams(new List<Movement>()
-        {
-            Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha,
-            Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda,
-            Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha,
-            Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda
-        }, 3, 1f, 1f));
+        PrepareExercise(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Limb.Left), 
+            new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBR, secondsBE));
         //    new BehaviourParams(new List<Movement>(){
         //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente,
         //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlLado,

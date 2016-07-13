@@ -88,7 +88,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 case AnimationBehaviourState.PREPARING_WITH_PARAMS:
                     StartLerp(); 
                     break;
-            } 
+            }
         }
     }
 
@@ -150,17 +150,18 @@ public class LerpBehaviour : AnimationBehaviour {
 
     private void executionTimerStart()
     {
-        //Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
+        Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
         //Debug.Log(" INICIO manteniendo pose pose ");
         this.holdingPose = true;
     }
 
     private void executionTimerFinish()
     {
-        //Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
+        Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
         //Debug.Log("FIN manteniendo pose pose ");
         this.holdingPose = false;
         clockBehaviour.stopExecutionTimer();
+        animator.speed = -backwardSpeed;
     }
 
 
@@ -378,41 +379,67 @@ public class LerpBehaviour : AnimationBehaviour {
             //if(_LerpBehaviourState == LerpBehaviourState.STOPPED)
             float timeSinceStarted = Time.time - timeStartedLerping;
             float percentageComplete = 0f;
+            /*
             switch (_currentLerpState)
             {
                 case LerpState.Forward:
+                    
                     percentageComplete = timeSinceStarted / timeTakenDuringForwardLerp;
+                    Debug.Log("1 " + percentageComplete + "= " + timeSinceStarted + " / " + timeTakenDuringForwardLerp + " " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime );
                     break;
 
                 case LerpState.Stopped:
                     if (_lastLerpState == LerpState.Forward)
                     {
                         percentageComplete = timeSinceStarted / timeTakenDuringForwardLerp;
+                        Debug.Log("2 " + percentageComplete + "= " + timeSinceStarted + " / " + timeTakenDuringForwardLerp + " " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
                     }
 
                     //De ser true, indica que termino una repeticion
                     else if (_lastLerpState == LerpState.Backward)
                     {
                         percentageComplete = timeSinceStarted / timeTakenDuringBackwardLerp;
+                        Debug.Log("3 " + percentageComplete + "= " + timeSinceStarted + " / " + timeTakenDuringBackwardLerp + " " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
                     }
                     break;
 
                 case LerpState.Backward:
                     percentageComplete = timeSinceStarted / timeTakenDuringBackwardLerp;
+                    Debug.Log("4 " + percentageComplete + "= " + timeSinceStarted + " / " + timeTakenDuringBackwardLerp + " " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
                     break;
-            }
+            }*/
 
+            percentageComplete = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+            //float normalizedSpeed;
+            //if (percentageComplete < 0.5)
+            //    normalizedSpeed = timeSinceStarted/timeTakenDuringForwardLerp * 4;
+            //else
+            //    normalizedSpeed = 4f- timeSinceStarted / timeTakenDuringForwardLerp * 4;
             //Aplico el suavizado "Smotherstep"
             //percentageComplete = percentageComplete * percentageComplete * (3f - 2f * percentageComplete);
-            percentageComplete = percentageComplete * percentageComplete * percentageComplete * (percentageComplete * (6f * percentageComplete - 15f) + 10f);
-            animator.StartRecording(0);
-            animator.speed = Mathf.Lerp(startPosition, endPosition, percentageComplete);
-            animator.StopRecording();
-            if (percentageComplete >= 1.0f)
+            //float percentageSmotherstep = timeSinceStarted * timeSinceStarted * timeSinceStarted * (timeSinceStarted * (6f * timeSinceStarted - 15f) + 10f);
+
+            float sp = endPosition + startPosition;
+
+
+            if (!holdingPose)
             {
+                animator.StartRecording(0);
+                animator.speed = sp;// Mathf.Lerp(startPosition, endPosition, normalizedSpeed);
+                                    //Debug.Log("% "+ percentageComplete + "normalized speed " + normalizedSpeed + "  speed " + animator.speed);
+                animator.StopRecording();
+            }
+
+            float DELTA = 0.03f;
+            if ((animator.speed > 0  && percentageComplete >= 1.0f - DELTA) ||
+                (animator.speed < 0 && percentageComplete <= 0f + DELTA))
+            {
+                Debug.Log("int end " + percentageComplete);
                 InterpolationEnd();
             }
-        }else if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+        }
+        else if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
         {
             animator.speed = 0;
         }
@@ -493,11 +520,13 @@ public class LerpBehaviour : AnimationBehaviour {
         {
             _currentParams = new BehaviourParams(defaultAnimationLength, 1, 1, 0, 3);
             timeTakenDuringLerp = (float)Math.Floor(defaultAnimationLength * 10) / 10;
+            Debug.Log("1timeTakenDuringLerp " + timeTakenDuringLerp);
         }
         else
         {
             _currentParams = _RealParams;
             timeTakenDuringLerp = (float)Math.Floor(GetAnimationInfo(_currentParams.Angle, _timeAndAngles).time * 10) / 10;
+            Debug.Log("2timeTakenDuringLerp " + timeTakenDuringLerp);
         }
         //Normalizo el tiempo que tardo en parar
         timeTakenDuringForwardLerp = timeTakenDuringLerp / _currentParams.ForwardSpeed;
@@ -556,14 +585,17 @@ public class LerpBehaviour : AnimationBehaviour {
             case LerpState.Forward:
                 _currentLerpState = LerpState.Stopped;
                 _lastLerpState = LerpState.Forward;
-                BeginLerp(forwardSpeed, 0);
+                animator.speed = 0;
+                //BeginLerp(0, -backwardSpeed);
                 this.holdingPose = true;
+                Debug.Log("Comenzando pausa entre rep " + this._currentParams.SecondsInPose);
                 clockBehaviour.executeRepetitionTime(this._currentParams.SecondsInPose);
                 break;
 
             case LerpState.Stopped:
                 //si holdingPose es TRUE el instructor esta en mantener Pose
-                if (holdingPose == false) { 
+                if (holdingPose == false) {
+                    Debug.Log("Holding Pose " + holdingPose + " " + _currentLerpState + " " +  _lastLerpState + " " + backwardSpeed);
                     if (_lastLerpState == LerpState.Forward)
                     {
                         _currentLerpState = LerpState.Backward;
@@ -587,7 +619,6 @@ public class LerpBehaviour : AnimationBehaviour {
                             }
                             catch
                             {
-
                                 DebugLifeware.Log("ya existia el ejercicio", DebugLifeware.Developer.Marco_Rojas);
                                 ; // do nothing
                             }
@@ -620,6 +651,7 @@ public class LerpBehaviour : AnimationBehaviour {
                                 if ((!this.IsWeb) && (!this.IsInInstruction))
                                     this.PauseAnimation();
                                 OnRepetitionEnd();
+                                Debug.Log("REPETITION END____");
                             }
 
                             if (IsInterleaved)

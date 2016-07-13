@@ -44,6 +44,7 @@ public class ClockBehaviour {
 
         if(executionTimeDuration != -1 && executionTimeCounter >= executionTimeDuration)
         {
+            Debug.Log("timer execucion " + executionTimeDuration + "!= -1 && " + executionTimeCounter + " > " + executionTimeDuration);
             executionTimeCounter = 0;
             executionTimerFinish();
         }
