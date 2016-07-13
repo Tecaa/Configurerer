@@ -98,8 +98,8 @@ public class AnimatorScript : MonoBehaviour
         float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
 
 
-        PrepareExercise(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Limb.Left), 
-            new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBR, secondsBE));
+        //PrepareExercise(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Limb.Left), 
+        //    new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBR, secondsBE));
         //    new BehaviourParams(new List<Movement>(){
         //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente,
         //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlLado,
@@ -134,8 +134,8 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda }, 1, 3, 2));
         //***********************************************************
         //Para correr web mp*******************************************
-        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Laterality.Single, Limb.Right), Caller.Config);
-        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Limb.Right), Caller.Config);
+        PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
         //***********************************************************
         //Para correr web mp con variacion*******************************************
         //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
@@ -207,15 +207,13 @@ public class AnimatorScript : MonoBehaviour
         BehaviourParams param = new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR);
 
         //RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
-        
+
         //Para correr en juego (True con instruccion - false sin instruccion)***
-        RunExercise(false);
+        //RunExercise(true);
         //**********************************************************************
 
         //Para correr web con parametros****************************************
-        //BehaviourParams p = new BehaviourParams(3, 2);
-        //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
-        //RunExerciseWeb(s);
+        RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR)));
         //**********************************************************************
 
         //Para correr web con parametros mpx************************************
@@ -244,8 +242,6 @@ public class AnimatorScript : MonoBehaviour
         //**********************************************************************
 
 
-
-        //PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Laterality.Single, Limb.Left), new BehaviourParams(60, 1.5f, 1.5f, 3, 3));
         /*BehaviourParams p = new BehaviourParams(2, 2);
         RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));*/
 
