@@ -346,11 +346,21 @@ public class LerpBehaviour : AnimationBehaviour {
                 OnRepetitionReallyStart();
                 BeginRep = true;
             }
-            float percentageComplete = 0f;
 
-            percentageComplete = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            float percentageComplete;
+            if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+            {
+                percentageComplete = stateInfo.normalizedTime * _timeAndAngles[_timeAndAngles.Count/2].time / GetAnimationInfo(this._currentParams.Angle, _timeAndAngles).time;
+                //Debug.Log("1 " + percentageComplete + "   time max: "  + _timeAndAngles[_timeAndAngles.Count/2].time + "    time angle: " + GetAnimationInfo(this._currentParams.Angle, _timeAndAngles).time + "    angle: " + this._currentParams.Angle +" division:" + (_timeAndAngles[_timeAndAngles.Count/2].time / GetAnimationInfo(this._currentParams.Angle, _timeAndAngles).time));
+            }
+            else
+            {
+                percentageComplete = stateInfo.normalizedTime;
+                //Debug.Log("2 " + percentageComplete);
+            }
             
-            
+
+
             if (!holdingPose)
             {
                 animator.StartRecording(0);
