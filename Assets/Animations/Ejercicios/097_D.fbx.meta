@@ -55,6 +55,16 @@ ModelImporter:
     100094: Spine1
     100096: Spine2
     100098: Tops
+    100100: Armature
+    100102: HeadTop_End_end
+    100104: LeftEye_end
+    100106: LeftHandIndex4_end
+    100108: LeftHandThumb4_end
+    100110: LeftToe_End_end
+    100112: RightEye_end
+    100114: RightHandIndex4_end
+    100116: RightHandThumb4_end
+    100118: RightToe_End_end
     400000: //RootNode
     400002: Body
     400004: Bottoms
@@ -105,6 +115,16 @@ ModelImporter:
     400094: Spine1
     400096: Spine2
     400098: Tops
+    400100: Armature
+    400102: HeadTop_End_end
+    400104: LeftEye_end
+    400106: LeftHandIndex4_end
+    400108: LeftHandThumb4_end
+    400110: LeftToe_End_end
+    400112: RightEye_end
+    400114: RightHandIndex4_end
+    400116: RightHandThumb4_end
+    400118: RightToe_End_end
     4300000: Body
     4300002: Eyes
     4300004: Eyelashes
@@ -113,6 +133,7 @@ ModelImporter:
     4300010: Tops
     7400000: 097_D
     7400002: 097_I
+    7400004: 097_I
     9500000: //RootNode
     13700000: Body
     13700002: Bottoms
@@ -142,9 +163,9 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: 097_D
-      takeName: Take 001
+      takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
-      lastFrame: 82
+      lastFrame: 42
       wrapMode: 0
       orientationOffsetY: 90
       level: -.5
@@ -268,9 +289,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
     - serializedVersion: 16
       name: 097_I
-      takeName: Take 001
+      takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
-      lastFrame: 82
+      lastFrame: 42
       wrapMode: 0
       orientationOffsetY: 90
       level: -.5

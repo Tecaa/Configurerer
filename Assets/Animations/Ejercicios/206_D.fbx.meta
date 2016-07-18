@@ -54,6 +54,16 @@ ModelImporter:
     100092: Spine1
     100094: Spine2
     100096: Tops
+    100098: Armature
+    100100: HeadTop_End_end
+    100102: LeftEye_end
+    100104: LeftHandIndex4_end
+    100106: LeftHandThumb4_end
+    100108: LeftToe_End_end
+    100110: RightEye_end
+    100112: RightHandIndex4_end
+    100114: RightHandThumb4_end
+    100116: RightToe_End_end
     400000: //RootNode
     400002: Body
     400004: Bottoms
@@ -103,6 +113,16 @@ ModelImporter:
     400092: Spine1
     400094: Spine2
     400096: Tops
+    400098: Armature
+    400100: HeadTop_End_end
+    400102: LeftEye_end
+    400104: LeftHandIndex4_end
+    400106: LeftHandThumb4_end
+    400108: LeftToe_End_end
+    400110: RightEye_end
+    400112: RightHandIndex4_end
+    400114: RightHandThumb4_end
+    400116: RightToe_End_end
     4300000: Body
     4300002: Eyes
     4300004: Bottoms
@@ -138,9 +158,9 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: 206_D
-      takeName: Take 001
-      firstFrame: 23
-      lastFrame: 100
+      takeName: Armature|Take 001|BaseLayer
+      firstFrame: 4
+      lastFrame: 61
       wrapMode: 0
       orientationOffsetY: 90
       level: -.5
@@ -262,9 +282,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
     - serializedVersion: 16
       name: 206_I
-      takeName: Take 001
-      firstFrame: 23
-      lastFrame: 100
+      takeName: Armature|Take 001|BaseLayer
+      firstFrame: 4
+      lastFrame: 61
       wrapMode: 0
       orientationOffsetY: 90
       level: -.5

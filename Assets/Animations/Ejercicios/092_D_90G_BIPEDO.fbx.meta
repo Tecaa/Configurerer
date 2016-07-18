@@ -55,6 +55,16 @@ ModelImporter:
     100094: Spine1
     100096: Spine2
     100098: Tops
+    100100: Armature
+    100102: HeadTop_End_end
+    100104: LeftEye_end
+    100106: LeftHandIndex4_end
+    100108: LeftHandThumb4_end
+    100110: LeftToe_End_end
+    100112: RightEye_end
+    100114: RightHandIndex4_end
+    100116: RightHandThumb4_end
+    100118: RightToe_End_end
     400000: //RootNode
     400002: Body
     400004: Bottoms
@@ -105,6 +115,16 @@ ModelImporter:
     400094: Spine1
     400096: Spine2
     400098: Tops
+    400100: Armature
+    400102: HeadTop_End_end
+    400104: LeftEye_end
+    400106: LeftHandIndex4_end
+    400108: LeftHandThumb4_end
+    400110: LeftToe_End_end
+    400112: RightEye_end
+    400114: RightHandIndex4_end
+    400116: RightHandThumb4_end
+    400118: RightToe_End_end
     4300000: Body
     4300002: Eyes
     4300004: Eyelashes
@@ -115,6 +135,7 @@ ModelImporter:
     7400002: 092_I_90_BIPEDO
     7400004: IDLE_35
     7400006: IDLE_36
+    7400008: IDLE_36
     9500000: //RootNode
     13700000: Body
     13700002: Bottoms
@@ -144,9 +165,9 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: 092_D_90_BIPEDO
-      takeName: Take 001
+      takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
-      lastFrame: 88
+      lastFrame: 70
       wrapMode: 0
       orientationOffsetY: 90
       level: 0
@@ -270,9 +291,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
     - serializedVersion: 16
       name: 092_I_90_BIPEDO
-      takeName: Take 001
+      takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
-      lastFrame: 88
+      lastFrame: 70
       wrapMode: 0
       orientationOffsetY: 90
       level: 0
@@ -396,7 +417,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
     - serializedVersion: 16
       name: IDLE_35
-      takeName: Take 001
+      takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
       lastFrame: 2
       wrapMode: 0
@@ -522,7 +543,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
     - serializedVersion: 16
       name: IDLE_36
-      takeName: Take 001
+      takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
       lastFrame: 2
       wrapMode: 0
@@ -535,7 +556,7 @@ ModelImporter:
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
       heightFromFeet: 0

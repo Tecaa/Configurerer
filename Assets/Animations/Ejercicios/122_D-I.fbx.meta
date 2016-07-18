@@ -55,6 +55,16 @@ ModelImporter:
     100094: Spine1
     100096: Spine2
     100098: Tops
+    100100: Armature
+    100102: HeadTop_End_end
+    100104: LeftEye_end
+    100106: LeftHandIndex4_end
+    100108: LeftHandThumb4_end
+    100110: LeftToe_End_end
+    100112: RightEye_end
+    100114: RightHandIndex4_end
+    100116: RightHandThumb4_end
+    100118: RightToe_End_end
     400000: //RootNode
     400002: Body
     400004: Bottoms
@@ -105,6 +115,16 @@ ModelImporter:
     400094: Spine1
     400096: Spine2
     400098: Tops
+    400100: Armature
+    400102: HeadTop_End_end
+    400104: LeftEye_end
+    400106: LeftHandIndex4_end
+    400108: LeftHandThumb4_end
+    400110: LeftToe_End_end
+    400112: RightEye_end
+    400114: RightHandIndex4_end
+    400116: RightHandThumb4_end
+    400118: RightToe_End_end
     4300000: Body
     4300002: Eyes
     4300004: Eyelashes
@@ -130,29 +150,54 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 'MuscleClip ''122_D-I''conversion warning: ''Hips/Spine''
+    animationImportWarnings: 'MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/Spine''
       has translation animation. It is not supported.
 
 
-      MuscleClip ''122_D-I'' conversion warning: ''Hips/Spine/Spine1/Spine2'' is between
-      humanoid transforms and has rotation animation. This might lower retargeting
-      quality.
+      MuscleClip ''122_D-I'' conversion warning: ''Armature/Hips/Spine/Spine1/Spine2''
+      is between humanoid transforms and has rotation animation. This might lower
+      retargeting quality.
 
 
-      MuscleClip ''122_D-I''conversion warning: ''Hips/LeftUpLeg'' has translation
+      MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/LeftUpLeg'' has translation
       animation. It is not supported.
 
 
-      MuscleClip ''122_D-I''conversion warning: ''Hips/LeftUpLeg/LeftLeg'' has translation
+      MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/LeftUpLeg/LeftLeg''
+      has translation animation. It is not supported.
+
+
+      MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/RightUpLeg'' has translation
       animation. It is not supported.
 
 
-      MuscleClip ''122_D-I''conversion warning: ''Hips/RightUpLeg'' has translation
+      MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/RightUpLeg/RightLeg''
+      has translation animation. It is not supported.
+
+
+      MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/Spine'' has translation
       animation. It is not supported.
 
 
-      MuscleClip ''122_D-I''conversion warning: ''Hips/RightUpLeg/RightLeg'' has translation
+      MuscleClip ''122_D-I'' conversion warning: ''Armature/Hips/Spine/Spine1/Spine2''
+      is between humanoid transforms and has rotation animation. This might lower
+      retargeting quality.
+
+
+      MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/LeftUpLeg'' has translation
       animation. It is not supported.
+
+
+      MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/LeftUpLeg/LeftLeg''
+      has translation animation. It is not supported.
+
+
+      MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/RightUpLeg'' has translation
+      animation. It is not supported.
+
+
+      MuscleClip ''122_D-I''conversion warning: ''Armature/Hips/RightUpLeg/RightLeg''
+      has translation animation. It is not supported.
 
 
 '
@@ -167,9 +212,9 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: 122_D_I
-      takeName: Take 001
+      takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
-      lastFrame: 91
+      lastFrame: 71
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -293,9 +338,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
     - serializedVersion: 16
       name: 122_I_D
-      takeName: Take 001
+      takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
-      lastFrame: 91
+      lastFrame: 71
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

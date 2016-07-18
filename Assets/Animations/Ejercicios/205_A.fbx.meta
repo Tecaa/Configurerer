@@ -54,6 +54,16 @@ ModelImporter:
     100092: Spine1
     100094: Spine2
     100096: Tops
+    100098: Armature
+    100100: HeadTop_End_end
+    100102: LeftEye_end
+    100104: LeftToe_End_end
+    100106: prefix_LeftHandIndex4_end
+    100108: prefix_LeftHandThumb4_end
+    100110: RightEye_end
+    100112: RightHandIndex4_end
+    100114: RightHandThumb4_end
+    100116: RightToe_End_end
     400000: //RootNode
     400002: Body
     400004: Bottoms
@@ -103,6 +113,16 @@ ModelImporter:
     400092: Spine1
     400094: Spine2
     400096: Tops
+    400098: Armature
+    400100: HeadTop_End_end
+    400102: LeftEye_end
+    400104: LeftToe_End_end
+    400106: prefix_LeftHandIndex4_end
+    400108: prefix_LeftHandThumb4_end
+    400110: RightEye_end
+    400112: RightHandIndex4_end
+    400114: RightHandThumb4_end
+    400116: RightToe_End_end
     4300000: Body
     4300002: Eyes
     4300004: Bottoms
@@ -126,11 +146,19 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 'MuscleClip ''205_A''conversion warning: ''Hips/Spine/Spine1/Spine2/LeftShoulder/prefix_LeftArm''
+    animationImportWarnings: 'MuscleClip ''205_A''conversion warning: ''Armature/Hips/Spine/Spine1/Spine2/LeftShoulder/prefix_LeftArm''
       has translation animation. It is not supported.
 
 
-      MuscleClip ''205_A''conversion warning: ''Hips/Spine/Spine1/Spine2/RightShoulder/RightArm''
+      MuscleClip ''205_A''conversion warning: ''Armature/Hips/Spine/Spine1/Spine2/RightShoulder/RightArm''
+      has translation animation. It is not supported.
+
+
+      MuscleClip ''205_A''conversion warning: ''Armature/Hips/Spine/Spine1/Spine2/LeftShoulder/prefix_LeftArm''
+      has translation animation. It is not supported.
+
+
+      MuscleClip ''205_A''conversion warning: ''Armature/Hips/Spine/Spine1/Spine2/RightShoulder/RightArm''
       has translation animation. It is not supported.
 
 
@@ -146,9 +174,9 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: 205_A
-      takeName: Take 001
-      firstFrame: 1
-      lastFrame: 168
+      takeName: Armature|Take 001|BaseLayer
+      firstFrame: 19
+      lastFrame: 122
       wrapMode: 0
       orientationOffsetY: 90
       level: -.649999976
@@ -270,9 +298,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
     - serializedVersion: 16
       name: 205_B
-      takeName: Take 001
-      firstFrame: 1
-      lastFrame: 168
+      takeName: Armature|Take 001|BaseLayer
+      firstFrame: 19
+      lastFrame: 122
       wrapMode: 0
       orientationOffsetY: -90
       level: -.649999976
