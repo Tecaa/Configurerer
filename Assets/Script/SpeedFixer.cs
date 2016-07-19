@@ -9,7 +9,7 @@ internal static class SpeedFixer
     private static void FillDictionaries()
     {
         speedMultiplier.Add(Movement.ExtensiónDeHombrosConFlexiónDeCodosEnBípedo_Bilateral_45, 0.5f);
-        speedMultiplier.Add(Movement.ExtensiónDeHombrosConFlexiónDeCodosEnBípedo_Bilateral_45, 3);
+        speedMultiplier.Add(Movement.FlexiónDeHombrosEnBípedoConBastón_Bilateral, 3);
     }
 
     static SpeedFixer()
