@@ -167,7 +167,7 @@ ModelImporter:
       name: 092_D_90_BIPEDO
       takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
-      lastFrame: 70
+      lastFrame: 123
       wrapMode: 0
       orientationOffsetY: 90
       level: 0
@@ -293,7 +293,7 @@ ModelImporter:
       name: 092_I_90_BIPEDO
       takeName: Armature|Take 001|BaseLayer
       firstFrame: 1
-      lastFrame: 70
+      lastFrame: 123
       wrapMode: 0
       orientationOffsetY: 90
       level: 0
