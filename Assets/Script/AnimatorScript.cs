@@ -294,6 +294,9 @@ public class AnimatorScript : MonoBehaviour
     {
 
         param.Angle = AngleFixer.FixAngle(param.Angle, e.Movement);
+        param.BackwardSpeed *= SpeedFixer.FixSpeed(e.Movement);
+        param.ForwardSpeed *= SpeedFixer.FixSpeed(e.Movement);
+
         if (param.Variations == null || param.Variations.Count == 0)
             behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         else
@@ -434,6 +437,8 @@ public class AnimatorScript : MonoBehaviour
 
         behaviour.Stop();
         p.Angle = AngleFixer.FixAngle(p.Angle, CurrentExercise.Movement);
+        p.BackwardSpeed *= SpeedFixer.FixSpeed(CurrentExercise.Movement);
+        p.ForwardSpeed *= SpeedFixer.FixSpeed(CurrentExercise.Movement);
         StartCoroutine(RunWebInSeconds(0.4f, p));
 
     }
