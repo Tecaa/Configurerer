@@ -13,6 +13,7 @@ using UnityEngine.UI;
 
 public class AnimatorScript : MonoBehaviour
 {
+    const bool RESET_CACHE = false;
     #region Variables privadas
     /// <summary>
     /// Referencia al Animator
@@ -134,8 +135,10 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda }, 1, 3, 2));
         //***********************************************************
         //Para correr web mp*******************************************
+
         PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.DesplazamientoLateralConPaso_75, Limb.None), Caller.Config);
-        PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
+        PrepareExercise(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Limb.Left), new BehaviourParams(80f, 1f, 1f, 0, 0));
+
         //***********************************************************
         //Para correr web mp con variacion*******************************************
         //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
@@ -213,7 +216,7 @@ public class AnimatorScript : MonoBehaviour
         //**********************************************************************
 
         //Para correr web con parametros****************************************
-        RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR)));
+        RunExercise(true);//(Newtonsoft.Json.JsonConvert.SerializeObject(new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR)));
         //**********************************************************************
 
         //Para correr web con parametros mpx************************************
@@ -255,13 +258,12 @@ public class AnimatorScript : MonoBehaviour
         //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":30000,\"Laterality\":1,\"Limb\":3}, \"Caller\": 1}");
         //PrepareExerciseWeb("{\"Exercise\":{\"Movement\": 160002,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
         PrepareExerciseWeb("{\"Exercise\":{\"Movement\": 220000,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
-
     }
 
     void Awake()
     {
         //TODO: No olvidar borrar, elimina el caché de los ejercicios ya preparados
-        
+        if (RESET_CACHE)
             PlayerPrefs.SetString("ExerciseCache", null);
     }
     // Update is called once per frame
