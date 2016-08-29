@@ -142,7 +142,7 @@ public class FiniteBehaviour : AnimationBehaviour
         }
     }
 
-
+    private bool repetitionStartFlag = false;
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {        
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
@@ -179,6 +179,7 @@ public class FiniteBehaviour : AnimationBehaviour
             {
                 OnRepetitionReallyStart();
                 BeginRep = true;
+                repetitionStartFlag = true;
             }
             if (stateInfo.normalizedTime >= 1.0f && haCambiadoDeEstado)
             {
@@ -233,8 +234,15 @@ public class FiniteBehaviour : AnimationBehaviour
                 }
             }
         }
+        else if (endRepTime != null && _BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+        {
+            if (repetitionStartFlag)
+            {
+                OnRepetitionStart();
+                repetitionStartFlag = false;
+            }
+        }
     }
-
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -253,7 +261,6 @@ public class FiniteBehaviour : AnimationBehaviour
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;*/
         //this._BehaviourState = AnimationBehaviourState.STOPPED;
-        Debug.Log("CALLED: stop");
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
         _BehaviourState = AnimationBehaviourState.STOPPED;
         animator.speed = 1;

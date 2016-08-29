@@ -265,8 +265,8 @@ public static class MovementJointMatch
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba, Limb.None), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
         movementJointMatch.Add(new MovementLimbKey(Movement.ExtensiónDiagonalDeHombrosEnSupino_IzquierdaArriba, Limb.None), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoHorizontalAcostado));
 
-        movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónHorizontalResistidaDeHombros_BípedoBilateral, Limb.None), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoFrontal));
+        movementJointMatch.Add(new MovementLimbKey(Movement.FlexiónHorizontalResistidaDeHombros_BípedoBilateral, Limb.None), new JointTypePlanoResult(ArticulacionType.HombroIzquierdo, Plano.planos.planoSagital));
 
-        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, Limb.None), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoSagital)); // OJO CON EL ÁNGULO ESTÁ MAL
+        movementJointMatch.Add(new MovementLimbKey(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, Limb.None), new JointTypePlanoResult(ArticulacionType.AnteBrazoIzquierdo, Plano.planos.planoSagital));
     }
 }

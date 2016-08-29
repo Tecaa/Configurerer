@@ -150,9 +150,10 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
 		this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
 
+        /*
         int i = 0;
         foreach (Movement x in this.CentralNode.randomAnimations)
-            Debug.Log(i++ + " " + x);
+            Debug.Log(i++ + " " + x);*/
     }
 
 	protected override void PrepareWebInternal ()
@@ -202,10 +203,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         }
 
         this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
-
-
-
-
     }
 
 	/// <summary>
@@ -256,7 +253,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
     private void pauseBetweenRepetitionsStart()
     {
-
+        OnRepetitionStart();
     }
 
     protected void OnStayInPoseWithVariationRoundTripEnd()
@@ -332,7 +329,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 			animator.speed = this.CentralNode._RealParams.ForwardSpeed;
 			
 		}
-		
 	}
 
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -341,8 +337,10 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 		{
 			BeginRep = false;
 
-			if ( _isAnimationRunning == true )
-			{
+            OnSubrepetitionEnd();
+
+            if ( _isAnimationRunning == true )
+            {
 
                 if (isExecutingMovement == true && exerciceMovement != -1 && !IsRewinding)
                 {
@@ -353,11 +351,10 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 
 		}
 		else
-		{
-
+        {
             if ( exerciceMovement > 0)
             {
-                    startNewExecution();
+                startNewExecution();
             }
                 
 
@@ -379,8 +376,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
             return;
         }
 
-        //if (!this.IsCentralNode && this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
-        //    exerciceMovement = -1;
 
         if (_isAnimationPreparing || _isAnimationStopped)
             return;
@@ -403,7 +398,50 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 			
 	}
 
-	public BehaviourParams GetParams()
+    DateTime lastSubRepTime = DateTime.Now;
+    DateTime LastSubRepTime
+    {
+        get
+        {
+
+            if (this.IsCentralNode)
+                return lastSubRepTime;
+            else
+                return CentralNode.lastSubRepTime;
+        }
+        set
+        {
+
+            if (this.IsCentralNode)
+                lastSubRepTime = value;
+            else
+                CentralNode.LastSubRepTime = value;
+
+        }
+    }
+    protected override void OnSubrepetitionEnd()
+    {
+        // Parche que evita que se dispare dos veces consecutivas el evento OnSubRepetitionEnd
+        TimeSpan MILISECONDS_ERROR = new TimeSpan(0,0,0,0,500);
+
+        if (DateTime.Now - CentralNode.LastSubRepTime <= MILISECONDS_ERROR)
+            return;
+        if (!IsCentralNode)
+        {
+            this.CentralNode.OnSubrepetitionEnd();
+        }
+        else
+        {
+            
+
+            CentralNode.LastSubRepTime = DateTime.Now;
+            base.OnSubrepetitionEnd();
+
+        }
+
+    }
+
+    public BehaviourParams GetParams()
 	{
 		return this._currentParams;
 	}
@@ -462,9 +500,6 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         }
 
     }
-
-    
-
 }
 
 

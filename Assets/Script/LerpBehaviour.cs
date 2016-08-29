@@ -133,7 +133,9 @@ public class LerpBehaviour : AnimationBehaviour {
         //Debug.Log("FIN manteniendo pose pose ");
         this.holdingPose = false;
         clockBehaviour.stopExecutionTimer();
+        animator.StartRecording(0);
         animator.speed = -backwardSpeed;
+        animator.StopRecording();
     }
 
 
@@ -318,7 +320,8 @@ public class LerpBehaviour : AnimationBehaviour {
     const float INTERVAL = 0.1f;
     private bool ReadyToLerp = false;
     private bool lastReadyToLerp = false;
-	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+    private bool repetitionStartFlag = false;
+    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     int debug = 0;
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -329,15 +332,17 @@ public class LerpBehaviour : AnimationBehaviour {
                 animator.speed = 0;
             return;
         }
-                
+
         #region Interpolate
         //Si no estamos en estado Stopped 
         //Y estamos preparados para hacer Lerp
         //Y el tiempo que ha transcurrido de la ultima rep es mayor al tiempo de pause entre repeticiones. O no ha habido última rep.
-       
+
+        
         if (_BehaviourState != AnimationBehaviourState.STOPPED && ReadyToLerp
             && (endRepTime == null || new TimeSpan(0, 0, (int)_currentParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
+        
             if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) && 
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WEB && 
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS && 
@@ -345,8 +350,11 @@ public class LerpBehaviour : AnimationBehaviour {
             {
                 OnRepetitionReallyStart();
                 BeginRep = true;
+
+                repetitionStartFlag = true;
             }
 
+        
             float percentageComplete;
             if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
             {
@@ -378,6 +386,14 @@ public class LerpBehaviour : AnimationBehaviour {
         else if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
         {
             animator.speed = 0;
+            if (endRepTime != null)
+            {
+                if (repetitionStartFlag)
+                {
+                    OnRepetitionStart();
+                    repetitionStartFlag = false;
+                }
+            }
         }
 
 

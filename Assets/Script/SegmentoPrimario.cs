@@ -53,10 +53,11 @@ namespace Assets
             AngleHorizontalAcostado = AngleHorizontalAcostado * 180.0f / Mathf.PI;
 
             var cruzHorizontal = Vector3.Cross(proyBrazoHorizontal, nFrontal);
-            AngleHorizontal = Vector3.Angle(proyBrazoHorizontal, nFrontal) * (cruzHorizontal.x / Mathf.Abs(cruzHorizontal.x));
+            AngleHorizontal = Vector3.Angle(proyBrazoHorizontal, nFrontal);// * (cruzHorizontal.x / Mathf.Abs(cruzHorizontal.x));
 
             var cruzFrontal = Vector3.Cross(nHorizontal, proyBrazoFrontal);
-            AngleFrontal = Vector3.Angle(proyBrazoFrontal, nHorizontal * -1) * (cruzFrontal.x / Mathf.Abs(cruzFrontal.x));
+            AngleFrontal = Vector3.Angle(proyBrazoFrontal, nHorizontal * -1);// * (cruzFrontal.x / Mathf.Abs(cruzFrontal.x));
+            
 
             if (this.articulacion == ArticulacionType.BrazoIzquierdo ||
                 this.articulacion == ArticulacionType.MusloIzquierda ||
@@ -70,7 +71,7 @@ namespace Assets
 
 
             var cruzSagital = Vector3.Cross(proyBrazoSagital, nHorizontal);
-            AngleSagital = Vector3.Angle(proyBrazoSagital, nHorizontal * -1) * (cruzSagital.x / Mathf.Abs(cruzSagital.x));
+            AngleSagital = Vector3.Angle(proyBrazoSagital, nHorizontal * -1);// * (cruzSagital.x / Mathf.Abs(cruzSagital.x));
 
 
             Debug.DrawLine(hombro.transform.position, codo.transform.position, Color.cyan);

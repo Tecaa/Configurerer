@@ -27,7 +27,6 @@ public class Exercise : INotifyPropertyChanged
         }
     }
 
-
     private Limb limb;
     public Limb Limb
     {
@@ -68,7 +67,7 @@ public class Exercise : INotifyPropertyChanged
     public override bool Equals(object obj)
     {
         Exercise e = obj as Exercise;
-        return (this.Movement == e.Movement &&  this.Limb == e.Limb);
+        return (this.Movement == e.Movement && this.Limb == e.Limb);
     }
 
     public bool Equals(Exercise e)
@@ -103,7 +102,6 @@ public class Coverage
             movement = value;
         }
     }
-
 
     public Coverage(Movement m)
     {

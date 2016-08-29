@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
 
 public class ClockBehaviour {
-
-    float timeSinceStart = 0, lastTimeSinceStart=0;
-    const float INTERVAL = 0f, CICLE = 4F;
-    public float executionTimeCounter = 0, executionTimeDuration=-1;
-    public float timeBetweenRepetitionsTimeCounter = 0, timeBetweenRepetitionsTimeDuration = -1;
+    DateTime? endExecutionTime, endRepetitionTime;
 
 
 
@@ -16,42 +12,15 @@ public class ClockBehaviour {
     /// </summary>
     public void Update()
     {
-
-        timeSinceStart = timeSinceStart + Time.deltaTime;
-        float diff = timeSinceStart - lastTimeSinceStart;
-        if (diff >= INTERVAL)
+        if (endRepetitionTime.HasValue &&  endRepetitionTime < DateTime.Now)
         {
-
-            lastTimeSinceStart = timeSinceStart;
-            if(executionTimeDuration != -1)
-            {
-                executionTimeCounter = executionTimeCounter + diff;
-            }
-            if (timeBetweenRepetitionsTimeDuration != -1)
-            {
-                timeBetweenRepetitionsTimeCounter = timeBetweenRepetitionsTimeCounter + diff;
-            }
-
-        }
-
-        if(timeSinceStart > CICLE)
-        {
-            timeSinceStart = timeSinceStart - CICLE;
-            lastTimeSinceStart = lastTimeSinceStart - CICLE;
-        }
-
-        
-
-        if(executionTimeDuration != -1 && executionTimeCounter >= executionTimeDuration)
-        {
-            executionTimeCounter = 0;
-            executionTimerFinish();
-        }
-
-        if (timeBetweenRepetitionsTimeDuration != -1 && timeBetweenRepetitionsTimeCounter >= timeBetweenRepetitionsTimeDuration)
-        {
-            timeBetweenRepetitionsTimeCounter = 0;
             pauseBetweenRepetitionsFinish();
+            stopTimeBetweenRepetitionsTimer();
+        }
+        if (endExecutionTime.HasValue && endExecutionTime < DateTime.Now)
+        {
+            executionTimerFinish();
+            stopExecutionTimer();
         }
 
     }
@@ -62,8 +31,8 @@ public class ClockBehaviour {
     /// <param name="time"></param>
     public void executeRepetitionTime(float time)
     {
+        endExecutionTime = DateTime.Now + new TimeSpan(0, 0,(int)time);
         executionTimerStart();
-        executionTimeDuration = time;
     }
 
     /// <summary>
@@ -71,8 +40,7 @@ public class ClockBehaviour {
     /// </summary>
     public void stopExecutionTimer()
     {
-        executionTimeDuration = -1;
-        executionTimeCounter = 0;
+        endExecutionTime = null;
     }
 
 
@@ -82,7 +50,8 @@ public class ClockBehaviour {
     /// <param name="time"></param>
     public void executeTimeBetweenRepetitions(float time)
     {
-        timeBetweenRepetitionsTimeDuration = time;
+
+        endRepetitionTime = DateTime.Now + new TimeSpan(0, 0, (int)time);
         pauseBetweenRepetitionsStart();
     }
 
@@ -91,8 +60,7 @@ public class ClockBehaviour {
     /// </summary>
     public void stopTimeBetweenRepetitionsTimer()
     {
-        timeBetweenRepetitionsTimeDuration = -1;
-        timeBetweenRepetitionsTimeCounter = 0;
+        endRepetitionTime = null;
     }
 
     public delegate void ExecutionTimerStart();

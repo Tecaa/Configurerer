@@ -10,7 +10,9 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 	
 	protected enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
     public event EventHandler RepetitionEnd;
+    public event EventHandler SubrepetitionEnd;
     public bool IsCentralNode;
+    public event EventHandler<RepetitionStartEventArgs> RepetitionStart;
     /// <summary>
     /// Se dispara despues del tiempo entre ejecciones
     /// </summary>
@@ -107,9 +109,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             }
         }
     }
-
-    //[HideInInspector]
-    //protected List<AnimationBehaviour> friendsBehaviours;
+    
     public bool IsInterleaved
     {
         get { return _isInterleaved; }
@@ -246,6 +246,14 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             CentralNode.ResumeAnimation();
         }
     }
+    protected virtual void OnSubrepetitionEnd()
+    {
+        EventHandler eh = SubrepetitionEnd;
+        if (eh != null)
+        {
+            eh(this, new EventArgs());
+        }
+    }
     protected void OnRepetitionReallyStart()
     {
         //TODO: Fix rapido pero que debe arreglarse ya que el evento se lanza aún cuando se está en modo web.
@@ -257,6 +265,15 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         if (eh != null)
         {
             eh(this, new EventArgs());
+        }
+    }
+
+    protected void OnRepetitionStart()
+    {
+        EventHandler<RepetitionStartEventArgs> eh = RepetitionStart;
+        if (eh != null)
+        {
+            eh(this, new RepetitionStartEventArgs(this._RealParams.SecondsBetweenRepetitions));
         }
     }
     protected AnimationBehaviourState originalABS = AnimationBehaviourState.STOPPED;
@@ -469,7 +486,10 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         {
             Delegate[] clientList = this.RepetitionEnd.GetInvocationList();
             foreach (var d in clientList)
+            {
                 this.RepetitionEnd -= (d as EventHandler);
+                this.SubrepetitionEnd -= (d as EventHandler);
+            }
         }
     }
 
@@ -504,7 +524,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 		AnimatorScript.instance.CurrentExercise = 
             new Exercise(this.CentralNode.randomAnimations[index], this.CentralNode.limb);
 
-        Debug.Log("Next Variation " + index + " " + this.CentralNode.randomAnimations[index]);
+//        Debug.Log("Next Variation " + index + " " + this.CentralNode.randomAnimations[index]);
     }
 	
 	protected List<Movement> GetRandomAnimations(List<Movement> exs)
@@ -513,8 +533,6 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 		
 		exs.AddRange(exs);
 		exs.AddRange(exs);
-		//exs.AddRange(exs);
-		//exs.AddRange(exs);
 		
 		System.Random r = new System.Random();
 		int rval;
@@ -735,9 +753,13 @@ public class BehaviourParams //: BehaviourParams
         SecondsInPose = _secondsInPose;
         Variations = variations;
     }
+}
 
-
-
-
-
+public class RepetitionStartEventArgs : EventArgs
+{
+    public int SecondsBetweenRepetitions;
+    public RepetitionStartEventArgs(int secs)
+    {
+        SecondsBetweenRepetitions = secs;
+    }
 }

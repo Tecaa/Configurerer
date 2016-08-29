@@ -129,10 +129,10 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
     }
     const float INTERVAL = 0.1f;
-    //private bool ReadyToLerp = false;
     float startHoldTime;
     float startRestTime;
-	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    private bool repetitionStartFlag = false;
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timeSinceCapture += Time.deltaTime;
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
@@ -154,7 +154,8 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
         float DELTA = 0.05f;
         DateTime temp = DateTime.Now;
-        if (_BehaviourState != AnimationBehaviourState.STOPPED && (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
+        if (_BehaviourState != AnimationBehaviourState.STOPPED && 
+            (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
             if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
@@ -163,6 +164,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             {
                 OnRepetitionReallyStart();
                 BeginRep = true;
+                repetitionStartFlag = true;
             }
 
             if (stayInPoseState == StayInPoseState.GoingTo &&  stateInfo.normalizedTime + DELTA >= 1)
@@ -209,7 +211,15 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
             }
         }
-        
+        else if (endRepTime != null && _BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+        {
+            if (repetitionStartFlag)
+            {
+                OnRepetitionStart();
+                repetitionStartFlag = false;
+            }
+        }
+
     }
 
 

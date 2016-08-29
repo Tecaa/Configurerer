@@ -182,7 +182,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
                 case AnimationBehaviourState.RUNNING_DEFAULT:
 
                 case AnimationBehaviourState.RUNNING_WITH_PARAMS:
-                    animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+                    //animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                     break;
                 case AnimationBehaviourState.PREPARING_WITH_PARAMS:
                     break;
@@ -211,13 +211,17 @@ public class StayInPoseXtreme : AnimationBehaviour {
     private void pauseBetweenRepetitionsFinish()
     {
         clockBehaviour.stopTimeBetweenRepetitionsTimer();
-        //Debug.Log("termina pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+        animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+        Debug.Log("termina pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
 
     }
 
     private void pauseBetweenRepetitionsStart()
     {
-        //Debug.Log("comienza pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
+        OnRepetitionStart();
+        animator.speed = 0;
+        Debug.Log("Repetition Start");
+        Debug.Log("comienza pausa entre repeticiones| HORA: " + DateTime.Now.ToString());
     }
 
     override public void Prepare(BehaviourParams bp)
@@ -225,10 +229,10 @@ public class StayInPoseXtreme : AnimationBehaviour {
         BehaviourParams lp = (BehaviourParams)bp;
         this.CentralNode._RealParams = lp;
         this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
-        this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));
+        this.initializeRandomAnimations(this.GetRandomAnimations(bp.Variations));/*
         int i = 0;
         foreach (Movement x in this.CentralNode.randomAnimations)
-            Debug.Log(i++ + " " +  x);
+            Debug.Log(i++ + " " +  x);*/
 	}	
 	
 	private void _Opposite_RepetitionEnd(object sender, EventArgs e)
@@ -346,7 +350,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
 
             //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
 
-            animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+            //animator.speed = this.CentralNode._RealParams.ForwardSpeed;
 
         }/*
         if (IsCentralNode)
@@ -462,7 +466,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
             else if (this._BehaviourState == AnimationBehaviourState.STOPPED) 
             {
                 //Salida forzada de la repetición, aumentar indice
-                Debug.Log("aumentando contador forzoso " + this.CentralNode.IsInInstruction);
                 ++this.CentralNode.actualRandomAnimationIndex;
             }
             if ((this.IsWeb) || (this.IsInInstruction) && !IsRewinding)
@@ -495,7 +498,6 @@ public class StayInPoseXtreme : AnimationBehaviour {
         if (this.IsRepetitionEnd)
         {
             clockBehaviour.executeTimeBetweenRepetitions(secondsBetweenRepetitions);
-            animator.speed = this.CentralNode._RealParams.ForwardSpeed;
         }
         base.ResumeAnimation();
     }
@@ -519,7 +521,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
         IsResumen = false;
 		animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
 		this.CentralNode._BehaviourState = AnimationBehaviourState.STOPPED;
-        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+        this.animator.speed = 1;
 	}
 	
 	void OnDestroy()

@@ -172,10 +172,10 @@ ModelImporter:
     - serializedVersion: 16
       name: 022_D_A
       takeName: Take 001
-      firstFrame: 76
-      lastFrame: 177
+      firstFrame: 73
+      lastFrame: 179
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -299,9 +299,9 @@ ModelImporter:
       name: 022_D_B
       takeName: Take 001
       firstFrame: 195
-      lastFrame: 306
+      lastFrame: 311
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -424,10 +424,10 @@ ModelImporter:
     - serializedVersion: 16
       name: 022_D_C
       takeName: Take 001
-      firstFrame: 318
-      lastFrame: 433
+      firstFrame: 319
+      lastFrame: 425
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -550,10 +550,10 @@ ModelImporter:
     - serializedVersion: 16
       name: 022_D_D
       takeName: Take 001
-      firstFrame: 433
+      firstFrame: 432
       lastFrame: 538
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -676,10 +676,10 @@ ModelImporter:
     - serializedVersion: 16
       name: 022_I_A
       takeName: Take 001
-      firstFrame: 76
-      lastFrame: 177
+      firstFrame: 73
+      lastFrame: 179
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -803,9 +803,9 @@ ModelImporter:
       name: 022_I_B
       takeName: Take 001
       firstFrame: 195
-      lastFrame: 307
+      lastFrame: 311
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -928,10 +928,10 @@ ModelImporter:
     - serializedVersion: 16
       name: 022_I_C
       takeName: Take 001
-      firstFrame: 318
-      lastFrame: 433
+      firstFrame: 319
+      lastFrame: 425
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -1054,10 +1054,10 @@ ModelImporter:
     - serializedVersion: 16
       name: 022_I_D
       takeName: Take 001
-      firstFrame: 433
+      firstFrame: 432
       lastFrame: 538
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -1183,7 +1183,7 @@ ModelImporter:
       firstFrame: 31
       lastFrame: 32
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -1309,7 +1309,7 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 1
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -1435,7 +1435,7 @@ ModelImporter:
       firstFrame: 31
       lastFrame: 32
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -1561,7 +1561,7 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 1
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0

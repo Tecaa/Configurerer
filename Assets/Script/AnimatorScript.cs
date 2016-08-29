@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 public class AnimatorScript : MonoBehaviour
 {
-    const bool RESET_CACHE = false;
+    const bool RESET_CACHE = true;
     #region Variables privadas
     /// <summary>
     /// Referencia al Animator
@@ -44,8 +44,9 @@ public class AnimatorScript : MonoBehaviour
 
     private IEnumerator prepareCR;
 
-    public event EventHandler OnRepetitionStart;
+    public event EventHandler<RepetitionStartEventArgs> OnRepetitionStart;
     public event EventHandler OnRepetitionEnd;
+    public event EventHandler OnSubrepetitionEnd;
     public event EventHandler OnRepetitionReallyStart;
     public event EventHandler<PrepareEventArgs> OnPrepareExerciseStart;
     public event EventHandler<PrepareEventArgs> OnPrepareExerciseEnd;
@@ -92,161 +93,35 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-        float forwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text);
-        float backwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text);
-        int secondsBE = Convert.ToInt32(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text);
-        int secondsBR = Convert.ToInt32(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text);
-        float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
+        float forwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text, "1"));
+        float backwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text, "1"));
+        int secondsBE = Convert.ToInt32(FixValue(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text, "0"));
+        int secondsBR = Convert.ToInt32(FixValue(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text, "0"));
+        float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
 
 
-        //PrepareExercise(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Limb.Left), 
-        //    new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBR, secondsBE));
-        //    new BehaviourParams(new List<Movement>(){
-        //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlFrente,
-        //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAlLado,
-        //        Movement.EquilibrioMonopodalConMovimientoDeMiembroContralateral_PiernaAtrás,
-        //    }, 1, 1, 2));
-        /*
-        PrepareExercise(new Exercise(Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha, Laterality.Double, Limb.None),
-            new BehaviourParams(new List<Movement>(){
-                Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha,
-                Movement.SubirEscalon_Frontal_SubeDerechaBajaIzquierda,
-                Movement.SubirEscalon_Frontal_SubeIzquierdaBajaDerecha,
-                Movement.SubirEscalon_Frontal_SubeIzquierdaBajaIzquierda,
-            }, 3, 1, 1));*/
-        /*
-    PrepareExercise(new Exercise(Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal, Laterality.Single, Limb.Right),
-   new BehaviourParams(new List<Movement>(){
-            Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
-            Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar,
-            Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás,
-            Movement.MantenerPosiciónExtrema_EtapaAvanzada_PosturaDelÁrbol,
-   }, 3, 1, 5));
-    */
-        //PrepareExercise(new Exercise(Movement.EstocadaFrontalLarga, Limb.Left), new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBR, secondsInP));
-        //PrepareExercise(new Exercise(Movement.DesplazamientoLateralConSalto_100, Laterality.Double, Limb.None), new BehaviourParams(2, 1f, 1f));
-        //PrepareExercise(new Exercise(Movement.EquilibrioSedenteEnBalónSuizoConPlatilloDeFreeman, Laterality.Single, Limb.Right), new BehaviourParams(3,2,1 ,1));
-        //PrepareExercise(new Exercise(Movement.PénduloEnProno, Laterality.Single, Limb.Right), new BehaviourParams(5, 2));
+        PrepareExercise(new Exercise(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, Limb.None), 
+            new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR));
 
-        //Para correr Juego mp*****************************************
-        //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(3, 2));
-        //***********************************************************
-        //Para correr Juego mp con variacion*****************************************
-        //PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), new BehaviourParams(new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda }, 1, 3, 2));
-        //***********************************************************
-        //Para correr web mp*******************************************
-
-        PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.DesplazamientoLateralConPaso_75, Limb.None), Caller.Config);
-        PrepareExercise(new Exercise(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Limb.Left), new BehaviourParams(80f, 1f, 1f, 0, 0));
-
-        //***********************************************************
-        //Para correr web mp con variacion*******************************************
-        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
-        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
-        //***********************************************************
-        //Para correr Juego IV*****************************************
-        //PrepareExercise(new Exercise(Movement.ExtensiónHorizontalDeHombrosEnSupino, Laterality.Double, Limb.None), new BehaviourParams(80, 0.8f, 0.8f, 1, 6));
-        //***********************************************************
-
-        //Para correr Juego mpx*****************************************
-        //PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda, Laterality.Single, Limb.Left), new BehaviourParams(new List<Movement>() {
-        //    { Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
-        //}, 3, 2));
-        //***********************************************************
-        //Para correr web mpx *******************************************
-        //PrepareExerciseWebParams p = new PrepareExerciseWebParams(new Exercise(Movement.RecogiendoYGuardandoConAmbasManos_BrazosArribaIzquierda, Laterality.Double, Limb.None), Caller.Config);
-        //PrepareExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));
-        //***********************************************************
-
-        //jExercise ex = new Exercise(Movement.PenduloEnBipedoCon45DeFlexiónDeTronco, Laterality.Single, Limb.Left);
-        //BehaviourParams bp = new BehaviourParams(5, 2);
-        //PrepareExercise(ex, bp);
-        /*
-        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.FlexiónDeCaderaEnSupino, Limb.Left),
-            Caller.Preview);
-        PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));*/
-
-
-
-        /*PrepareExercise(new Exercise(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, Limb.Left),
-          new BehaviourParams(70f, 1f, 1f, 2, 2));*/
-        /*
-		PrepareExercise(new Exercise(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha, Limb.Right), 
-            new BehaviourParams(new List<Movement>() {
-			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
-			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda},
-			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha},
-			{ Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda},
-        }, 2, 0));
-        */
-
-        /*
-		PrepareExercise(new Exercise(Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha, Laterality.Double, Limb.None), 
-            new BehaviourParams(new List<Movement>() {
-			{ Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoIzquierda },
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaDerecha },
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_ArribaIzquierda },
-            { Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha},
-        }, 2, 1.5f, 4));*/
-
-        /**
-        PrepareExerciseWebParams webParam = new PrepareExerciseWebParams(new Exercise(Movement.Pablo_A, Laterality.Single, Limb.Left), Caller.Preview);
-        PrepareExerciseWeb(JsonConvert.SerializeObject(webParam));**/
-        /*
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaA + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
-           + (int)Limb.Right + "}, \"Caller\": 1}");
-        */
-        //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":" + (int)Movement.PruebaMantenerPose + ",\"Laterality\":" + (int)Laterality.Single + ",\"Limb\":"
-        //  + (int)Limb.Right + "}, \"Caller\": 1}");
+        
+    }
+    private string FixValue(string valueToFix, string fix)
+    {
+        return valueToFix != String.Empty ? valueToFix : fix;
     }
     public void testRun()
     {
-        float forwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text);
-        float backwardSpeed = (float)Convert.ToDouble(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text);
-        int secondsBE = Convert.ToInt32(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text);
-        int secondsBR = Convert.ToInt32(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text);
-        float rom = (float)Convert.ToDouble(GameObject.Find("ROM/Text").GetComponent<Text>().text);
-        
+        float forwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text, "1"));
+        float backwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text, "1"));
+        int secondsBE = Convert.ToInt32(FixValue(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text, "0"));
+        int secondsBR = Convert.ToInt32(FixValue(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text, "0"));
+        float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
+
         BehaviourParams param = new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR);
 
-        //RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(param));
-
-        //Para correr en juego (True con instruccion - false sin instruccion)***
-        //RunExercise(true);
-        //**********************************************************************
-
-        //Para correr web con parametros****************************************
-        RunExercise(true);//(Newtonsoft.Json.JsonConvert.SerializeObject(new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR)));
-        //**********************************************************************
-
-        //Para correr web con parametros mpx************************************
-        //BehaviourParams p = new BehaviourParams(new List<Movement>() {
-        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal},
-        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar},
-        //    { Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás},
-        //}, 1, 1f, 0);
-        //string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
-        //RunExerciseWeb(s);
-        //**********************************************************************
-
-        //Para correr web con parametros mp con variacion***********************
-        /*BehaviourParams p = new BehaviourParams(new List<Movement>() {
-            {Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoDerecha},
-        }, 1, 3, 2);
-        string s = Newtonsoft.Json.JsonConvert.SerializeObject(p);
-        RunExerciseWeb(s);*/
-        //**********************************************************************
-        //Para correr web sin parametros ***************************************
-        //RunExerciseWebWithoutParams();
-        //**********************************************************************
-
-        //Para correr en juego (True con instruccion - false sin instruccion)***
-        //RunExercise(true);
-        //**********************************************************************
-
-
-        /*BehaviourParams p = new BehaviourParams(2, 2);
-        RunExerciseWeb(Newtonsoft.Json.JsonConvert.SerializeObject(p));*/
+  
+        RunExercise(true);
+  
 
     }
     public void testResume()
@@ -255,8 +130,6 @@ public class AnimatorScript : MonoBehaviour
     }
     void pruebaRun3()
     {
-        //PrepareExerciseWeb("{\"Exercise\":{\"Movement\":30000,\"Laterality\":1,\"Limb\":3}, \"Caller\": 1}");
-        //PrepareExerciseWeb("{\"Exercise\":{\"Movement\": 160002,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
         PrepareExerciseWeb("{\"Exercise\":{\"Movement\": 220000,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
     }
 
@@ -358,7 +231,6 @@ public class AnimatorScript : MonoBehaviour
         PrepareExerciseWebParams pwp = JsonConvert.DeserializeObject<PrepareExerciseWebParams>(s);
         Exercise e = (pwp.Exercise) as Exercise;
         this.prepareCaller = (Caller)(pwp.Caller);
-        //Exercise e = JsonConvert.DeserializeObject<Exercise>(s);
 
         behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         if (behaviour == null)
@@ -375,10 +247,8 @@ public class AnimatorScript : MonoBehaviour
 
     void behaviour_PrepareEndWeb(object sender, EventArgs e)
     {
-        //behaviour = sender as LerpBehaviour;
-        behaviour = sender as AnimationBehaviour;
+       behaviour = sender as AnimationBehaviour;
         behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
-        //Debug.Log(timeSinceStartPrepareWeb + "  < " + Time.time + " - " + DELAY_TO_FAST_PREPARE + " =" + (Time.time - DELAY_TO_FAST_PREPARE));
         if (timeSinceStartPrepareWeb > Time.time - DELAY_TO_FAST_PREPARE)
             StartCoroutine(RaiseEvent(OnPrepareExerciseEnd, PrepareStatus.Prepared, DELAY_TO_FAST_PREPARE));
         else 
@@ -392,9 +262,20 @@ public class AnimatorScript : MonoBehaviour
         RewindExercise();
         behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
         behaviour.RepetitionEnd += behaviour_RepetitionEnd;
+
+        behaviour.RepetitionStart -= behaviour_RepetitionStart;
+        behaviour.RepetitionStart += behaviour_RepetitionStart;
+        behaviour.SubrepetitionEnd -= behaviour_SubrepetitionEnd;
+        behaviour.SubrepetitionEnd += behaviour_SubrepetitionEnd;
         behaviour.RepetitionReallyStart -= behaviour_RepetitionReallyStart;
         behaviour.RepetitionReallyStart += behaviour_RepetitionReallyStart;
     }
+
+    private void behaviour_RepetitionStart(object sender, RepetitionStartEventArgs e)
+    {
+        RaiseEvent(OnRepetitionStart, e);
+    }
+
 
     void behaviour_RepetitionReallyStart(object sender, EventArgs e)
     {
@@ -408,15 +289,19 @@ public class AnimatorScript : MonoBehaviour
     }
     void behaviour_RepetitionEnd(object sender, EventArgs e)
     {
-        //Debug.Log("Rep Realizada por instructor");
         //Terminó una repetición
         RaiseEvent(OnRepetitionEnd);
+    }
+
+    void behaviour_SubrepetitionEnd(object sender, EventArgs e)
+    {
+        //Terminó una subrepetición
+        RaiseEvent(OnSubrepetitionEnd);
     }
 
     void behaviour_PrepareEnd(object sender, EventArgs e)
     {
         //        GoToIddle();
-        //DebugLifeware.Log("Preparación terminada", DebugLifeware.Developer.Marco_Rojas);
         behaviour = sender as AnimationBehaviour;
         behaviour.RepetitionEnd -= behaviour_PrepareEnd;
         RaiseEvent(OnPrepareExerciseEnd, PrepareStatus.Prepared);
@@ -424,8 +309,6 @@ public class AnimatorScript : MonoBehaviour
 
     public void testWeb()
     {
-        //string s = "{\"Angle\":45,\"ForwardSpeed\":1.0,\"BackwardSpeed\":1.0,\"SecondsInPose\":0,\"SecondsBetweenRepetitions\":3}";
-        //RunExerciseWeb(s);
         RunExerciseWebWithoutParams();
     }
     public void testWeb2()
@@ -478,6 +361,7 @@ public class AnimatorScript : MonoBehaviour
         behaviour.Stop();
 
         behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
+        behaviour.RepetitionEnd -= behaviour_SubrepetitionEnd;
         behaviour.RepetitionEnd -= behaviour_PrepareEnd;
         behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
         behaviour.RepetitionReallyStart -= behaviour_RepetitionReallyStart;
@@ -510,6 +394,13 @@ public class AnimatorScript : MonoBehaviour
             eh(this, new PrepareEventArgs(status, this.prepareCaller));
         }
     }
+    void RaiseEvent(EventHandler<RepetitionStartEventArgs> eh, RepetitionStartEventArgs e)
+    {
+        if (eh != null)
+        {
+            eh(this, e);
+        }
+    }
     IEnumerator RaiseEvent(EventHandler<PrepareEventArgs> eh, PrepareStatus status, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -525,7 +416,9 @@ public class AnimatorScript : MonoBehaviour
         if (instance != null)
             instance.StopAllCoroutines();
         if (AnimatorScript.instance != null)
+        {
             AnimatorScript.instance.OnRepetitionEnd -= AnimatorScript_OnRepetitionEnd;
+        }
         StopAllCoroutines();
         CurrentExercise.PropertyChanged -= currentExercise_PropertyChanged;
         if (behaviour != null)
@@ -533,6 +426,7 @@ public class AnimatorScript : MonoBehaviour
             behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
             behaviour.RepetitionEnd -= behaviour_PrepareEnd;
             behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
+            behaviour.RepetitionEnd -= behaviour_SubrepetitionEnd;
             behaviour.RepetitionReallyStart -= behaviour_RepetitionReallyStart;
         }
         Destroy(instance);

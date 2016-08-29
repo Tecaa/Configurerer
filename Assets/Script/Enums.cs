@@ -70,9 +70,9 @@ public enum Movement
     ExtensiónHorizontalDeHombrosEnSupino = 300000,
     FlexiónDeCaderaEnSupino = 310000,
     FlexiónDeCodoEnBípedo_Unilateral_90 = 320000,
-    FlexiónDeCodoEnBípedo_Unilateral_0 = 320001,
+    FlexiónDeCodoEnBípedo_Unilateral_0 = 320001, // Ya no se usa
     FlexiónDeCodosEnBípedo_Bilateral_90 = 330000,
-    FlexiónDeCodosEnBípedo_Bilateral_0 = 330001,
+    FlexiónDeCodosEnBípedo_Bilateral_0 = 330001, // Ya no se usa
     FlexiónDeHombroConElongaciónCápsulaArticularEnSedente_CIMA = 340000,
     FlexiónDeHombroConElongaciónCápsulaArticularEnSedente_FRENTE = 340001,
     FlexiónDeHombroConElongaciónCápsulaArticularEnSedente_NUCA = 340002,
@@ -296,18 +296,10 @@ public enum pointNames
     LeftToe
 };
 
-public struct ExpertReg
+public enum GameStationType
 {
-    public float time;
-    public MarkType markType;
-    public List<Quaternion> quaterions;
-}
-
-public enum MarkType
-{
-    Begin,
-    MaxAngle,
-    End
+    Módulo1,
+    Módulo2,
 }
 /*
 internal static class AnimationClips

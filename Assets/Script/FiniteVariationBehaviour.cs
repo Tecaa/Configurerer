@@ -183,8 +183,9 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         }
 
     }
-    
 
+
+    private bool repetitionStartFlag = false;
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {        
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
@@ -232,6 +233,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 Debug.Log("supuesto really start" + "  "+ stateInfo.normalizedTime + " " + animator.speed);
                 this.CentralNode.OnRepetitionReallyStart();
                 BeginRep = true;
+                repetitionStartFlag = true;
             }
 
             //Debug.Log("ha cambiado de estado " + haCambiadoDeEstado);
@@ -249,6 +251,14 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                         animator.speed = this.CentralNode._RealParams.BackwardSpeed;
                     }
                 }
+            }
+        }
+        else if (endRepTime != null && _BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+        {
+            if (repetitionStartFlag)
+            {
+                OnRepetitionStart();
+                repetitionStartFlag = false;
             }
         }
     }

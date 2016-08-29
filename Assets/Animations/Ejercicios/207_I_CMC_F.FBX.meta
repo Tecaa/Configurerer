@@ -402,7 +402,7 @@ ModelImporter:
       name: 207_I_CMC_A
       takeName: Take 001
       firstFrame: 200
-      lastFrame: 280
+      lastFrame: 300
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -779,8 +779,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 207_D_CMC_A
       takeName: Take 001
-      firstFrame: 100
-      lastFrame: 280
+      firstFrame: 200
+      lastFrame: 300
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
