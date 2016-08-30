@@ -65,6 +65,7 @@ namespace Assets
 
 
             var cruzSagital = Vector3.Cross(proyBrazoSagital, nHorizontal);
+
             AngleSagital = Vector3.Angle(proyBrazoSagital, nHorizontal * -1);// * (cruzSagital.x / Mathf.Abs(cruzSagital.x));
 
 

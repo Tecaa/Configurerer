@@ -35,7 +35,10 @@ namespace Assets
             Vector3 nFrontal = planosMovimiento.frontal.normal;
             Vector3 nHorizontal = planosMovimiento.horizontal.normal;
             Vector3 nHorizontalAcostado = planosMovimiento.horizontalAcostado.normal;
-            Vector3 brazo = codo.transform.position - hombro.transform.position;
+            Vector3 brazo = (codo.transform.position - hombro.transform.position).normalized;
+
+            /*if (this.articulacion == ArticulacionType.BrazoIzquierdo)
+                Debug.Log("brazo " + brazo + " nFrontal " + nFrontal + " nHorizontal " + nHorizontal);*/
 
             Vector3 proyBrazoSagital = Vector3.Dot(brazo, nFrontal) * nFrontal + Vector3.Dot(brazo, nHorizontal) * nHorizontal;
             Vector3 proyBrazoFrontal = Vector3.Dot(brazo, nSagital) * nSagital + Vector3.Dot(brazo, nHorizontal) * nHorizontal;
@@ -56,8 +59,9 @@ namespace Assets
             AngleHorizontal = Vector3.Angle(proyBrazoHorizontal, nFrontal);// * (cruzHorizontal.x / Mathf.Abs(cruzHorizontal.x));
 
             var cruzFrontal = Vector3.Cross(nHorizontal, proyBrazoFrontal);
-            AngleFrontal = Vector3.Angle(proyBrazoFrontal, nHorizontal * -1);// * (cruzFrontal.x / Mathf.Abs(cruzFrontal.x));
             
+            AngleFrontal = Vector3.Angle(proyBrazoFrontal, nHorizontal * -1);// * (cruzFrontal.x / Mathf.Abs(cruzFrontal.x));
+
 
             if (this.articulacion == ArticulacionType.BrazoIzquierdo ||
                 this.articulacion == ArticulacionType.MusloIzquierda ||

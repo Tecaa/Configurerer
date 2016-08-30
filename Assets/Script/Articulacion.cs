@@ -28,7 +28,7 @@ namespace Assets
             sagitalSpeed = (lastSagital - angleSagital) / Time.deltaTime;
             frontalSpeed = (lastFrontal - angleFrontal) / Time.deltaTime;
             horizontalSpeed = (lastHorizontal - angleHorizontal) / Time.deltaTime;
-
+            
             angleSagital = getFixedAngle(angleSagital, lastSagital);
             angleFrontal = getFixedAngle(angleFrontal, lastFrontal);
             angleHorizontal = getFixedAngle(angleHorizontal, lastHorizontal);
