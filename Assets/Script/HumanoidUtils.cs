@@ -82,17 +82,17 @@ namespace Assets
             segmentoCorporal.Add(new Visagra(leftArm, rightArm, rightForeArm, ArticulacionType.HombroDerecho));
 
 
-            segmentoCorporal.Add(new SegmentoPrimario(rightArm, rightForeArm, planosMovimiento, ArticulacionType.BrazoDerecho));
-            segmentoCorporal.Add(new SegmentoSecundario(rightForeArm, rightHand, planosMovimiento, ArticulacionType.AnteBrazoDerecho));
+            segmentoCorporal.Add(new SegmentoPrimario(rightArm, rightForeArm, planosMovimiento, ArticulacionType.BrazoDerecho, this));
+            segmentoCorporal.Add(new SegmentoSecundario(rightForeArm, rightHand, planosMovimiento, ArticulacionType.AnteBrazoDerecho, this));
             
-            segmentoCorporal.Add(new SegmentoPrimario(leftArm, leftForeArm, planosMovimiento, ArticulacionType.BrazoIzquierdo));
-            segmentoCorporal.Add(new SegmentoSecundario(leftForeArm, leftHand, planosMovimiento, ArticulacionType.AnteBrazoIzquierdo));
+            segmentoCorporal.Add(new SegmentoPrimario(leftArm, leftForeArm, planosMovimiento, ArticulacionType.BrazoIzquierdo, this));
+            segmentoCorporal.Add(new SegmentoSecundario(leftForeArm, leftHand, planosMovimiento, ArticulacionType.AnteBrazoIzquierdo, this));
             
-            segmentoCorporal.Add(new SegmentoPrimario(rightUpperLeg, rightLeg, planosMovimiento, ArticulacionType.MusloDerecha));
-            segmentoCorporal.Add(new SegmentoSecundario(rightLeg, rightFoot, planosMovimiento, ArticulacionType.PiernaDerecha));
+            segmentoCorporal.Add(new SegmentoPrimario(rightUpperLeg, rightLeg, planosMovimiento, ArticulacionType.MusloDerecha, this));
+            segmentoCorporal.Add(new SegmentoSecundario(rightLeg, rightFoot, planosMovimiento, ArticulacionType.PiernaDerecha, this));
 
-            segmentoCorporal.Add(new SegmentoPrimario(leftUpperLeg, leftLeg, planosMovimiento, ArticulacionType.MusloIzquierda));
-            segmentoCorporal.Add(new SegmentoSecundario(leftLeg, leftFoot, planosMovimiento, ArticulacionType.PiernaIzquierda));            
+            segmentoCorporal.Add(new SegmentoPrimario(leftUpperLeg, leftLeg, planosMovimiento, ArticulacionType.MusloIzquierda, this));
+            segmentoCorporal.Add(new SegmentoSecundario(leftLeg, leftFoot, planosMovimiento, ArticulacionType.PiernaIzquierda, this));            
             
         }
 

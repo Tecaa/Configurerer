@@ -245,6 +245,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
                 break;
         }
+        Debug.Log("time " + tempAnimationInfo.time + " angle " + tempAnimationInfo.angle);
         _timeAndAngles.Add(tempAnimationInfo);
     }
 
@@ -358,7 +359,8 @@ public class LerpBehaviour : AnimationBehaviour {
             float percentageComplete;
             if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
             {
-                percentageComplete = stateInfo.normalizedTime * _timeAndAngles[_timeAndAngles.Count/2].time / GetAnimationInfo(this._currentParams.Angle, _timeAndAngles).time;
+                AnimationInfo inf = GetAnimationInfo(this._currentParams.Angle, _timeAndAngles);
+                percentageComplete = stateInfo.normalizedTime * _timeAndAngles[_timeAndAngles.Count/2].time / inf.time;
                 //Debug.Log("1 " + percentageComplete + "   time max: "  + _timeAndAngles[_timeAndAngles.Count/2].time + "    time angle: " + GetAnimationInfo(this._currentParams.Angle, _timeAndAngles).time + "    angle: " + this._currentParams.Angle +" division:" + (_timeAndAngles[_timeAndAngles.Count/2].time / GetAnimationInfo(this._currentParams.Angle, _timeAndAngles).time));
             }
             else
