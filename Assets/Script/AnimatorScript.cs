@@ -100,7 +100,7 @@ public class AnimatorScript : MonoBehaviour
         float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
 
 
-        PrepareExercise(new Exercise(Movement.FlexiónHorizontalResistidaDeHombros_BípedoBilateral, Limb.None), 
+        PrepareExercise(new Exercise(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, Limb.None), 
             new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR));
 
         

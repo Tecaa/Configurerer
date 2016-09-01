@@ -245,7 +245,6 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
                 break;
         }
-        Debug.Log("time " + tempAnimationInfo.time + " angle " + tempAnimationInfo.angle);
         _timeAndAngles.Add(tempAnimationInfo);
     }
 

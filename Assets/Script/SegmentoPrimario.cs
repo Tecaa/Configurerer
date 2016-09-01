@@ -103,7 +103,6 @@ namespace Assets
             {
                 AngleFrontal *= -1;
                 AngleHorizontal *= -1;
-                AngleHorizontalAcostado *= -1;
 
             }
             //if (this.articulacion == ArticulacionType.BrazoIzquierdo)
