@@ -33,7 +33,7 @@ public static class MovementJointMatch
 
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Limb.Left), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, Limb.Right), new JointTypePlanoResult(ArticulacionType.BrazoDerecho, Plano.planos.planoFrontal));
-        
+
 
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónEnPuntaDePies_Nada, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.ElevaciónEnPuntaDePiesEnStep_Step, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));

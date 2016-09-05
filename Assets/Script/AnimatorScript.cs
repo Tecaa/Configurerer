@@ -99,8 +99,8 @@ public class AnimatorScript : MonoBehaviour
         int secondsBR = Convert.ToInt32(FixValue(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text, "0"));
         float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
 
-
-        PrepareExercise(new Exercise(Movement.SentadillaConBalónSuizo, Limb.None), 
+        
+        PrepareExercise(new Exercise(Movement.FlexiónDeHombrosEnBípedoConBastón_Bilateral, Limb.None), 
             new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR));
 
         

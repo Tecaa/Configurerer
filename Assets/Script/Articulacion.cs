@@ -159,5 +159,4 @@ namespace Assets
             return GetCustomDescription(value);
         }
     }
-
 }

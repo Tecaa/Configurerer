@@ -32,7 +32,6 @@ namespace Assets
         public override void Update()
         {
 
-
             Vector3 nSagital = planosMovimiento.sagital.normal;
             Vector3 nFrontal = planosMovimiento.frontal.normal;
             Vector3 nHorizontal = planosMovimiento.horizontal.normal;
@@ -107,7 +106,7 @@ namespace Assets
             /*
             if (this.articulacion == ArticulacionType.BrazoDerecho)
                 Debug.Log("AngleFrontal " + AngleFrontal + " cruzFrontal " + cruzFrontal.x + " Vector3.Angle " + Vector3.Angle(proyBrazoFrontal, nHorizontal * -1) + " * " + (cruzFrontal.x / Mathf.Abs(cruzFrontal.x)) + " = " + Vector3.Angle(proyBrazoFrontal, nHorizontal * -1) * (cruzFrontal.x / Mathf.Abs(cruzFrontal.x)));
-                */
+            */
 
             if (this.articulacion == ArticulacionType.BrazoIzquierdo ||
                 this.articulacion == ArticulacionType.MusloIzquierda ||
@@ -118,7 +117,6 @@ namespace Assets
                 AngleFrontal *= -1;
                 AngleHorizontal *= -1;
                 */
-
             }
 
             /*if (this.articulacion == ArticulacionType.BrazoDerecho)

@@ -27,11 +27,11 @@ public static class AngleFixer {
         AddFix(Movement.FlexiónDeCaderaEnSupino, 0, 60, 7, 64);
         AddFix(Movement.FlexiónDeCodoEnBípedo_Unilateral_90, 0, 140, 11, 133);
         AddFix(Movement.FlexiónDeCodosEnBípedo_Bilateral_90, 0, 140, 11, 133);
-        AddFix(Movement.FlexiónDeHombroConExtensiónDeCodoEnBípedo_Unilateral_45, 0, 90, 0, -91);
-        AddFix(Movement.FlexiónDeHombroConExtensiónDeCodoEnBípedo_Unilateral_90, 0, 90, 0, -91);
-        AddFix(Movement.FlexiónDeHombrosConExtensiónDeCodosEnBípedo_Bilateral_45, 0, 90, 0, -91);
-        AddFix(Movement.FlexiónDeHombrosConExtensiónDeCodosEnBípedo_Bilateral_90, 0, 90, 0, -91);
-        AddFix(Movement.FlexiónDeHombrosEnBípedoConBastón_Bilateral, 0, 160, 0, -183);
+        AddFix(Movement.FlexiónDeHombroConExtensiónDeCodoEnBípedo_Unilateral_45, 0, 90, 0, 96);
+        AddFix(Movement.FlexiónDeHombroConExtensiónDeCodoEnBípedo_Unilateral_90, 0, 90, 0, 96);
+        AddFix(Movement.FlexiónDeHombrosConExtensiónDeCodosEnBípedo_Bilateral_45, 0, 90, 0, 96);
+        AddFix(Movement.FlexiónDeHombrosConExtensiónDeCodosEnBípedo_Bilateral_90, 0, 90, 0, 96);
+        AddFix(Movement.FlexiónDeHombrosEnBípedoConBastón_Bilateral, 0, 160, 0, 183);
         AddFix(Movement.FlexiónDeRodillaEnProno_Unilateral, 0, 120, 22, 126);
         AddFix(Movement.FlexiónDeRodillaEnSupino_Unilateral, 0, 120, 17, 110);
         AddFix(Movement.FlexiónDeRodillasEnProno_Bilateral, 0, 120, 22, 126);
