@@ -50,10 +50,18 @@ namespace Assets
         /// <returns></returns>
         private float getFixedAngle(float p, float lastAngle)
         {
+            
             if (lastAngle >= 170 && p < 0)
                 return 360 + p;
             else if (lastAngle <= -170 && p > 0)
                 return -360 + p;
+
+            int sign;
+            if (Math.Abs(lastAngle) > 2 && Math.Abs(lastAngle) < 178)
+            {
+                sign = ArticulacionClass.GetSign(lastAngle);
+                p = Math.Abs(p) * sign;
+            }
             return p;
         }
 
@@ -99,6 +107,11 @@ namespace Assets
             return this.articulacion.Description() + "> Sg: " + AngleSagital.ToString() + " Fr: " + AngleFrontal.ToString() + " Ho: " + AngleHorizontal.ToString() + "\n";
           
            
+        }
+        public static int GetSign(double num)
+        {
+            int sign = Math.Sign(Math.Round(num, 0));
+            return sign != 0 ? sign : 1;
         }
     }
 
@@ -146,4 +159,5 @@ namespace Assets
             return GetCustomDescription(value);
         }
     }
+
 }

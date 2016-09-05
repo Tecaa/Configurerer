@@ -74,26 +74,26 @@ namespace Assets
             AngleHorizontalAcostado = AngleHorizontalAcostado * 180.0f / Mathf.PI;
 
             var cruzHorizontal = Vector3.Cross(proyBrazoHorizontal, nFrontal);
-            AngleHorizontal = Vector3.Angle(proyBrazoHorizontal, nFrontal) *(cruzHorizontal.x / Mathf.Abs(cruzHorizontal.x));
+            AngleHorizontal = Vector3.Angle(proyBrazoHorizontal, nFrontal) * ArticulacionClass.GetSign(cruzHorizontal.x);// (cruzHorizontal.x / Mathf.Abs(cruzHorizontal.x));
 
             var cruzFrontal = Vector3.Cross(nHorizontal, proyBrazoFrontal);
-            AngleFrontal = Vector3.Angle(proyBrazoFrontal, nHorizontal * -1) *(cruzFrontal.x / Mathf.Abs(cruzFrontal.x));
+            AngleFrontal = Vector3.Angle(proyBrazoFrontal, nHorizontal * -1) * ArticulacionClass.GetSign(cruzFrontal.x);//(cruzFrontal.x / Mathf.Abs(cruzFrontal.x));
 
-            
+
             if (this.articulacion == ArticulacionType.BrazoIzquierdo ||
                 this.articulacion == ArticulacionType.MusloIzquierda ||
                 this.articulacion == ArticulacionType.PiernaIzquierda ||
                 this.articulacion == ArticulacionType.AnteBrazoIzquierdo)
             {
+                /*
                 AngleFrontal *= -1;
                 AngleHorizontal *= -1;
-
+                */
             }
 
 
             var cruzSagital = Vector3.Cross(proyBrazoSagital, nHorizontal);
-
-            AngleSagital = Vector3.Angle(proyBrazoSagital, nHorizontal * -1)* (cruzSagital.x / Mathf.Abs(cruzSagital.x));
+            AngleSagital = Vector3.Angle(proyBrazoSagital, nHorizontal * -1) * ArticulacionClass.GetSign(cruzSagital.x); //(cruzSagital.x / Mathf.Abs(cruzSagital.x));
 
 
             /* Debug.DrawLine(puntoInterno.transform.position, puntoInterno.transform.position + puntoInterno.transform.up, Color.red);

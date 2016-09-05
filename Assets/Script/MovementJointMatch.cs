@@ -11,15 +11,15 @@ public static class MovementJointMatch
     {
         //AnimatorScript.OnRepetitionEnd+=AnimatorScript_OnRepetitionEnd;
         movementJointMatch = new Dictionary<MovementLimbKey, JointTypePlanoResult>();
-    
+
         movementJointMatch.Add(new MovementLimbKey(Movement.AbducciónDeCaderaEnDecúbitoLateral, Limb.Left), new JointTypePlanoResult(ArticulacionType.MusloIzquierda, Plano.planos.planoHorizontalAcostado));
         movementJointMatch.Add(new MovementLimbKey(Movement.AbducciónDeCaderaEnDecúbitoLateral, Limb.Right), new JointTypePlanoResult(ArticulacionType.MusloDerecha, Plano.planos.planoHorizontalAcostado));
-        
+
 
         movementJointMatch.Add(new MovementLimbKey(Movement.AducciónResistidaEnPlanoEscapular, Limb.Left), new JointTypePlanoResult(ArticulacionType.BrazoIzquierdo, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.AducciónResistidaEnPlanoEscapular, Limb.Right), new JointTypePlanoResult(ArticulacionType.BrazoDerecho, Plano.planos.planoFrontal));
-        
-        
+
+
         movementJointMatch.Add(new MovementLimbKey(Movement.DesplazamientoLateralConPaso_100, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.DesplazamientoLateralConPaso_75, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));
         movementJointMatch.Add(new MovementLimbKey(Movement.DesplazamientoLateralConPaso_50, Limb.None), new JointTypePlanoResult(ArticulacionType.PiernaIzquierda, Plano.planos.planoFrontal));

@@ -13,10 +13,10 @@ public static class AngleFixer {
     private static void FillDictionaries()
     {
         AddFix(Movement.AbducciónDeCaderaEnDecúbitoLateral, 0, 45, 0, 40);
-        AddFix(Movement.AducciónResistidaEnPlanoEscapular, 80, 30, -90, -15);
-        AddFix(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, 0, 180, 0, -180);
-        AddFix(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, 0, 180, 0, -180);
-        AddFix(Movement.ElevaciónResistidaDeHombrosEnPlanoEscapular_Bilateral, 0, 180, 0, -171);
+        AddFix(Movement.AducciónResistidaEnPlanoEscapular, 80, 30, 90, 15);
+        AddFix(Movement.ElevaciónDeHombroEnPlanoEscapularConBastón, 0, 180, 0, 180);
+        AddFix(Movement.ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral, 0, 180, 0, 180);
+        AddFix(Movement.ElevaciónResistidaDeHombrosEnPlanoEscapular_Bilateral, 0, 180, 0, 171);
         AddFix(Movement.EstocadaFrontalCorta, 0, 90, 17, 102);
         AddFix(Movement.EstocadaFrontalLarga, 0, 90, 17, 107);
         AddFix(Movement.EstocadaLateral, 0, 90, 20, 91);
@@ -41,9 +41,9 @@ public static class AngleFixer {
         AddFix(Movement.RotaciónExternaDeHombrosEnSupino_Bilateral, 0, 70, 84, -2);
         AddFix(Movement.RotaciónInternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral, 0, 60, 83, 6);
         AddFix(Movement.RotaciónInternaDeHombrosEnSupino_Bilateral, 0, 60, 84, 28);
-        AddFix(Movement.Sentadilla, 0, 90, -9, -61);
-        AddFix(Movement.SentadillaConBalónSuizo, 0, 90, -38, -83.9f);
-        AddFix(Movement.SentadillaMonopodal, 0, 90, 9, 111);
+        AddFix(Movement.Sentadilla, 0, 90, 9, 61);
+        AddFix(Movement.SentadillaConBalónSuizo, 0, 90, 38, 83.9f);
+        AddFix(Movement.SentadillaMonopodal, 0, 90, 9, 60);
         AddFix(Movement.ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba, 0, 60, 78, 7.4f);
         AddFix(Movement.ExtensiónDiagonalDeHombrosEnSupino_IzquierdaArriba, 0, 60, 78, 7.4f);
         AddFix(Movement.FlexiónHorizontalResistidaDeHombros_BípedoBilateral, 0, 90, 1, 81);
