@@ -91,7 +91,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
         this._RealParams = stayInParams;
         stayInPoseState = StayInPoseState.GoingTo;
-        this.animator.speed = this._RealParams.ForwardSpeed;
+        this.CurrentSpeed = this._RealParams.ForwardSpeed;
     }
     
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -111,7 +111,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             this.Stop();
 
         }
-        this.animator.speed = this._realParams.ForwardSpeed;
+        this.CurrentSpeed = this._realParams.ForwardSpeed;
         defaultAnimationLength = stateInfo.length;
         startAnimationTime = Time.time;
     
@@ -138,7 +138,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         if (this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)//Testear si esto funciona en este behaviour.
         {
             if (!animator.IsInTransition(0))
-                animator.speed = 0;
+                CurrentSpeed = 0;
             return;
         }
 
@@ -169,7 +169,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
             if (stayInPoseState == StayInPoseState.GoingTo &&  stateInfo.normalizedTime + DELTA >= 1)
             {
-                animator.speed = 0;
+                CurrentSpeed = 0;
                 startHoldTime = Time.time;
                 stayInPoseState = StayInPoseState.HoldingOn;
                 //Esperar
@@ -178,16 +178,14 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             //Si ya pasó el tiempo en el ángulo máximo
             else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _RealParams.SecondsInPose)
             {
-                animator.StartRecording(0);
-                animator.speed = -this._RealParams.BackwardSpeed;
-                animator.StopRecording();
+                CurrentSpeed = -this._RealParams.BackwardSpeed;
                 stayInPoseState = StayInPoseState.Leaving;
             }
 
             else if (stayInPoseState == StayInPoseState.Leaving && stateInfo.normalizedTime - DELTA <= 0 && haCambiadoDeEstado)
             {
                 BeginRep = false;
-                animator.speed = 0;
+                CurrentSpeed = 0;
                 stayInPoseState = StayInPoseState.Resting;
                 startRestTime = Time.time;
 
@@ -206,7 +204,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
             else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime>= _realParams.SecondsBetweenRepetitions)
             {
-                this.animator.speed = this._realParams.ForwardSpeed;
+                this.CurrentSpeed = this._realParams.ForwardSpeed;
                 stayInPoseState = StayInPoseState.GoingTo;
 
             }
@@ -225,7 +223,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        animator.speed = 1.0f;
+        CurrentSpeed = 1.0f;
 	}
 
 	
@@ -276,7 +274,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
         //this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
 
-        animator.speed = 1;
+        CurrentSpeed = 1;
         stayInPoseState = StayInPoseState.Resting;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
     }

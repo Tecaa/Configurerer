@@ -41,8 +41,7 @@ public class AnimatorScript : MonoBehaviour
             return FindObjectOfType<AnimatorScript>();
         }
     }
-
-    private IEnumerator prepareCR;
+    
 
     public event EventHandler<RepetitionStartEventArgs> OnRepetitionStart;
     public event EventHandler OnRepetitionEnd;
@@ -93,17 +92,19 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
+        Movement mov = Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha;
+        Limb l = Limb.None;
         float forwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text, "1"));
         float backwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text, "1"));
         int secondsBE = Convert.ToInt32(FixValue(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text, "0"));
         int secondsBR = Convert.ToInt32(FixValue(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text, "0"));
-        float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
+        float rom = AngleFixer.FixAngle((float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70")), mov);
+        Debug.Log("rom " + rom);
 
-        
-        PrepareExercise(new Exercise(Movement.FlexiónDeHombrosEnBípedoConBastón_Bilateral, Limb.None), 
-            new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR));
+        List<Movement> variations = new List<Movement>() {Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoDerecha,
+            Movement.EquilibrioBipedoConMovimientoDeMMSS_AbajoIzquierda};
 
-        
+        PrepareExercise(new Exercise(mov, l), new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR, variations));
     }
     private string FixValue(string valueToFix, string fix)
     {
@@ -115,7 +116,7 @@ public class AnimatorScript : MonoBehaviour
         float backwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text, "1"));
         int secondsBE = Convert.ToInt32(FixValue(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text, "0"));
         int secondsBR = Convert.ToInt32(FixValue(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text, "0"));
-        float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
+        float rom = AngleFixer.FixAngle((float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70")), CurrentExercise.Movement);
 
         BehaviourParams param = new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR);
 
@@ -128,10 +129,7 @@ public class AnimatorScript : MonoBehaviour
     {
         ResumeExercise();
     }
-    void pruebaRun3()
-    {
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\": 220000,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
-    }
+  
 
     void Awake()
     {

@@ -124,7 +124,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
         }
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+        this.CurrentSpeed = this.CentralNode._RealParams.ForwardSpeed;
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
     }
@@ -160,7 +160,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (this.IsCentralNode)
-                animator.speed = 0;
+                CurrentSpeed = 0;
             return;
         }
 
@@ -178,7 +178,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
 
             //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
 
-            animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+            CurrentSpeed = this.CentralNode._RealParams.ForwardSpeed;
 
         }
 
@@ -192,7 +192,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         {
             if (!animator.IsInTransition(0) && this.IsCentralNode)
             {
-                animator.speed = 0;
+                CurrentSpeed = 0;
             }
                 return;
         }
@@ -218,7 +218,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
         if (this.CentralNode.endRepTime != null && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT &&
             new TimeSpan(0, 0, (int)this.CentralNode._RealParams.SecondsBetweenRepetitions) > now - this.CentralNode.endRepTime)
         {
-            animator.speed = 0;
+            CurrentSpeed = 0;
         }
 
         if ((_BehaviourState != AnimationBehaviourState.STOPPED && _BehaviourState != AnimationBehaviourState.RUNNING_DEFAULT)
@@ -230,7 +230,7 @@ public class FiniteVariationBehaviour : AnimationBehaviour
                 this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
-                Debug.Log("supuesto really start" + "  "+ stateInfo.normalizedTime + " " + animator.speed);
+                Debug.Log("supuesto really start" + "  "+ stateInfo.normalizedTime + " " + CurrentSpeed);
                 this.CentralNode.OnRepetitionReallyStart();
                 BeginRep = true;
                 repetitionStartFlag = true;
@@ -242,13 +242,13 @@ public class FiniteVariationBehaviour : AnimationBehaviour
             {
                 if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
-                    if (animator.speed != this.CentralNode._RealParams.ForwardSpeed  && stateInfo.normalizedTime <= 0.5f)
+                    if (CurrentSpeed != this.CentralNode._RealParams.ForwardSpeed  && stateInfo.normalizedTime <= 0.5f)
                     {
-                        animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+                        CurrentSpeed = this.CentralNode._RealParams.ForwardSpeed;
                     }
-                    else if (animator.speed != this.CentralNode._RealParams.BackwardSpeed && stateInfo.normalizedTime > 0.5f)
+                    else if (CurrentSpeed != this.CentralNode._RealParams.BackwardSpeed && stateInfo.normalizedTime > 0.5f)
                     {
-                        animator.speed = this.CentralNode._RealParams.BackwardSpeed;
+                        CurrentSpeed = this.CentralNode._RealParams.BackwardSpeed;
                     }
                 }
             }
@@ -324,25 +324,17 @@ public class FiniteVariationBehaviour : AnimationBehaviour
     /// Detiene la interpolación que actualmente se está ejecutando
     /// </summary>
     override public void Stop()
-    {/*
-        this._BehaviourState = AnimationBehaviourState.STOPPED;
-        if ((_Opposite as FiniteBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
-            _Opposite.Stop();
-
-        this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;*/
-        //this._BehaviourState = AnimationBehaviourState.STOPPED;
+    {
         this.CentralNode.endRepTime = null;
         IsResumen = false;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
         
         this.CentralNode._BehaviourState = AnimationBehaviourState.STOPPED;
-        //Debug.Log("2Cambiando a " + this._BehaviourState + " "  + this.IsCentralNode  + " "  + this.GetInstanceID());
-        animator.speed = 1;
+        CurrentSpeed = 1;
     }
     public override void ResumeAnimation()
     {
         // ResumeAnimation en esta maquina de estado solo se llama cuando !IsInInstruction
-        Debug.Log("resume hijo " + IsRepetitionEnd);
         if (IsRepetitionEnd)
             SetNextVariation();
         

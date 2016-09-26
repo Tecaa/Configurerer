@@ -22,7 +22,7 @@ public class LerpBehaviour : AnimationBehaviour {
     /// <summary>
     /// Velocidad que se configurará para el movimiento.
     /// </summary>
-    private float currentSpeed;
+    private float speed;
     
 
     /// <summary>
@@ -42,6 +42,7 @@ public class LerpBehaviour : AnimationBehaviour {
     private LerpState _lastLerpState;
 
     private bool holdingPose = false;
+
 
     private event EventHandler LerpRoundTripEnd;
     protected void OnLerpRoundTripEnd()
@@ -133,9 +134,7 @@ public class LerpBehaviour : AnimationBehaviour {
         //Debug.Log("FIN manteniendo pose pose ");
         this.holdingPose = false;
         clockBehaviour.stopExecutionTimer();
-        animator.StartRecording(0);
-        animator.speed = -backwardSpeed;
-        animator.StopRecording();
+        CurrentSpeed = -backwardSpeed;
     }
 
 
@@ -179,7 +178,6 @@ public class LerpBehaviour : AnimationBehaviour {
     override public void Run()
     {
         endRepTime = null;
-        //animator.speed = 1;
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
@@ -224,12 +222,13 @@ public class LerpBehaviour : AnimationBehaviour {
     /// <param name="exercise">Ejercicio al cual se le quieren extraer los ángulo de interés</param>
     /// <param name="action">Callback especificado para guardar los frames que se van generando</param>
     /// <returns></returns>
-    private void SaveTimesAngle(AnimatorStateInfo animatorState) //ref List<AnimationInfo> aInfo)
+    private void SaveTimesAngle(AnimatorStateInfo animatorState, float length) //ref List<AnimationInfo> aInfo)
     {
         JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, limb)];
         ArticulacionClass joint = AnimatorScript.instance.utils.getArticulacion(tempJointTypePlanoResult.jointType);
         AnimationInfo tempAnimationInfo = new AnimationInfo();
-        float time = animatorState.normalizedTime * animatorState.length;
+        float time = animatorState.normalizedTime * length;
+        
         switch (tempJointTypePlanoResult.plain)
         {   
             case Plano.planos.planoFrontal:
@@ -245,7 +244,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
                 break;
         }
-        Debug.Log("time " + tempAnimationInfo.time + " angle " + tempAnimationInfo.angle);
+        //Debug.Log("time " + tempAnimationInfo.time + " angle " + tempAnimationInfo.angle);
         _timeAndAngles.Add(tempAnimationInfo);
     }
 
@@ -330,7 +329,7 @@ public class LerpBehaviour : AnimationBehaviour {
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (!animator.IsInTransition(0))
-                animator.speed = 0;
+                CurrentSpeed = 0;
             return;
         }
 
@@ -368,26 +367,25 @@ public class LerpBehaviour : AnimationBehaviour {
                 percentageComplete = stateInfo.normalizedTime;
                 //Debug.Log("2 " + percentageComplete);
             }
-            
 
 
             if (!holdingPose)
             {
-                animator.StartRecording(0);
-                animator.speed = currentSpeed;
-                animator.StopRecording();
+                CurrentSpeed = speed;
             }
 
+            
             float DELTA = 0.01f;
-            if ((animator.speed > 0  && percentageComplete >= 1.0f - DELTA) ||
-                (animator.speed < 0 && percentageComplete <= 0f + DELTA))
+            if ((CurrentSpeed > 0  && percentageComplete >= 1.0f - DELTA) ||
+                (CurrentSpeed < 0 && percentageComplete <= 0f + DELTA))
             {
                 InterpolationEnd();
             }
+            
         }
         else if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
         {
-            animator.speed = 0;
+            CurrentSpeed = 0;
             if (endRepTime != null)
             {
                 if (repetitionStartFlag)
@@ -398,7 +396,7 @@ public class LerpBehaviour : AnimationBehaviour {
             }
         }
 
-
+        
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
             timeSinceCapture += Time.deltaTime;
@@ -416,10 +414,11 @@ public class LerpBehaviour : AnimationBehaviour {
         
         #endregion
         if (_BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || _BehaviourState == AnimationBehaviourState.PREPARING_WEB)
-            this.SaveTimesAngle(stateInfo);
+            this.SaveTimesAngle(stateInfo, animator.GetCurrentAnimatorClipInfo(0)[0].clip.length);
+        
         lastReadyToLerp = ReadyToLerp;
 
-
+        
         JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, limb)];
         ArticulacionClass joint = AnimatorScript.instance.utils.getArticulacion(tempJointTypePlanoResult.jointType);
         AnimationInfo tempAnimationInfo = new AnimationInfo();
@@ -439,14 +438,12 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
                 break;
         }
-        //GameObject.FindGameObjectWithTag("angulotexto").GetComponent<Text>().text = "Angulo " + joint.articulacion.ToString() + " : " + tempAnimationInfo.angle.ToString();
-
     }
+    
 
-
-	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        animator.speed = 1.0f;
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        CurrentSpeed = 1.0f;
 	}
 
 	// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
@@ -489,35 +486,11 @@ public class LerpBehaviour : AnimationBehaviour {
     /// </summary>
     private void ChangeAnimationSpeed(float _currentSpeed)
     {
-        currentSpeed = _currentSpeed;
+        speed = _currentSpeed;
         ReadyToLerp = true;
     }
     
 
-  /*  public override void PauseAnimation()
-    {
-        DebugLifeware.Log("Puasing animation", DebugLifeware.Developer.Alfredo_Gallardo);
-        originalABS = this._behaviourState;
-
-
-
-        _BehaviourState = AnimationBehaviourState.STOPPED;
-
-        if (this.IsInterleaved)
-            if ((_Opposite as LerpBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
-                _Opposite.PauseAnimation();
-
-        if (animator.speed < 0)
-        {
-            animator.StartRecording(0);
-            animator.speed *= -1;
-            animator.StopRecording();
-        }
-
-        //animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
-        animator.speed = 1;
-       
-    }*/
     /// <summary>
     /// Cuando termina una interpolacion se comprueba el estado de la animacion para continuar con el ciclo de aceleración y desaceleracion
     /// </summary>
@@ -528,8 +501,8 @@ public class LerpBehaviour : AnimationBehaviour {
             case LerpState.Forward:
                 _currentLerpState = LerpState.Stopped;
                 _lastLerpState = LerpState.Forward;
-                animator.speed = 0;
-                //BeginLerp(0, -backwardSpeed);
+                CurrentSpeed = 0;
+
                 this.holdingPose = true;
                 clockBehaviour.executeRepetitionTime(this._currentParams.SecondsInPose);
                 break;
@@ -555,12 +528,12 @@ public class LerpBehaviour : AnimationBehaviour {
                         {
                             try
                             {
-                                DebugLifeware.Log("se intentara savear", DebugLifeware.Developer.Marco_Rojas);
+                                //DebugLifeware.Log("se intentara savear", DebugLifeware.Developer.Marco_Rojas);
                                 PreparedExercises.InsertPreparedExercise(new Exercise(movement, limb), _timeAndAngles);
                             }
                             catch
                             {
-                                DebugLifeware.Log("ya existia el ejercicio", DebugLifeware.Developer.Marco_Rojas);
+                                //DebugLifeware.Log("ya existia el ejercicio", DebugLifeware.Developer.Marco_Rojas);
                                 ; // do nothing
                             }
                             if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT)
@@ -636,17 +609,13 @@ public class LerpBehaviour : AnimationBehaviour {
             _Opposite.Stop();
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
-        if (animator.speed < 0)
+        if (CurrentSpeed < 0)
         {
-            //animator.SetFloat("MovSpeed", animator.GetFloat("MovSpeed") * -1);
-            animator.StartRecording(0);
-            animator.speed *= -1;
-            animator.StopRecording();
-
+            CurrentSpeed *= -1;
         }
 
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
-        animator.speed = 1;
+        CurrentSpeed = 1;
 
     }
     /// <summary>

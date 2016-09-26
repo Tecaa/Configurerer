@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public abstract class AnimationBehaviour : StateMachineBehaviour {
 
-    // IMPORATANTE DETECTOR: DESCOMENTAR LÍNEA EN GRAN JUEGO y TAMBIÉN EN LERPBEHAVIOUR.cs EN EXTRACCIpon.
+    // IMPORTANTE DETECTOR: DESCOMENTAR LÍNEA EN GRAN JUEGO y TAMBIÉN EN LERPBEHAVIOUR.cs EN EXTRACCIpon.
     //protected Detector.ExerciseDataGenerator exerciseDataGenerator;
 	
 	protected enum StayInPoseState { GoingTo, HoldingOn, Leaving, Resting }
@@ -27,6 +27,20 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     [HideInInspector]
     public DateTime? endRepTime = null;
     private bool _beginRep;
+    private float currentSpeed;
+    [HideInInspector]
+    public float CurrentSpeed
+    {
+        get
+        {
+            return currentSpeed;
+        }
+        set
+        {
+            currentSpeed = value;
+            animator.SetFloat("Speed", currentSpeed);
+        }
+    }
     [HideInInspector]
     public bool BeginRep
     {
@@ -314,7 +328,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
             this.CentralNode.originalABS = this._BehaviourState;
         }
         this._BehaviourState = AnimationBehaviourState.STOPPED;
-        animator.speed = 0;
+        CurrentSpeed = 0;
 
        
         if (IsInterleaved)
