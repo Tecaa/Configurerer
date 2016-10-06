@@ -75,7 +75,7 @@ public class LerpBehaviour : AnimationBehaviour {
 
 
     //public Animator animator;
-    private List<AnimationInfo> _timeAndAngles;
+    //private List<AnimationInfo> _timeAndAngles;
     
     public BehaviourParams GetParams()
     {
@@ -156,8 +156,9 @@ public class LerpBehaviour : AnimationBehaviour {
     override public void Prepare(BehaviourParams bp)
     {
         BehaviourParams lp = (BehaviourParams)bp;
+        //lp.Angle = PercentajeCalculator.GetPercentage(lp.Angle, this.movement);
         this._RealParams = lp;
-        this._BehaviourState = AnimationBehaviourState.PREPARING_DEFAULT;
+        this._BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
     }
@@ -168,18 +169,14 @@ public class LerpBehaviour : AnimationBehaviour {
     }
     override protected void PrepareWebInternal()
     {
-        /*
-        if (this.IsInterleaved)
-        {
-            this.isWeb = true;
-            this._Opposite.isWeb = true;
-        }*/
-        this._BehaviourState = AnimationBehaviourState.PREPARING_WEB;
+        //this._BehaviourState = AnimationBehaviourState.PREPARING_WEB;
+        this._BehaviourState = AnimationBehaviourState.STOPPED;
+        Stop();
+        OnRepetitionEnd();
     }
     override public void Run()
     {
         endRepTime = null;
-        //animator.speed = 1;
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
@@ -224,12 +221,14 @@ public class LerpBehaviour : AnimationBehaviour {
     /// <param name="exercise">Ejercicio al cual se le quieren extraer los ángulo de interés</param>
     /// <param name="action">Callback especificado para guardar los frames que se van generando</param>
     /// <returns></returns>
-    private void SaveTimesAngle(AnimatorStateInfo animatorState) //ref List<AnimationInfo> aInfo)
+    /*
+    private void SaveTimesAngle(AnimatorStateInfo animatorState, float length) //ref List<AnimationInfo> aInfo)
     {
         JointTypePlanoResult tempJointTypePlanoResult = MovementJointMatch.movementJointMatch[new MovementLimbKey(movement, limb)];
         ArticulacionClass joint = AnimatorScript.instance.utils.getArticulacion(tempJointTypePlanoResult.jointType);
         AnimationInfo tempAnimationInfo = new AnimationInfo();
-        float time = animatorState.normalizedTime * animatorState.length;
+        float time = animatorState.normalizedTime * length;
+        
         switch (tempJointTypePlanoResult.plain)
         {   
             case Plano.planos.planoFrontal:
@@ -245,9 +244,9 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
                 break;
         }
-        Debug.Log("time " + tempAnimationInfo.time + " angle " + tempAnimationInfo.angle);
+        //Debug.Log("time " + tempAnimationInfo.time + " angle " + tempAnimationInfo.angle);
         _timeAndAngles.Add(tempAnimationInfo);
-    }
+    }*/
 
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -273,8 +272,9 @@ public class LerpBehaviour : AnimationBehaviour {
         defaultAnimationLength = stateInfo.length;
        
         //Está la animación en caché
+        /*
         if(PreparedExercises.tryGetPreparedExercise(new Exercise(movement, limb), out this._timeAndAngles, stateInfo.length))
-        {
+        {*/
             //Repetición de preparación
             if (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB)
             {
@@ -294,6 +294,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 OnRepetitionEnd();
                 Stop();
             }
+            /*
         }
         //No está la animación en caché
         else
@@ -307,7 +308,7 @@ public class LerpBehaviour : AnimationBehaviour {
             {
                 throw new Exception("Animation not prepared");
             }
-        }
+        }*/
 	}
     void LerpBehaviour_LerpRoundTripEnd(object sender, EventArgs e)
     {
@@ -359,8 +360,8 @@ public class LerpBehaviour : AnimationBehaviour {
             float percentageComplete;
             if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
             {
-                AnimationInfo inf = GetAnimationInfo(this._currentParams.Angle, _timeAndAngles);
-                percentageComplete = stateInfo.normalizedTime * _timeAndAngles[_timeAndAngles.Count/2].time / inf.time;
+                //AnimationInfo inf = GetAnimationInfo(this._currentParams.Angle, _timeAndAngles);
+                percentageComplete = stateInfo.normalizedTime / this._RealParams.Angle; //* _timeAndAngles[_timeAndAngles.Count/2].time / inf.time;
                 //Debug.Log("1 " + percentageComplete + "   time max: "  + _timeAndAngles[_timeAndAngles.Count/2].time + "    time angle: " + GetAnimationInfo(this._currentParams.Angle, _timeAndAngles).time + "    angle: " + this._currentParams.Angle +" division:" + (_timeAndAngles[_timeAndAngles.Count/2].time / GetAnimationInfo(this._currentParams.Angle, _timeAndAngles).time));
             }
             else
@@ -413,10 +414,12 @@ public class LerpBehaviour : AnimationBehaviour {
             }
         }
 
-        
+
         #endregion
         if (_BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || _BehaviourState == AnimationBehaviourState.PREPARING_WEB)
-            this.SaveTimesAngle(stateInfo);
+            ;// Do nothing;
+            //this.SaveTimesAngle(stateInfo, animator.GetCurrentAnimatorClipInfo(0)[0].clip.length);
+        
         lastReadyToLerp = ReadyToLerp;
 
 
@@ -439,8 +442,6 @@ public class LerpBehaviour : AnimationBehaviour {
                 tempAnimationInfo = new AnimationInfo(time, joint.AngleHorizontalAcostado);
                 break;
         }
-        //GameObject.FindGameObjectWithTag("angulotexto").GetComponent<Text>().text = "Angulo " + joint.articulacion.ToString() + " : " + tempAnimationInfo.angle.ToString();
-
     }
 
 
@@ -555,12 +556,12 @@ public class LerpBehaviour : AnimationBehaviour {
                         {
                             try
                             {
-                                DebugLifeware.Log("se intentara savear", DebugLifeware.Developer.Marco_Rojas);
-                                PreparedExercises.InsertPreparedExercise(new Exercise(movement, limb), _timeAndAngles);
+                                //DebugLifeware.Log("se intentara savear", DebugLifeware.Developer.Marco_Rojas);
+                                ;//do nothing //  PreparedExercises.InsertPreparedExercise(new Exercise(movement, limb), _timeAndAngles);
                             }
                             catch
                             {
-                                DebugLifeware.Log("ya existia el ejercicio", DebugLifeware.Developer.Marco_Rojas);
+                                //DebugLifeware.Log("ya existia el ejercicio", DebugLifeware.Developer.Marco_Rojas);
                                 ; // do nothing
                             }
                             if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT)

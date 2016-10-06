@@ -41,8 +41,7 @@ public class AnimatorScript : MonoBehaviour
             return FindObjectOfType<AnimatorScript>();
         }
     }
-
-    private IEnumerator prepareCR;
+    
 
     public event EventHandler<RepetitionStartEventArgs> OnRepetitionStart;
     public event EventHandler OnRepetitionEnd;
@@ -93,17 +92,21 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
+        Movement mov = Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino;
+        Limb l = Limb.None;
         float forwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text, "1"));
         float backwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text, "1"));
         int secondsBE = Convert.ToInt32(FixValue(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text, "0"));
         int secondsBR = Convert.ToInt32(FixValue(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text, "0"));
         float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
+        Debug.Log("rom " + rom);
 
-        
-        PrepareExercise(new Exercise(Movement.FlexiónDeHombrosEnBípedoConBastón_Bilateral, Limb.None), 
-            new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR));
+        List<Movement> variations = new List<Movement>() {/*Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
+            Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar, Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás*/
+            };
 
-        
+        //PrepareExercise(new Exercise(mov, l), new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR, variations));
+        PrepareExerciseWeb(JsonConvert.SerializeObject(new PrepareExerciseWebParams(new Exercise(mov, l), Caller.Preview)));
     }
     private string FixValue(string valueToFix, string fix)
     {
@@ -119,8 +122,9 @@ public class AnimatorScript : MonoBehaviour
 
         BehaviourParams param = new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR);
 
-  
-        RunExercise(true);
+
+        //RunExercise(true);
+        RunExerciseWeb(JsonConvert.SerializeObject(param));
   
 
     }
@@ -128,10 +132,7 @@ public class AnimatorScript : MonoBehaviour
     {
         ResumeExercise();
     }
-    void pruebaRun3()
-    {
-        PrepareExerciseWeb("{\"Exercise\":{\"Movement\": 220000,\"Laterality\":0,\"Limb\":0}, \"Caller\": 1}");
-    }
+  
 
     void Awake()
     {
@@ -168,7 +169,8 @@ public class AnimatorScript : MonoBehaviour
     public void PrepareExercise(Exercise e, BehaviourParams param)
     {
 
-        param.Angle = AngleFixer.FixAngle(param.Angle, e.Movement);
+        //param.Angle = AngleFixer.FixAngle(param.Angle, e.Movement);
+        param.Angle = PercentajeCalculator.GetPercentage2(param.Angle, e.Movement);
         param.BackwardSpeed *= SpeedFixer.FixSpeed(e.Movement);
         param.ForwardSpeed *= SpeedFixer.FixSpeed(e.Movement);
 
@@ -196,8 +198,6 @@ public class AnimatorScript : MonoBehaviour
 
     private IEnumerator InitialPoseDelayed()
     {
-
-        //yield return new WaitForSeconds(DELAY);
         RewindExercise();
         yield return new WaitForSeconds(0);//0.1f);
         behaviour.InitialPose();
@@ -240,9 +240,10 @@ public class AnimatorScript : MonoBehaviour
             return;
         }
         behaviour.RepetitionEnd += behaviour_PrepareEndWeb;
-        timeSinceStartPrepareWeb = Time.time;  
-        behaviour.PrepareWeb();
+        timeSinceStartPrepareWeb = Time.time;
+        
         CurrentExercise = e;    
+        behaviour.PrepareWeb();
     }
 
     void behaviour_PrepareEndWeb(object sender, EventArgs e)
@@ -321,7 +322,8 @@ public class AnimatorScript : MonoBehaviour
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
 
         behaviour.Stop();
-        p.Angle = AngleFixer.FixAngle(p.Angle, CurrentExercise.Movement);
+        p.Angle = PercentajeCalculator.GetPercentage2(p.Angle, CurrentExercise.Movement);
+
         p.BackwardSpeed *= SpeedFixer.FixSpeed(CurrentExercise.Movement);
         p.ForwardSpeed *= SpeedFixer.FixSpeed(CurrentExercise.Movement);
         StartCoroutine(RunWebInSeconds(0.4f, p));
