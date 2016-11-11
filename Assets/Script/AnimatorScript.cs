@@ -92,7 +92,7 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-        Movement mov = Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino;
+        Movement mov = Movement.ExtensiónHorizontalDeHombrosEnSupino;
         Limb l = Limb.None;
         float forwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text, "1"));
         float backwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text, "1"));

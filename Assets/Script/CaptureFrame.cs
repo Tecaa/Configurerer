@@ -18,9 +18,11 @@ public class CaptureFrame : MonoBehaviour  {
     // Use this for initialization
     void Start ()
     {
-        movement = Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino;
+        movement = Movement.ExtensiónHorizontalDeHombrosEnSupino;
         if (!ReadAnglesFile())
             angulos = new Dictionary<Movement, SortedList<float, int>>();
+        if (this.gameObject.GetComponentInParent<CanvasGroup>().alpha != 0)
+            OrbitCamera.ctrlClick = true;
     }
 
     private bool ReadAnglesFile()
@@ -51,7 +53,7 @@ public class CaptureFrame : MonoBehaviour  {
 
     private void SaveAnglesFile()
     {
-        string str = JsonConvert.SerializeObject(angulos);
+        string str = JsonConvert.SerializeObject(angulos, Formatting.Indented);
         using (FileStream fs = new FileStream("Assets/Resources/" + Filename + ".json", FileMode.Create))
         {
             using (StreamWriter writer = new StreamWriter(fs))
@@ -64,26 +66,15 @@ public class CaptureFrame : MonoBehaviour  {
             fs.Dispose();
         }
     }
-
-    // Update is called once per frame
-    void Update () {
-	
-	}
+    
 
     public void Slider()
     {
         if (anim.GetInteger("Movement") != (int)movement)
             anim.SetInteger("Movement", (int)movement);
-        OrbitCamera.active = false;
         anim.speed = 0;
         anim.PlayInFixedTime(0, 0, slider.value * anim.GetCurrentAnimatorStateInfo(0).length);
-
-        CancelInvoke("ReActiveCamera");
-        Invoke("ReActiveRotation", 5);
+        
     }
-
-    private void ReActiveRotation()
-    {
-        OrbitCamera.active = true;
-    }
+    
 }

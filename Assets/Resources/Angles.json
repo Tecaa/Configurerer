@@ -1,1 +1,195 @@
-{"AbducciónDeCaderaEnDecúbitoLateral":{"0":0,"1":45},"AducciónResistidaEnPlanoEscapular":{"0":90,"0.6204621":45,"1":30},"ElevaciónDeHombroEnPlanoEscapularConBastón":{"0":30,"0.1188119":45,"0.2838284":90,"1":180},"ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral":{"0":30,"0.3036304":45,"0.4719472":90,"1":180},"ElevaciónResistidaDeHombrosEnPlanoEscapular_Bilateral":{"0":30,"0.2574258":45,"0.4719472":90,"1":180},"EstocadaFrontalCorta":{"0":0,"0.5280528":45,"0.6402641":60,"1":90},"EstocadaFrontalLarga":{"0":0,"0.7293729":45,"0.8283828":60,"1":90},"EstocadaLateral":{"0":0,"0.4785478":45,"0.6039604":60,"1":90},"ExtensiónDeCaderaEnProno":{"0":0,"1":30},"ExtensiónDeRodillaEnSedente_Unilateral":{"0":90,"0.420792":45,"0.5792079":30,"1":0},"ExtensiónDeRodillasEnSedente_Bilateral":{"0":90,"0.4356436":60,"0.4686469":45,"0.6072607":30,"1":0},"ExtensiónHorizontalDeHombrosEnSupino":{"0":0,"0.4125412":30,"0.6171617":45,"1":60},"FlexiónDeCaderaEnSupino":{"0":0,"0.4356436":30,"0.7392739":45,"1":60},"FlexiónDeCodoEnBípedo_Unilateral_90":{"0":0,"0.1881188":45,"0.4257426":90,"1":140},"FlexiónDeCodosEnBípedo_Bilateral_90":{"0":0,"0.2706271":45,"0.5313531":90,"1":140},"FlexiónDeHombroConExtensiónDeCodoEnBípedo_Unilateral_90":{"0":0,"0.4752475":45,"1":90},"FlexiónDeHombrosConExtensiónDeCodosEnBípedo_Bilateral_90":{"0":0,"0.4521452":45,"1":90},"FlexiónDeHombrosEnBípedoConBastón_Bilateral":{"0":30,"0.2607261":45,"0.4323432":90,"0.6039604":135,"1":160},"FlexiónDeRodillaEnProno_Unilateral":{"0":0,"0.2904291":45,"0.5346535":90,"1":120},"FlexiónDeRodillaEnSupino_Unilateral":{"0":0,"0.5082508":60,"1":120},"FlexiónDeRodillasEnProno_Bilateral":{"0":0,"0.2343234":45,"0.4257426":90,"0.6452145":120},"FlexiónDeRodillasEnSupino_Bilateral":{"0":0,"0.3366337":45,"0.5775577":90,"1":120},"RotaciónExternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral":{"0":0,"0.4290429":45,"1":70},"RotaciónExternaDeHombroEnSupinoConBastónT_Unilateral":{"0":0,"0.4851485":45,"1":70},"RotaciónExternaDeHombrosEnSupino_Bilateral":{"0":0,"0.4719472":45,"1":70},"RotaciónInternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral":{"0":0,"0.6270627":45,"1":60},"RotaciónInternaDeHombroEnSupinoConBastónT_Unilateral":{"0":0,"0.7260726":45,"1":60},"RotaciónInternaDeHombrosEnSupino_Bilateral":{"0":0,"0.6237624":45,"1":60},"Sentadilla":{"0":0,"0.4587459":45,"1":90},"SentadillaConBalónSuizo":{"0":0,"0.3828383":45,"1":90},"SentadillaMonopodal":{"0":0,"0.4785478":45,"1":90},"ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba":{"0":0,"0.6105611":45,"1":60},"ExtensiónDiagonalDeHombrosEnSupino_IzquierdaArriba":{"0":0,"0.5148515":45,"1":60},"FlexiónHorizontalResistidaDeHombros_BípedoBilateral":{"0":0,"0.5049505":45,"1":90},"RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino":{"0":-45,"0.339934":0,"0.5841584":45,"1":70}}
+{
+  "AbducciónDeCaderaEnDecúbitoLateral": {
+    "0": 0,
+    "1": 45
+  },
+  "AducciónResistidaEnPlanoEscapular": {
+    "0": 90,
+    "0.6204621": 45,
+    "1": 30
+  },
+  "ElevaciónDeHombroEnPlanoEscapularConBastón": {
+    "0": 30,
+    "0.1188119": 45,
+    "0.2838284": 90,
+    "1": 180
+  },
+  "ElevaciónResistidaDeHombroEnPlanoEscapular_Unilateral": {
+    "0": 30,
+    "0.3036304": 45,
+    "0.4719472": 90,
+    "1": 180
+  },
+  "ElevaciónResistidaDeHombrosEnPlanoEscapular_Bilateral": {
+    "0": 30,
+    "0.2574258": 45,
+    "0.4719472": 90,
+    "1": 180
+  },
+  "EstocadaFrontalCorta": {
+    "0": 0,
+    "0.5280528": 45,
+    "0.6402641": 60,
+    "1": 90
+  },
+  "EstocadaFrontalLarga": {
+    "0": 0,
+    "0.7293729": 45,
+    "0.8283828": 60,
+    "1": 90
+  },
+  "EstocadaLateral": {
+    "0": 0,
+    "0.4785478": 45,
+    "0.6039604": 60,
+    "1": 90
+  },
+  "ExtensiónDeCaderaEnProno": {
+    "0": 0,
+    "1": 30
+  },
+  "ExtensiónDeRodillaEnSedente_Unilateral": {
+    "0": 90,
+    "0.3531353": 60,
+    "0.420792": 45,
+    "0.5792079": 30,
+    "0.8415841": 0
+  },
+  "ExtensiónDeRodillasEnSedente_Bilateral": {
+    "0": 90,
+    "0.4356436": 60,
+    "0.4686469": 45,
+    "0.6072607": 30,
+    "1": 0
+  },
+  "ExtensiónHorizontalDeHombrosEnSupino": {
+    "0": 0,
+    "0.4785478": 30,
+    "0.7326732": 45,
+    "1": 60
+  },
+  "FlexiónDeCaderaEnSupino": {
+    "0": 0,
+    "0.4356436": 30,
+    "0.7392739": 45,
+    "1": 60
+  },
+  "FlexiónDeCodoEnBípedo_Unilateral_90": {
+    "0": 0,
+    "0.1881188": 45,
+    "0.4257426": 90,
+    "1": 140
+  },
+  "FlexiónDeCodosEnBípedo_Bilateral_90": {
+    "0": 0,
+    "0.2706271": 45,
+    "0.5313531": 90,
+    "1": 140
+  },
+  "FlexiónDeHombroConExtensiónDeCodoEnBípedo_Unilateral_90": {
+    "0": 0,
+    "0.4752475": 45,
+    "1": 90
+  },
+  "FlexiónDeHombrosConExtensiónDeCodosEnBípedo_Bilateral_90": {
+    "0": 0,
+    "0.4521452": 45,
+    "1": 90
+  },
+  "FlexiónDeHombrosEnBípedoConBastón_Bilateral": {
+    "0": 30,
+    "0.2607261": 45,
+    "0.4323432": 90,
+    "0.6039604": 135,
+    "0.7491749": 160
+  },
+  "FlexiónDeRodillaEnProno_Unilateral": {
+    "0": 0,
+    "0.2904291": 45,
+    "0.5346535": 90,
+    "1": 120
+  },
+  "FlexiónDeRodillaEnSupino_Unilateral": {
+    "0": 0,
+    "0.5082508": 60,
+    "1": 120
+  },
+  "FlexiónDeRodillasEnProno_Bilateral": {
+    "0": 0,
+    "0.2343234": 45,
+    "0.4257426": 90,
+    "0.6452145": 120
+  },
+  "FlexiónDeRodillasEnSupino_Bilateral": {
+    "0": 0,
+    "0.3366337": 45,
+    "0.5775577": 90,
+    "1": 120
+  },
+  "RotaciónExternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral": {
+    "0": 0,
+    "0.4851485": 45,
+    "0.5841584": 70
+  },
+  "RotaciónExternaDeHombroEnSupinoConBastónT_Unilateral": {
+    "0": 0,
+    "0.4851485": 45,
+    "1": 70
+  },
+  "RotaciónExternaDeHombrosEnSupino_Bilateral": {
+    "0": 0,
+    "0.4719472": 45,
+    "0.669967": 70
+  },
+  "RotaciónInternaDeHombroEnSupinoConAbducciónDeHombro_Unilateral": {
+    "0": 0,
+    "0.6270627": 45,
+    "0.6633663": 60
+  },
+  "RotaciónInternaDeHombroEnSupinoConBastónT_Unilateral": {
+    "0": 0,
+    "0.7260726": 45,
+    "1": 60
+  },
+  "RotaciónInternaDeHombrosEnSupino_Bilateral": {
+    "0": 0,
+    "0.6237624": 45,
+    "1": 60
+  },
+  "Sentadilla": {
+    "0": 0,
+    "0.4587459": 45,
+    "1": 90
+  },
+  "SentadillaConBalónSuizo": {
+    "0": 0,
+    "0.3828383": 45,
+    "1": 90
+  },
+  "SentadillaMonopodal": {
+    "0": 0,
+    "0.4785478": 45,
+    "1": 90
+  },
+  "ExtensiónDiagonalDeHombrosEnSupino_DerechaArriba": {
+    "0": 0,
+    "0.6105611": 45,
+    "1": 60
+  },
+  "ExtensiónDiagonalDeHombrosEnSupino_IzquierdaArriba": {
+    "0": 0,
+    "0.5148515": 45,
+    "1": 60
+  },
+  "FlexiónHorizontalResistidaDeHombros_BípedoBilateral": {
+    "0": 0,
+    "0.5049505": 45,
+    "1": 90
+  },
+  "RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino": {
+    "0": -45,
+    "0.339934": 0,
+    "0.5907591": 45,
+    "0.7458746": 70
+  }
+}

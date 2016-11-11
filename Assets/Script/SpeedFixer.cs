@@ -25,6 +25,7 @@ internal static class SpeedFixer
         speedMultiplier.Add(Movement.RecogiendoYGuardandoConUnaMano_BrazoAbajoIzquierda, 1.5f);
         speedMultiplier.Add(Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaDerecha, 1.5f);
         speedMultiplier.Add(Movement.RecogiendoYGuardandoConUnaMano_BrazoArribaIzquierda, 1.5f);
+        speedMultiplier.Add(Movement.ExtensiónHorizontalDeHombrosEnSupino, 1.5f);
     }
 
     static SpeedFixer()

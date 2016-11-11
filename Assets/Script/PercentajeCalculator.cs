@@ -40,7 +40,7 @@ public static class PercentajeCalculator {
                     lastPair = pair;
                     continue;
                 }
-                if (angle <= pair.Value)
+                if (angle <= Math.Max(pair.Value, lastPair.Value.Value) && angle >= Math.Min(pair.Value, lastPair.Value.Value))
                 {
                     return lastPair.Value.Key + (angle - lastPair.Value.Value) * (pair.Key - lastPair.Value.Key) / (pair.Value - lastPair.Value.Value);
                 }
