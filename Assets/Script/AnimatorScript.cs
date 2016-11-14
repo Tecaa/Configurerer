@@ -92,8 +92,8 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-        Movement mov = Movement.ExtensiónHorizontalDeHombrosEnSupino;
-        Limb l = Limb.None;
+        Movement mov = Movement.AbducciónDeCaderaEnDecúbitoLateral;
+        Limb l = Limb.Left;
         float forwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text, "1"));
         float backwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text, "1"));
         int secondsBE = Convert.ToInt32(FixValue(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text, "0"));
