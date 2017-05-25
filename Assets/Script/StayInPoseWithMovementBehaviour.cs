@@ -47,7 +47,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         BeginRep = false;
 
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-        this.animator.speed = this._RealParams.ForwardSpeed;
+        this.CurrentSpeed = this._RealParams.ForwardSpeed;
     }
 
     override public void RunWeb()
@@ -59,7 +59,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         }
 
         this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
-        this.animator.speed = this._RealParams.ForwardSpeed;
+        this.CurrentSpeed = this._RealParams.ForwardSpeed;
     }
     override public void RunWeb(BehaviourParams stayInParams)
     {
@@ -74,7 +74,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 	
 
         this._RealParams = stayInParams;
-        this.animator.speed = this._RealParams.ForwardSpeed;
+        this.CurrentSpeed = this._RealParams.ForwardSpeed;
     }
     
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
@@ -106,7 +106,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (!animator.IsInTransition(0))
-                animator.speed = 0;
+                CurrentSpeed = 0;
             return;
         }
 
@@ -114,7 +114,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
-            animator.speed = 0;
+            CurrentSpeed = 0;
             stayInPoseState = StayInPoseState.Resting;
             BeginRep = false;
             this.Stop();
@@ -132,7 +132,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
                 OnRepetitionReallyStart();
                 BeginRep = true;
-                animator.speed = this._RealParams.ForwardSpeed;
+                CurrentSpeed = this._RealParams.ForwardSpeed;
                 startHoldTime = Time.time;
                 stayInPoseState = StayInPoseState.HoldingOn;
                 repetitionStartFlag = true;
@@ -142,7 +142,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
             if (stayInPoseState == StayInPoseState.HoldingOn && (Time.time - startHoldTime) >= this._RealParams.SecondsInPose )
             {
                 DebugLifeware.Log("Tiempo en pose maxima = " + (Time.time - startHoldTime).ToString(), DebugLifeware.Developer.Alfredo_Gallardo);
-                animator.speed = 0;
+                CurrentSpeed = 0;
                 stayInPoseState = StayInPoseState.Resting;
                 BeginRep = false;
                 if ((!this.IsWeb) && (!this.IsInInstruction) && this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
@@ -171,7 +171,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        animator.speed = this._RealParams.ForwardSpeed;
+        CurrentSpeed = this._RealParams.ForwardSpeed; //animator.speed = this._RealParams.ForwardSpeed;
 	}
 
 	
@@ -187,7 +187,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
                 _Opposite.Stop();
         }
 
-        animator.speed = this._RealParams.ForwardSpeed;
+        CurrentSpeed = this._RealParams.ForwardSpeed; //animator.speed = this._RealParams.ForwardSpeed;
 
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
     }

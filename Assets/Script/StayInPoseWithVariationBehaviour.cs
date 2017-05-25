@@ -167,7 +167,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         AnimatorScript.instance.CurrentExercise.Movement = this.CentralNode.randomAnimations[(int)this.CentralNode.actualRandomAnimationIndex % this.CentralNode.randomAnimations.Count];
 
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+        this.CurrentSpeed = this.CentralNode._RealParams.ForwardSpeed; //this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
         clockBehaviour.stopExecutionTimer();
         clockBehaviour.stopTimeBetweenRepetitionsTimer();
 	}
@@ -178,7 +178,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         this.CentralNode._RealParams = new BehaviourParams();
         this.initializeRandomAnimations();
         this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
-        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+        this.CurrentSpeed = this.CentralNode._RealParams.ForwardSpeed; //this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
     }
 
 	public override void RunWeb (BehaviourParams lerpParams)
@@ -202,7 +202,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
             this._BehaviourState = AnimationBehaviourState.RUNNING_DEFAULT;
         }
 
-        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+        this.CurrentSpeed = this.CentralNode._RealParams.ForwardSpeed; //this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
     }
 
 	/// <summary>
@@ -212,7 +212,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 	{
         exerciceMovement = (int)Movement.Iddle;
 		this.CentralNode._BehaviourState = AnimationBehaviourState.STOPPED;
-		animator.speed = 1;
+        CurrentSpeed = 1; //animator.speed = 1;
 	}
     #endregion
 
@@ -247,7 +247,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         clockBehaviour.stopTimeBetweenRepetitionsTimer();
 
         SetNextVariation();
-        this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+        this.CurrentSpeed = this.CentralNode._RealParams.ForwardSpeed; //this.animator.speed = this.CentralNode._RealParams.ForwardSpeed;
 
     }
 
@@ -289,7 +289,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (this.IsCentralNode)
-                animator.speed = 0;
+                CurrentSpeed = 0; //animator.speed = 0;
             return;
         }
         IsRewinding = false;
@@ -320,13 +320,13 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
 		else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS
 		         || this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
 		{
-			//Como en este behaviour se utiliza animation.Play para cada repetición, se entra más de una vez al metodo OnStateEnter, 
-			//por lo que si ya se ha entrado alguna vez, la velocidad se asigna como 0 para que se respete el tiempo entre ejecución 
-			//antes de comenzar la siguiente repetición.
-			
-			//Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
-			
-			animator.speed = this.CentralNode._RealParams.ForwardSpeed;
+            //Como en este behaviour se utiliza animation.Play para cada repetición, se entra más de una vez al metodo OnStateEnter, 
+            //por lo que si ya se ha entrado alguna vez, la velocidad se asigna como 0 para que se respete el tiempo entre ejecución 
+            //antes de comenzar la siguiente repetición.
+
+            //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
+
+            CurrentSpeed = this.CentralNode._RealParams.ForwardSpeed; //animator.speed = this.CentralNode._RealParams.ForwardSpeed;
 			
 		}
 	}
@@ -372,7 +372,7 @@ public class StayInPoseWithVariationBehaviour : AnimationBehaviour {
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (!animator.IsInTransition(0))
-                animator.speed = 0;
+                CurrentSpeed = 0; //animator.speed = 0;
             return;
         }
 

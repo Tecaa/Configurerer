@@ -92,8 +92,8 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-        Movement mov = Movement.AbducciónDeCaderaEnDecúbitoLateral;
-        Limb l = Limb.Left;
+        Movement mov = Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha;
+        Limb l = Limb.None;
         float forwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text, "1"));
         float backwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text, "1"));
         int secondsBE = Convert.ToInt32(FixValue(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text, "0"));
@@ -101,12 +101,13 @@ public class AnimatorScript : MonoBehaviour
         float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
         Debug.Log("rom " + rom);
 
-        List<Movement> variations = new List<Movement>() {/*Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
+        List<Movement> variations = new List<Movement>() {Movement.SubirEscalon_Frontal_SubeDerechaBajaDerecha
+            /*Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
             Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar, Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás*/
             };
 
-        //PrepareExercise(new Exercise(mov, l), new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR, variations));
-        PrepareExerciseWeb(JsonConvert.SerializeObject(new PrepareExerciseWebParams(new Exercise(mov, l), Caller.Preview)));
+        PrepareExercise(new Exercise(mov, l), new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR, variations));
+        //PrepareExerciseWeb(JsonConvert.SerializeObject(new PrepareExerciseWebParams(new Exercise(mov, l), Caller.Preview)));
     }
     private string FixValue(string valueToFix, string fix)
     {
@@ -119,14 +120,14 @@ public class AnimatorScript : MonoBehaviour
         int secondsBE = Convert.ToInt32(FixValue(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text, "0"));
         int secondsBR = Convert.ToInt32(FixValue(GameObject.Find("PAUSA REPS/Text").GetComponent<Text>().text, "0"));
         float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
-
+        List<Movement> variations = new List<Movement>() {/*Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
+            Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar, Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás*/
+            };
         BehaviourParams param = new BehaviourParams(rom, forwardSpeed, backwardSpeed, secondsBE, secondsBR);
 
 
-        //RunExercise(true);
-        RunExerciseWeb(JsonConvert.SerializeObject(param));
-  
-
+        RunExercise(true);
+        //RunExerciseWeb(JsonConvert.SerializeObject(param));
     }
     public void testResume()
     {

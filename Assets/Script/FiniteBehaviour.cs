@@ -129,11 +129,15 @@ public class FiniteBehaviour : AnimationBehaviour
             //por lo que si ya se ha entrado alguna vez, la velocidad se asigna como 0 para que se respete el tiempo entre ejecución 
             //antes de comenzar la siguiente repetición.
             if (haCambiadoDeEstado)
-                animator.speed = 0;
+            {
+                //animator.speed = 0;
+                CurrentSpeed = 0;
+            }
             else
             {
                 //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
-                animator.speed = this._RealParams.ForwardSpeed;
+                //animator.speed = this._RealParams.ForwardSpeed;
+                CurrentSpeed = this._RealParams.ForwardSpeed;
             }
         }
         if(!haCambiadoDeEstado)
@@ -148,7 +152,7 @@ public class FiniteBehaviour : AnimationBehaviour
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (!animator.IsInTransition(0))
-                animator.speed = 0;
+                CurrentSpeed = 0; //animator.speed = 0;
             return;
         }
         const float INTERVAL = 0.1f;
@@ -225,11 +229,11 @@ public class FiniteBehaviour : AnimationBehaviour
                 {
                     if (stateInfo.normalizedTime <= 0.5f)
                     {
-                        animator.speed = this._RealParams.ForwardSpeed;
+                        CurrentSpeed = this._RealParams.ForwardSpeed; //animator.speed = this._RealParams.ForwardSpeed;
                     }
                     else
                     {
-                        animator.speed = this._RealParams.BackwardSpeed;
+                        CurrentSpeed = this._RealParams.BackwardSpeed; //animator.speed = this._RealParams.BackwardSpeed;
                     }
                 }
             }
@@ -263,7 +267,7 @@ public class FiniteBehaviour : AnimationBehaviour
         //this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
         _BehaviourState = AnimationBehaviourState.STOPPED;
-        animator.speed = 1;
+        CurrentSpeed = 1; //animator.speed = 1;
         
     }
 
