@@ -263,6 +263,7 @@ public class AnimatorScript : MonoBehaviour
     public void RunExercise(bool isInInstruction)
     {
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
+        
         behaviour.Run(isInInstruction);
         RewindExercise();
         behaviour.RepetitionEnd -= behaviour_RepetitionEnd;

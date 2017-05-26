@@ -234,6 +234,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 
     public void SetBehaviourState(AnimationBehaviourState lbs)
     {
+        Debug.Log("new state " + this._behaviourState);
         this._behaviourState = lbs;
     }
     protected virtual void OnRepetitionEnd()
@@ -311,6 +312,8 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
                 this._Opposite.SetBehaviourState(originalABS);
             }
             this._BehaviourState = originalABS;
+            Debug.Log("Regresando  estado: " + this._BehaviourState);
+            Debug.Log("Regresando  estadoz2: " + this.CentralNode._BehaviourState);
             if (this.IsInterleaved)
                 this._Opposite.endRepTime = this.endRepTime;
             IsResumen = false;
@@ -325,6 +328,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
 
         if (this.CentralNode != null)
         {
+            Debug.Log("Guardando estado: " + this._BehaviourState);
             this.CentralNode.originalABS = this._BehaviourState;
         }
         this._BehaviourState = AnimationBehaviourState.STOPPED;
@@ -371,7 +375,7 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
     
     public void InitialPose()
     {
-        this._behaviourState = AnimationBehaviourState.INITIAL_POSE;
+        this._BehaviourState = AnimationBehaviourState.INITIAL_POSE;
     }
 
     public static AnimationBehaviour GetBehaviour(Movement m, Limb l)
@@ -471,10 +475,12 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         {
             if(IsCentralNode || !this.HasCentralNode)
             {
+                //Debug.Log("obteniendo central " + this.GetHashCode());
                 return this._behaviourState;
             }
             else
             {
+                //Debug.Log("obteniendo no central " + this.GetHashCode());
                 return CentralNode._BehaviourState;
             }
             
@@ -483,10 +489,12 @@ public abstract class AnimationBehaviour : StateMachineBehaviour {
         {
             if (IsCentralNode || !this.HasCentralNode)
             {
+                Debug.Log("Set central " + GetHashCode() + "  " + value);
                 this._behaviourState = value;
             }
             else
             {
+                Debug.Log("Set no central " + GetHashCode() + "  " + value);
                 CentralNode._BehaviourState = value;
             }
             
