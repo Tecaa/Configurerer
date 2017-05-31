@@ -375,7 +375,7 @@ public class StayInPoseXtreme : AnimationBehaviour {
                 CurrentSpeed = 0; //animator.speed = 0;
             return;
         }
-		float DELTA = 0.15f;
+		float DELTA = 0.01f;
 		DateTime temp = DateTime.Now;
         //Debug.Log("xx " + this.CentralNode._StayInPoseState + "  -    " + this.CentralNode.holdingPose);
         //Debug.Log(" stateInfo.normalizedTime + DELTA " + stateInfo.normalizedTime + "  " + DELTA + "  = " + stateInfo.normalizedTime + DELTA );
