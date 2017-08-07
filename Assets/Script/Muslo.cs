@@ -56,10 +56,6 @@ namespace Assets
             Debug.DrawLine(cadera.transform.position, rodilla.transform.position, Color.cyan);
             base.Update();
 
-
-
-
-
         }
     }
 }

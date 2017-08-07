@@ -63,9 +63,7 @@ public class AnimatorClock  {
 
     private void methodTrigger(AnimatorTimer aTimer)
     {
-        Debug.Log("iniciando metodo");
         aTimer.runMethod();
-        Debug.Log("metodo ejecutado");
         aTimer.methodTrigger -= methodTrigger;
     }
 
@@ -86,7 +84,6 @@ public class AnimatorClock  {
 
     public void startExecutionTimerHelper()
     {
-        Debug.Log("se termina ejecucion");
         executionTimerFinish();
     }
 

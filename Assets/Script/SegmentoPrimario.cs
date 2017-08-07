@@ -53,9 +53,9 @@ namespace Assets
                 segmentoHorizontal.x *= -1;
                 segmentoHorizontal.z *= -1;
             }
-            if (parent.transform.eulerAngles.y >= 90   && parent.transform.eulerAngles.y <= 180+90)
+            if (parent.transform.eulerAngles.y >= 90 && parent.transform.eulerAngles.y <= 180 + 90)
             {
-                
+
                 segmentoSagital.x *= -1;
                 segmentoSagital.z *= -1;
             }
@@ -99,7 +99,6 @@ namespace Assets
             var cruzFrontal = Vector3.Cross(nHorizontal, proyBrazoFrontal);
 
             AngleFrontal = Vector3.Angle(proyBrazoFrontal, nHorizontal * -1) * ArticulacionClass.GetSign(cruzFrontal.x); //(cruzFrontal.x / Mathf.Abs(cruzFrontal.x));
-
             /*if (this.articulacion == ArticulacionType.BrazoDerecho)
                                                                                                                              
             Debug.Log(" cruzFrontal " + cruzFrontal);*/

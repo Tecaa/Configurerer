@@ -49,7 +49,7 @@ public static class AngleFixer {
         AddFix(Movement.FlexiónHorizontalResistidaDeHombros_BípedoBilateral, 0, 90, 1, 81);
         AddFix(Movement.RotaciónDeHombrosAsistidaConBastón_DecúbitoSupino, 0, 70, 81, -1);
 
-        
+
     }
     public static float FixAngle(float angleToFix, Movement movement)
     {

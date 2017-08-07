@@ -5,7 +5,8 @@ using Assets;
 using System.Collections.Generic;
 using System.Threading;
 
-public class StayInPoseBehaviour : AnimationBehaviour {
+public class StayInPoseBehaviour : AnimationBehaviour
+{
     private StayInPoseState stayInPoseState;
     [HideInInspector]
     public bool haCambiadoDeEstado = false;
@@ -47,7 +48,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     }
     override protected void PrepareWebInternal()
     {
-        Debug.Log("prepareWebInternal");
         this._BehaviourState = AnimationBehaviourState.PREPARING_WEB;
         if (IsInterleaved)
             this._Opposite.RepetitionEnd += _Opposite_RepetitionEnd;
@@ -55,7 +55,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     override public void Run()
     {
         endRepTime = null;
-        Debug.Log("Tirando Run");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
@@ -67,7 +66,6 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     override public void RunWeb()
     {
         endRepTime = null;
-        Debug.Log("Tirando RunWeb");
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_DEFAULT);
@@ -79,29 +77,28 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     {
         animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
         endRepTime = null;
-
-        Debug.Log("Tirando RunWebWithParams");
+        
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
         }
 
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-	
+
 
         this._RealParams = stayInParams;
         stayInPoseState = StayInPoseState.GoingTo;
         this.CurrentSpeed = this._RealParams.ForwardSpeed;
     }
-    
-	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+
+    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     private float defaultAnimationLength;
     private float startAnimationTime;
-	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
-    {        
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         if (this._currentParams == null)
             this._currentParams = new BehaviourParams();
-        if(this._realParams == null)
+        if (this._realParams == null)
         {
             this._realParams = new BehaviourParams();
         }
@@ -114,12 +111,12 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         this.CurrentSpeed = this._realParams.ForwardSpeed;
         defaultAnimationLength = stateInfo.length;
         startAnimationTime = Time.time;
-    
+
         if (!haCambiadoDeEstado)
         {
             haCambiadoDeEstado = true;
         }
-	}
+    }
     void LerpBehaviour_LerpRoundTripEnd(object sender, EventArgs e)
     {
         endRepTime = DateTime.Now;
@@ -142,7 +139,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
             return;
         }
 
-        
+
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS && timeSinceCapture > INTERVAL)
         {
             timeSinceCapture = timeSinceCapture - INTERVAL;
@@ -154,7 +151,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
         }
         float DELTA = 0.05f;
         DateTime temp = DateTime.Now;
-        if (_BehaviourState != AnimationBehaviourState.STOPPED && 
+        if (_BehaviourState != AnimationBehaviourState.STOPPED &&
             (endRepTime == null || new TimeSpan(0, 0, (int)_RealParams.SecondsBetweenRepetitions) <= temp - endRepTime))
         {
             if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
@@ -166,17 +163,16 @@ public class StayInPoseBehaviour : AnimationBehaviour {
                 BeginRep = true;
                 repetitionStartFlag = true;
             }
-
-            if (stayInPoseState == StayInPoseState.GoingTo &&  stateInfo.normalizedTime + DELTA >= 1)
+            if (stayInPoseState == StayInPoseState.GoingTo && stateInfo.normalizedTime + DELTA >= 1)
             {
                 CurrentSpeed = 0;
                 startHoldTime = Time.time;
-                stayInPoseState = StayInPoseState.HoldingOn;
-                //Esperar
+                stayInPoseState = StayInPoseState.HoldingOn; //Esperar
+                this.OnRepetitionHoldOn();
             }
 
             //Si ya pasó el tiempo en el ángulo máximo
-            else if(stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _RealParams.SecondsInPose)
+            else if (stayInPoseState == StayInPoseState.HoldingOn && Time.time - startHoldTime >= _RealParams.SecondsInPose)
             {
                 CurrentSpeed = -this._RealParams.BackwardSpeed;
                 stayInPoseState = StayInPoseState.Leaving;
@@ -202,7 +198,7 @@ public class StayInPoseBehaviour : AnimationBehaviour {
 
             }
 
-            else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime>= _realParams.SecondsBetweenRepetitions)
+            else if (stayInPoseState == StayInPoseState.Resting && Time.time - startRestTime >= _realParams.SecondsBetweenRepetitions)
             {
                 this.CurrentSpeed = this._realParams.ForwardSpeed;
                 stayInPoseState = StayInPoseState.GoingTo;
@@ -221,12 +217,13 @@ public class StayInPoseBehaviour : AnimationBehaviour {
     }
 
 
-	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         CurrentSpeed = 1.0f;
     }
 
-	
+
 
     /// <summary>
     /// Obtiene el intervalo de tiempo en segundos y el ángulo más cercano al entregado por parámetro

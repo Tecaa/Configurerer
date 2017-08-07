@@ -159,4 +159,15 @@ namespace Assets
             return GetCustomDescription(value);
         }
     }
+
+    public struct JointTypePlanoResult
+    {
+        public ArticulacionType jointType;
+        public Plano.planos plain;
+        public JointTypePlanoResult(ArticulacionType jt, Plano.planos p)
+        {
+            jointType = jt;
+            plain = p;
+        }
+    }
 }

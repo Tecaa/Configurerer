@@ -5,7 +5,8 @@ using Assets;
 using System.Collections.Generic;
 using System.Threading;
 
-public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
+public class StayInPoseWithMovementBehaviour : AnimationBehaviour
+{
 
     protected override bool HasCentralNode { get { return false; } }
     private StayInPoseState stayInPoseState;
@@ -64,24 +65,24 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
     override public void RunWeb(BehaviourParams stayInParams)
     {
         endRepTime = null;
-        
+
         if (this.IsInterleaved)
         {
             this._Opposite.SetBehaviourState(AnimationBehaviourState.RUNNING_WITH_PARAMS);
         }
 
         this._behaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
-	
+
 
         this._RealParams = stayInParams;
         this.CurrentSpeed = this._RealParams.ForwardSpeed;
     }
-    
-	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (this._currentParams == null)
             this._currentParams = new BehaviourParams();
-        if(this._realParams == null)
+        if (this._realParams == null)
         {
             this._realParams = new BehaviourParams();
         }
@@ -90,12 +91,12 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
             OnRepetitionEnd();
             this.Stop();
         }
-    
+
         if (!haCambiadoDeEstado)
         {
             haCambiadoDeEstado = true;
         }
-	}
+    }
 
     float startHoldTime;
 
@@ -136,25 +137,25 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
                 startHoldTime = Time.time;
                 stayInPoseState = StayInPoseState.HoldingOn;
                 repetitionStartFlag = true;
+                this.OnRepetitionHoldOn();
             }
 
             //Si ya pasó el tiempo indicado realizando el movimiento
-            if (stayInPoseState == StayInPoseState.HoldingOn && (Time.time - startHoldTime) >= this._RealParams.SecondsInPose )
+            if (stayInPoseState == StayInPoseState.HoldingOn && (Time.time - startHoldTime) >= this._RealParams.SecondsInPose)
             {
-                DebugLifeware.Log("Tiempo en pose maxima = " + (Time.time - startHoldTime).ToString(), DebugLifeware.Developer.Alfredo_Gallardo);
                 CurrentSpeed = 0;
                 stayInPoseState = StayInPoseState.Resting;
                 BeginRep = false;
                 if ((!this.IsWeb) && (!this.IsInInstruction) && this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS)
                     this.PauseAnimation();
-                else if((this.IsWeb) || (this.IsInInstruction) && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+                else if ((this.IsWeb) || (this.IsInInstruction) && this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
                 {
                     endRepTime = DateTime.Now;
                 }
                 OnRepetitionEnd();
             }
 
-            
+
         }
         else if (endRepTime != null && _BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
         {
@@ -169,12 +170,13 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
     }
 
 
-	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        CurrentSpeed = this._RealParams.ForwardSpeed; //animator.speed = this._RealParams.ForwardSpeed;
-	}
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        CurrentSpeed = this._RealParams.ForwardSpeed;
+    }
 
-	
+
 
 
     public override void Stop()
@@ -187,7 +189,7 @@ public class StayInPoseWithMovementBehaviour : AnimationBehaviour {
                 _Opposite.Stop();
         }
 
-        CurrentSpeed = this._RealParams.ForwardSpeed; //animator.speed = this._RealParams.ForwardSpeed;
+        CurrentSpeed = this._RealParams.ForwardSpeed;
 
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
     }

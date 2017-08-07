@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine.UI;
 
-public class LerpBehaviour : AnimationBehaviour {
+public class LerpBehaviour : AnimationBehaviour
+{
     #region Variables
     /// <summary>
     /// Velocidad durante la fase concéntrica
@@ -58,16 +59,17 @@ public class LerpBehaviour : AnimationBehaviour {
     protected override AnimationBehaviourState _BehaviourState
     {
         get { return _behaviourState; }
-        set { 
+        set
+        {
             _behaviourState = value;
-            switch (value) 
-            { 
+            switch (value)
+            {
                 case AnimationBehaviourState.RUNNING_DEFAULT:
                 case AnimationBehaviourState.RUNNING_WITH_PARAMS:
                     animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                     break;
                 case AnimationBehaviourState.PREPARING_WITH_PARAMS:
-                    StartLerp(); 
+                    StartLerp();
                     break;
             }
         }
@@ -76,7 +78,7 @@ public class LerpBehaviour : AnimationBehaviour {
 
     //public Animator animator;
     //private List<AnimationInfo> _timeAndAngles;
-    
+
     public BehaviourParams GetParams()
     {
         return this._currentParams;
@@ -125,12 +127,13 @@ public class LerpBehaviour : AnimationBehaviour {
         //Debug.Log("comienza ejecucion| HORA: " + DateTime.Now.ToString());
         //Debug.Log(" INICIO manteniendo pose pose ");
         this.holdingPose = true;
+        this.OnRepetitionHoldOn();
     }
 
     private void executionTimerFinish()
     {
         //Debug.Log("termina ejecucion| HORA: " + DateTime.Now.ToString());
-        //Debug.Log("FIN manteniendo pose pose ");
+        //Debug.Log("FIN manteniendo pose pose " + this._RealParams.SecondsInPose);
         this.holdingPose = false;
         clockBehaviour.stopExecutionTimer();
         CurrentSpeed = -backwardSpeed;
@@ -182,12 +185,12 @@ public class LerpBehaviour : AnimationBehaviour {
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         this.LerpRoundTripEnd += LerpBehaviour_LerpRoundTripEnd;
-        
+
         //animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
         //this.StartLerp();
     }
 
-    
+
     override public void RunWeb()
     {
         endRepTime = null;
@@ -203,9 +206,9 @@ public class LerpBehaviour : AnimationBehaviour {
     {
         BehaviourParams lerpParams = (BehaviourParams)bp;
         endRepTime = null;
-        
+
         ReadyToLerp = false;
-	
+
 
         this._RealParams = lerpParams;
         this._BehaviourState = AnimationBehaviourState.RUNNING_WITH_PARAMS;
@@ -247,10 +250,10 @@ public class LerpBehaviour : AnimationBehaviour {
     }*/
 
 
-	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     private float defaultAnimationLength;
     private bool hasEnteredBefore = false;
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (hasEnteredBefore == false)
         {
@@ -268,46 +271,46 @@ public class LerpBehaviour : AnimationBehaviour {
             return;
         }
         defaultAnimationLength = stateInfo.length;
-       
+
         //Está la animación en caché
         /*
         if(PreparedExercises.tryGetPreparedExercise(new Exercise(movement, limb), out this._timeAndAngles, stateInfo.length))
         {*/
-            //Repetición de preparación
-            if (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB)
-            {
-                this.StartLerp();
-            }
-
-            else if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT)
-            {
-                //OnRepetitionEnd();
-                _BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
-                timeSinceCapture = 0;
-                this.StartLerp();
-            }
-
-            else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
-            {
-                OnRepetitionEnd();
-                Stop();
-            }
-            /*
+        //Repetición de preparación
+        if (this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT && this._BehaviourState != AnimationBehaviourState.PREPARING_WEB)
+        {
+            this.StartLerp();
         }
-        //No está la animación en caché
+
+        else if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT)
+        {
+            //OnRepetitionEnd();
+            _BehaviourState = AnimationBehaviourState.PREPARING_WITH_PARAMS;
+            timeSinceCapture = 0;
+            this.StartLerp();
+        }
+
+        else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
+        {
+            OnRepetitionEnd();
+            Stop();
+        }
+        /*
+    }
+    //No está la animación en caché
+    else
+    {
+        if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
+        {
+            this._timeAndAngles = new List<AnimationInfo>();
+            this.StartLerp();
+        }
         else
         {
-            if (this._BehaviourState == AnimationBehaviourState.PREPARING_DEFAULT || this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
-            {
-                this._timeAndAngles = new List<AnimationInfo>();
-                this.StartLerp();
-            }
-            else
-            {
-                throw new Exception("Animation not prepared");
-            }
-        }*/
-	}
+            throw new Exception("Animation not prepared");
+        }
+    }*/
+    }
     void LerpBehaviour_LerpRoundTripEnd(object sender, EventArgs e)
     {
         endRepTime = DateTime.Now;
@@ -323,7 +326,7 @@ public class LerpBehaviour : AnimationBehaviour {
     private bool repetitionStartFlag = false;
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     int debug = 0;
-	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         clockBehaviour.Update();
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
@@ -338,14 +341,14 @@ public class LerpBehaviour : AnimationBehaviour {
         //Y estamos preparados para hacer Lerp
         //Y el tiempo que ha transcurrido de la ultima rep es mayor al tiempo de pause entre repeticiones. O no ha habido última rep.
 
-        
+
         if (_BehaviourState != AnimationBehaviourState.STOPPED && ReadyToLerp
             && (endRepTime == null || new TimeSpan(0, 0, (int)_currentParams.SecondsBetweenRepetitions) <= DateTime.Now - endRepTime))
         {
-        
-            if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) && 
-                this._BehaviourState != AnimationBehaviourState.PREPARING_WEB && 
-                this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS && 
+
+            if (!BeginRep && (!IsInterleaved || (IsInterleaved && limb == Limb.Left)) &&
+                this._BehaviourState != AnimationBehaviourState.PREPARING_WEB &&
+                this._BehaviourState != AnimationBehaviourState.PREPARING_WITH_PARAMS &&
                 this._BehaviourState != AnimationBehaviourState.PREPARING_DEFAULT)
             {
                 OnRepetitionReallyStart();
@@ -354,7 +357,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 repetitionStartFlag = true;
             }
 
-        
+
             float percentageComplete;
             if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
             {
@@ -367,7 +370,7 @@ public class LerpBehaviour : AnimationBehaviour {
                 percentageComplete = stateInfo.normalizedTime;
                 //Debug.Log("2 " + percentageComplete);
             }
-            
+
 
 
             if (!holdingPose)
@@ -376,13 +379,13 @@ public class LerpBehaviour : AnimationBehaviour {
             }
 
             float DELTA = 0.01f;
-            if ((CurrentSpeed > 0  && percentageComplete >= 1.0f - DELTA) ||
+            if ((CurrentSpeed > 0 && percentageComplete >= 1.0f - DELTA) ||
                 (CurrentSpeed < 0 && percentageComplete <= 0f + DELTA))
             {
                 InterpolationEnd();
             }
         }
-        else if(this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
+        else if (this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS)
         {
             CurrentSpeed = 0;
             if (endRepTime != null)
@@ -441,20 +444,21 @@ public class LerpBehaviour : AnimationBehaviour {
     }
 
 
-	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         CurrentSpeed = 1.0f;
     }
 
-	// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-	//override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
+    // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
+    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+    //
+    //}
 
-	// OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
-	//override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	//
-	//}
+    // OnStateIK is called right after Animator.OnAnimatorIK(). Code that sets up animation IK (inverse kinematics) should be implemented here.
+    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+    //
+    //}
 
 
     /// <summary>
@@ -489,8 +493,8 @@ public class LerpBehaviour : AnimationBehaviour {
         speed = _currentSpeed;
         ReadyToLerp = true;
     }
-    
-    
+
+
     /// <summary>
     /// Cuando termina una interpolacion se comprueba el estado de la animacion para continuar con el ciclo de aceleración y desaceleracion
     /// </summary>
@@ -508,7 +512,8 @@ public class LerpBehaviour : AnimationBehaviour {
 
             case LerpState.Stopped:
                 //si holdingPose es TRUE el instructor esta en mantener Pose
-                if (holdingPose == false) {
+                if (holdingPose == false)
+                {
                     if (_lastLerpState == LerpState.Forward)
                     {
                         _currentLerpState = LerpState.Backward;
@@ -603,15 +608,14 @@ public class LerpBehaviour : AnimationBehaviour {
     {
         _BehaviourState = AnimationBehaviourState.STOPPED;
 
-        if(this.IsInterleaved)
-        if ((_Opposite as LerpBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
-            _Opposite.Stop();
+        if (this.IsInterleaved)
+            if ((_Opposite as LerpBehaviour)._BehaviourState != AnimationBehaviourState.STOPPED)
+                _Opposite.Stop();
 
         this.LerpRoundTripEnd -= LerpBehaviour_LerpRoundTripEnd;
         if (CurrentSpeed < 0)
         {
             CurrentSpeed *= -1;
-
         }
 
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
@@ -648,7 +652,7 @@ public class LerpBehaviour : AnimationBehaviour {
             else
                 continue;
         }
-        
+
         return aiTemp;
     }
     void OnDestroy()

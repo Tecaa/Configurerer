@@ -7,7 +7,8 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Text;
 
-public class CaptureFrame : MonoBehaviour  {
+public class CaptureFrame : MonoBehaviour
+{
 
     public Animator anim;
     public Slider slider;
@@ -16,7 +17,7 @@ public class CaptureFrame : MonoBehaviour  {
     private Dictionary<Movement, SortedList<float, int>> angulos = new Dictionary<Movement, SortedList<float, int>>();
     private static string Filename = "Angles-New";
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         movement = Movement.ExtensiónHorizontalDeHombrosEnSupino;
         if (!ReadAnglesFile())

@@ -47,6 +47,7 @@ public class AnimatorScript : MonoBehaviour
     public event EventHandler OnRepetitionEnd;
     public event EventHandler OnSubrepetitionEnd;
     public event EventHandler OnRepetitionReallyStart;
+    public event EventHandler<RepetitionHoldOnEventArgs> OnRepetitionHoldOn;
     public event EventHandler<PrepareEventArgs> OnPrepareExerciseStart;
     public event EventHandler<PrepareEventArgs> OnPrepareExerciseEnd;
 
@@ -77,6 +78,7 @@ public class AnimatorScript : MonoBehaviour
 
     void Start()
     {
+        CurrentExercise.PropertyChanged -= currentExercise_PropertyChanged;
         CurrentExercise.PropertyChanged += currentExercise_PropertyChanged;
     }
 
@@ -161,7 +163,13 @@ public class AnimatorScript : MonoBehaviour
 
     public AnimationBehaviour behaviour;
 
-   
+
+    public void ChangeParams(int secondsBetweenRepetitions, int secondsInPose)
+    {
+        behaviour.SetParams(secondsBetweenRepetitions, secondsInPose);
+    }
+
+
     /// <summary>
     /// Nota: Si hay errores de Quaternion to Matrix comprobar que los parametros enviados son validos para el ejercicio indicado
     /// </summary>
@@ -176,9 +184,14 @@ public class AnimatorScript : MonoBehaviour
         param.ForwardSpeed *= SpeedFixer.FixSpeed(e.Movement);
 
         if (param.Variations == null || param.Variations.Count == 0)
-            behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
+        {
+          behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
+        }
         else
-            behaviour = AnimationBehaviour.GetCentralBehaviour(e.Movement, e.Limb);
+        {
+          behaviour = AnimationBehaviour.GetCentralBehaviour(e.Movement, e.Limb);
+        }
+        
 
         if (behaviour == null)
         {
@@ -189,6 +202,7 @@ public class AnimatorScript : MonoBehaviour
         }
 
         behaviour.Prepare(param);
+        behaviour.RepetitionEnd -= behaviour_PrepareEnd;
         behaviour.RepetitionEnd += behaviour_PrepareEnd;
 
         if (param.Variations == null || param.Variations.Count == 0)
@@ -213,7 +227,7 @@ public class AnimatorScript : MonoBehaviour
     public void ResetVariations()
     {
         if (this.behaviour != null && this.behaviour.CentralNode != null)
-            this.behaviour.CentralNode.actualRandomAnimationIndex = 0;
+            this.behaviour.CentralNode.currentRandomAnimationIndex = 0;
     }
     public class PrepareExerciseWebParams
     {
@@ -236,31 +250,32 @@ public class AnimatorScript : MonoBehaviour
         behaviour = AnimationBehaviour.GetBehaviour(e.Movement, e.Limb);
         if (behaviour == null)
         {
-            DebugLifeware.LogAllDevelopers("Importante: Behaviour no encontrado");
+            Debug.LogError("Kinectsiology Error: Importante: Behaviour no encontrado");
             RaiseEvent(OnPrepareExerciseEnd, PrepareStatus.NotFound);
             return;
         }
+        behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
         behaviour.RepetitionEnd += behaviour_PrepareEndWeb;
         timeSinceStartPrepareWeb = Time.time;
-        
-        CurrentExercise = e;    
+
+        CurrentExercise = e;
         behaviour.PrepareWeb();
     }
 
     void behaviour_PrepareEndWeb(object sender, EventArgs e)
     {
-       behaviour = sender as AnimationBehaviour;
+        behaviour = sender as AnimationBehaviour;
         behaviour.RepetitionEnd -= behaviour_PrepareEndWeb;
         if (timeSinceStartPrepareWeb > Time.time - DELAY_TO_FAST_PREPARE)
             StartCoroutine(RaiseEvent(OnPrepareExerciseEnd, PrepareStatus.Prepared, DELAY_TO_FAST_PREPARE));
-        else 
+        else
             RaiseEvent(OnPrepareExerciseEnd, PrepareStatus.Prepared);
     }
 
     public void RunExercise(bool isInInstruction)
     {
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
-        
+        Debug.Log("Tirando Run" + CurrentExercise.Movement + " " + CurrentExercise.Limb);
         behaviour.Run(isInInstruction);
         RewindExercise();
         behaviour.RepetitionEnd -= behaviour_RepetitionEnd;
@@ -268,6 +283,8 @@ public class AnimatorScript : MonoBehaviour
 
         behaviour.RepetitionStart -= behaviour_RepetitionStart;
         behaviour.RepetitionStart += behaviour_RepetitionStart;
+        behaviour.RepetitionHoldOn -= behaviour_RepetitionHoldOn;
+        behaviour.RepetitionHoldOn += behaviour_RepetitionHoldOn;
         behaviour.SubrepetitionEnd -= behaviour_SubrepetitionEnd;
         behaviour.SubrepetitionEnd += behaviour_SubrepetitionEnd;
         behaviour.RepetitionReallyStart -= behaviour_RepetitionReallyStart;
@@ -284,6 +301,14 @@ public class AnimatorScript : MonoBehaviour
     {
         RaiseEvent(OnRepetitionReallyStart);
     }
+
+
+    void behaviour_RepetitionHoldOn(object sender, RepetitionHoldOnEventArgs e)
+    {
+        //Debug.Log("REPETITION REALLY START " + DateTime.Now);
+        RaiseEvent(OnRepetitionHoldOn, e);
+    }
+
 
     public void ResumeExercise()
     {
@@ -354,7 +379,7 @@ public class AnimatorScript : MonoBehaviour
         behaviour.Stop();
         StartCoroutine(RunWebInSeconds(0.4f));
     }
-    
+
     public void StopExercise()
     {
         behaviour = AnimationBehaviour.GetBehaviour(CurrentExercise.Movement, CurrentExercise.Limb);
@@ -377,10 +402,10 @@ public class AnimatorScript : MonoBehaviour
     /// </summary>
     private void AnimatorScript_OnRepetitionEnd(object sender, System.EventArgs e)
     {
-        if (/*(CurrentExercise.Laterality == Laterality.Single) &&*/ (CurrentExercise.Limb == Limb.Interleaved))
-        {
-           // ChangeLimb();
-        }
+        //if (/*(CurrentExercise.Laterality == Laterality.Single) && (CurrentExercise.Limb == DetectionFramework.DataTypes.Limb.Interleaved)*/)
+        //{
+        //   // ChangeLimb();
+        //}
     }
 
     void RaiseEvent(EventHandler eh)
@@ -390,7 +415,7 @@ public class AnimatorScript : MonoBehaviour
             eh(this, new EventArgs());
         }
     }
-    
+
     void RaiseEvent(EventHandler<PrepareEventArgs> eh, PrepareStatus status)
     {
         if (eh != null)
@@ -399,6 +424,13 @@ public class AnimatorScript : MonoBehaviour
         }
     }
     void RaiseEvent(EventHandler<RepetitionStartEventArgs> eh, RepetitionStartEventArgs e)
+    {
+        if (eh != null)
+        {
+            eh(this, e);
+        }
+    }
+    void RaiseEvent(EventHandler<RepetitionHoldOnEventArgs> eh, RepetitionHoldOnEventArgs e)
     {
         if (eh != null)
         {
@@ -436,4 +468,10 @@ public class AnimatorScript : MonoBehaviour
         Destroy(instance);
         Destroy(this);
     }
+}
+internal static class AnimatorParams
+{
+    public const string Movement = "Movement";
+    public const string Laterality = "Laterality";
+    public const string Limb = "Limb";
 }

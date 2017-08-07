@@ -41,7 +41,7 @@ public class FiniteBehaviour : AnimationBehaviour
     {
         return this._currentParams;
     }
-    protected override  AnimationBehaviourState _BehaviourState
+    protected override AnimationBehaviourState _BehaviourState
     {
         get { return this._behaviourState; }
         set
@@ -117,45 +117,43 @@ public class FiniteBehaviour : AnimationBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
+        if (this._BehaviourState == AnimationBehaviourState.PREPARING_WEB)
         {
             OnRepetitionEnd();
             Stop();
         }
-        else if(this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS
+        else if (this._BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS || this._BehaviourState == AnimationBehaviourState.RUNNING_WITH_PARAMS
             || this._BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             //Como en este behaviour se utiliza animation.Play para cada repetición, se entra más de una vez al metodo OnStateEnter, 
             //por lo que si ya se ha entrado alguna vez, la velocidad se asigna como 0 para que se respete el tiempo entre ejecución 
             //antes de comenzar la siguiente repetición.
             if (haCambiadoDeEstado)
-            {
-                //animator.speed = 0;
                 CurrentSpeed = 0;
-            }
             else
             {
                 //Se asume que si el ejercicio utiliza solo un tipo de velocidad, el forwardspeed y backwardspeed serán iguales.
-                //animator.speed = this._RealParams.ForwardSpeed;
                 CurrentSpeed = this._RealParams.ForwardSpeed;
             }
         }
-        if(!haCambiadoDeEstado)
+        if (!haCambiadoDeEstado)
         {
             haCambiadoDeEstado = true;
         }
     }
 
+    //float INTERVAL = (float)DetectionFramework.Tools.ConstantsHolder.ExpertTimeInterval;
+    const float INTERVAL = 0.1f;
     private bool repetitionStartFlag = false;
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {        
+    {
         if (_BehaviourState == AnimationBehaviourState.INITIAL_POSE)
         {
             if (!animator.IsInTransition(0))
-                CurrentSpeed = 0; //animator.speed = 0;
+                CurrentSpeed = 0;
             return;
         }
-        const float INTERVAL = 0.1f;
+        //const float INTERVAL = 0.1f;
         if (_BehaviourState == AnimationBehaviourState.PREPARING_WITH_PARAMS)
         {
             timeSinceCapture += Time.deltaTime;
@@ -207,7 +205,7 @@ public class FiniteBehaviour : AnimationBehaviour
                         haCambiadoDeEstado = false;
                         animator.SetTrigger("ChangeLimb");
                     }
-                    if(!IsInterleaved && (this.IsWeb || this.IsInInstruction) )
+                    if (!IsInterleaved && (this.IsWeb || this.IsInInstruction))
                     {
                         animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
                     }
@@ -229,11 +227,11 @@ public class FiniteBehaviour : AnimationBehaviour
                 {
                     if (stateInfo.normalizedTime <= 0.5f)
                     {
-                        CurrentSpeed = this._RealParams.ForwardSpeed; //animator.speed = this._RealParams.ForwardSpeed;
+                        CurrentSpeed = this._RealParams.ForwardSpeed;
                     }
                     else
                     {
-                        CurrentSpeed = this._RealParams.BackwardSpeed; //animator.speed = this._RealParams.BackwardSpeed;
+                        CurrentSpeed = this._RealParams.BackwardSpeed;
                     }
                 }
             }
@@ -251,7 +249,6 @@ public class FiniteBehaviour : AnimationBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // animator.speed = 1.0f;
     }
 
     /// <summary>
@@ -267,8 +264,8 @@ public class FiniteBehaviour : AnimationBehaviour
         //this._BehaviourState = AnimationBehaviourState.STOPPED;
         animator.SetInteger(AnimatorParams.Movement, (int)Movement.Iddle);
         _BehaviourState = AnimationBehaviourState.STOPPED;
-        CurrentSpeed = 1; //animator.speed = 1;
-        
+        CurrentSpeed = 1;
+
     }
 
     void OnDestroy()
