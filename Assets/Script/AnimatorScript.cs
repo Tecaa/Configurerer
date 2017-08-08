@@ -94,8 +94,8 @@ public class AnimatorScript : MonoBehaviour
     }
     public void testPrepare()
     {
-        Movement mov = Movement.MantenerPosiciónExtrema_EtapaIntermedia_DominarBalón;
-        Limb l = Limb.Left;
+        Movement mov = Movement.AbdominalesHipopresivosEnBípedo;
+        Limb l = Limb.None;
         float forwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL IDA/Text").GetComponent<Text>().text, "1"));
         float backwardSpeed = (float)Convert.ToDouble(FixValue(GameObject.Find("VEL VUELTA/Text").GetComponent<Text>().text, "1"));
         int secondsBE = Convert.ToInt32(FixValue(GameObject.Find("PAUSA EXE/Text").GetComponent<Text>().text, "0"));
@@ -103,8 +103,8 @@ public class AnimatorScript : MonoBehaviour
         float rom = (float)Convert.ToDouble(FixValue(GameObject.Find("ROM/Text").GetComponent<Text>().text, "70"));
         Debug.Log("rom " + rom);
 
-        List<Movement> variations = new List<Movement>() {Movement.MantenerPosiciónExtrema_EtapaIntermedia_DominarBalón,
-            /*Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
+        List<Movement> variations = new List<Movement>() {/*Movement.MantenerPosiciónExtrema_EtapaIntermedia_DominarBalón,
+            Movement.MantenerPosiciónExtrema_EtapaAvanzada_BrazosDiagonal,
             Movement.MantenerPosiciónExtrema_EtapaAvanzada_Encestar, Movement.MantenerPosiciónExtrema_EtapaAvanzada_MusloArribaBrazosAdelanteYAtrás*/
             };
 

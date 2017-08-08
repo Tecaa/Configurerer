@@ -1,0 +1,443 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="ff_data" version="1.3.0" audacityversion="2.1.3" sel0="14.1960267138" sel1="14.1960267138" vpos="1040" h="0.0000000000" zoom="77.4160278895" rate="48000.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags>
+		<tag name="ALBUM" value="Grandes exitos de kinectsiology"/>
+		<tag name="TITLE" value="mod"/>
+		<tag name="ARTIST" value="oscar"/>
+		<tag name="COMMENTS" value="chanchullo"/>
+	</tags>
+	<wavetrack name="LOC_350" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="273464">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00005f4.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_350.wav" aliasstart="0" aliaslen="262144" aliaschannel="0" min="-0.264465" max="0.368347" rms="0.06588"/>
+				</waveblock>
+				<waveblock start="262144">
+					<pcmaliasblockfile summaryfile="e00003e1.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_350.wav" aliasstart="262144" aliaslen="11320" aliaschannel="0" min="-0.14859" max="0.175995" rms="0.047591"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_351" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="236699">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000203.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_351.wav" aliasstart="0" aliaslen="236699" aliaschannel="0" min="-0.866469" max="0.966054" rms="0.156845"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_352" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="539551">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e000011d.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_352.wav" aliasstart="0" aliaslen="262144" aliaschannel="0" min="-0.966074" max="0.966072" rms="0.173104"/>
+				</waveblock>
+				<waveblock start="262144">
+					<pcmaliasblockfile summaryfile="e0000ba8.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_352.wav" aliasstart="262144" aliaslen="262144" aliaschannel="0" min="-0.938919" max="0.966063" rms="0.187481"/>
+				</waveblock>
+				<waveblock start="524288">
+					<pcmaliasblockfile summaryfile="e0000f61.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_352.wav" aliasstart="524288" aliaslen="15263" aliaschannel="0" min="-0.000522" max="0.000306" rms="0.000057"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_353" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="115248">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000176.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_353.wav" aliasstart="0" aliaslen="115248" aliaschannel="0" min="-0.966051" max="0.966091" rms="0.23276"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_354" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="174682">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000589.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_354.wav" aliasstart="0" aliaslen="174682" aliaschannel="0" min="-0.924962" max="0.966075" rms="0.241485"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_355" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="255304">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000c1b.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_355.wav" aliasstart="0" aliaslen="255304" aliaschannel="0" min="-0.966053" max="0.966082" rms="0.212229"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_356" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="197405">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00002cd.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_356.wav" aliasstart="0" aliaslen="197405" aliaschannel="0" min="-0.553594" max="0.71784" rms="0.096416"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_357" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="102329">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000f2e.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_357.wav" aliasstart="0" aliaslen="102329" aliaschannel="0" min="-0.966062" max="0.966084" rms="0.263587"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_358" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="229981">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00001a0.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_358.wav" aliasstart="0" aliaslen="229981" aliaschannel="0" min="-0.966057" max="0.966055" rms="0.21609"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_359" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="218094">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00000aa.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_359.wav" aliasstart="0" aliaslen="218094" aliaschannel="0" min="-0.966058" max="0.960282" rms="0.192445"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_360" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="244968">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000111.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_360.wav" aliasstart="0" aliaslen="244968" aliaschannel="0" min="-0.966062" max="0.96608" rms="0.212547"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_361" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="116699">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000d58.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_361.wav" aliasstart="0" aliaslen="116699" aliaschannel="0" min="-0.358845" max="0.49933" rms="0.07695"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_362" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="201167">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00005e7.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_362.wav" aliasstart="0" aliaslen="201167" aliaschannel="0" min="-0.966054" max="0.966052" rms="0.200731"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_363" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="258961">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000a8c.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_363.wav" aliasstart="0" aliaslen="258961" aliaschannel="0" min="-0.860481" max="0.966052" rms="0.204806"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_364" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="194499">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000629.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_364.wav" aliasstart="0" aliaslen="194499" aliaschannel="0" min="-0.96606" max="0.966075" rms="0.232689"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_365" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="220617">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e000011b.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_365.wav" aliasstart="0" aliaslen="220617" aliaschannel="0" min="-0.96606" max="0.966081" rms="0.206638"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_366" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="113087">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000f9b.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_366.wav" aliasstart="0" aliaslen="113087" aliaschannel="0" min="-0.882885" max="0.849668" rms="0.165759"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_367" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="503474">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00003f8.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_367.wav" aliasstart="0" aliaslen="262144" aliaschannel="0" min="-0.966101" max="0.966086" rms="0.171738"/>
+				</waveblock>
+				<waveblock start="262144">
+					<pcmaliasblockfile summaryfile="e00005b1.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_367.wav" aliasstart="262144" aliaslen="241330" aliaschannel="0" min="-0.903687" max="0.966072" rms="0.191084"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_368" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="564602">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00000e2.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_368.wav" aliasstart="0" aliaslen="262144" aliaschannel="0" min="-0.823344" max="0.945211" rms="0.164532"/>
+				</waveblock>
+				<waveblock start="262144">
+					<pcmaliasblockfile summaryfile="e0000fd3.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_368.wav" aliasstart="262144" aliaslen="262144" aliaschannel="0" min="-0.873533" max="0.857945" rms="0.178171"/>
+				</waveblock>
+				<waveblock start="524288">
+					<pcmaliasblockfile summaryfile="e00004b4.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_368.wav" aliasstart="524288" aliaslen="40314" aliaschannel="0" min="-0.591128" max="0.656277" rms="0.111326"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_369" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="167269">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000f3e.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_369.wav" aliasstart="0" aliaslen="167269" aliaschannel="0" min="-0.763689" max="0.955281" rms="0.160491"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_370" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="744652">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000147.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_370.wav" aliasstart="0" aliaslen="262144" aliaschannel="0" min="-0.736556" max="0.966075" rms="0.142752"/>
+				</waveblock>
+				<waveblock start="262144">
+					<pcmaliasblockfile summaryfile="e00006b0.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_370.wav" aliasstart="262144" aliaslen="262144" aliaschannel="0" min="-0.786964" max="0.966064" rms="0.135309"/>
+				</waveblock>
+				<waveblock start="524288">
+					<pcmaliasblockfile summaryfile="e0000a84.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_370.wav" aliasstart="524288" aliaslen="220364" aliaschannel="0" min="-0.76904" max="0.966066" rms="0.135517"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_371" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="224507">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000700.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_371.wav" aliasstart="0" aliaslen="224507" aliaschannel="0" min="-0.820789" max="0.683486" rms="0.133795"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_372" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="221728">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e000052f.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_372.wav" aliasstart="0" aliaslen="221728" aliaschannel="0" min="-0.834739" max="0.913616" rms="0.122616"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_373" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="261184">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000514.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_373.wav" aliasstart="0" aliaslen="261184" aliaschannel="0" min="-0.75676" max="0.966064" rms="0.13702"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_374" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="286746">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000e0c.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_374.wav" aliasstart="0" aliaslen="262144" aliaschannel="0" min="-0.718278" max="0.949412" rms="0.139239"/>
+				</waveblock>
+				<waveblock start="262144">
+					<pcmaliasblockfile summaryfile="e0000931.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_374.wav" aliasstart="262144" aliaslen="24602" aliaschannel="0" min="-0.070149" max="0.066575" rms="0.011615"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_375" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="302307">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000d8a.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_375.wav" aliasstart="0" aliaslen="262144" aliaschannel="0" min="-0.691219" max="0.86715" rms="0.118015"/>
+				</waveblock>
+				<waveblock start="262144">
+					<pcmaliasblockfile summaryfile="e0000f62.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_375.wav" aliasstart="262144" aliaslen="40163" aliaschannel="0" min="-0.323012" max="0.533651" rms="0.056493"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_376" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="323423">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000491.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_376.wav" aliasstart="0" aliaslen="262144" aliaschannel="0" min="-0.780094" max="0.945605" rms="0.116264"/>
+				</waveblock>
+				<waveblock start="262144">
+					<pcmaliasblockfile summaryfile="e00006c3.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_376.wav" aliasstart="262144" aliaslen="61279" aliaschannel="0" min="-0.523443" max="0.859567" rms="0.090339"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_377" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="56126">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000d3b.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_377.wav" aliasstart="0" aliaslen="56126" aliaschannel="0" min="-0.583571" max="0.474402" rms="0.132959"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_378" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="93915">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00003bf.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_378.wav" aliasstart="0" aliaslen="93915" aliaschannel="0" min="-0.633143" max="0.756278" rms="0.162429"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_379" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="82523">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000727.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_379.wav" aliasstart="0" aliaslen="82523" aliaschannel="0" min="-0.724795" max="0.966058" rms="0.159509"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_380" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="139484">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00001db.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_380.wav" aliasstart="0" aliaslen="139484" aliaschannel="0" min="-0.718421" max="0.966057" rms="0.150637"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_381" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="96694">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000dab.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_381.wav" aliasstart="0" aliaslen="96694" aliaschannel="0" min="-0.527879" max="0.7874" rms="0.129026"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_382" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="128091">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000e69.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_382.wav" aliasstart="0" aliaslen="128091" aliaschannel="0" min="-0.842713" max="0.966064" rms="0.146974"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_383" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="105030">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000fc5.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_383.wav" aliasstart="0" aliaslen="105030" aliaschannel="0" min="-0.730286" max="0.966062" rms="0.13407"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_384" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="136705">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000898.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_384.wav" aliasstart="0" aliaslen="136705" aliaschannel="0" min="-0.80137" max="0.966075" rms="0.132139"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_385" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="106696">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e000087d.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_385.wav" aliasstart="0" aliaslen="106696" aliaschannel="0" min="-0.799873" max="0.878884" rms="0.131931"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_386" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="140595">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000e86.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_386.wav" aliasstart="0" aliaslen="140595" aliaschannel="0" min="-0.633406" max="0.966051" rms="0.124091"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_387" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="96693">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00004c1.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_387.wav" aliasstart="0" aliaslen="96693" aliaschannel="0" min="-0.742256" max="0.96607" rms="0.13231"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_388" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="131148">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0000496.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_388.wav" aliasstart="0" aliaslen="131148" aliaschannel="0" min="-0.849223" max="0.892151" rms="0.132339"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="LOC_389" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="0.354813" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="107530">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e00002f2.auf" aliasfile="C:\Users\Estacion 3\Desktop\musica\LOC_389.wav" aliasstart="0" aliaslen="107530" aliaschannel="0" min="-0.702906" max="0.966058" rms="0.145482"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
