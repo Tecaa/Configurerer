@@ -13,7 +13,11 @@ public class WebScript : MonoBehaviour {
 
     public bool isLoading = false;
 
-	void Start () {
+	void Start ()
+    {
+        #if !UNITY_EDITOR && UNITY_WEBGL
+          WebGLInput.captureAllKeyboardInput = false;
+        #endif
         AnimatorScript.instance.OnPrepareExerciseStart += AnimatorScript_OnPrepareExerciseStart;
         AnimatorScript.instance.OnPrepareExerciseEnd += AnimatorScript_OnPrepareExerciseEnd;
         overlay.gameObject.SetActive(false);
